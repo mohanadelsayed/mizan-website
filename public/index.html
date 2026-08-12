@@ -1,128 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl" data-lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Mizan · Egypt's proposed national platform for Extended Producer Responsibility · Turning Law 202/2020 Article 17 into an operating system.">
-<meta property="og:title" content="MIZAN · Egypt's Digital-Native EPR Platform">
-<meta property="og:description" content="A proposed national compliance system for e-waste and beyond. Currently operating: WMRA-licensed take-back through Dr.WEEE.">
-<meta property="og:image" content="/assets/og-image.png">
-<title>MIZAN · ميزان — Egypt's Proposed National EPR Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A1F38">
+
+<!-- ═══════ PRIMARY META (Arabic default) ═══════ -->
+<title data-i18n="meta.title">ميزان · منصّة مصر الرقمية المُقترَحة للمسؤولية الممتدة للمنتِج</title>
+<meta name="description" data-i18n-attr="content:meta.description" content="ميزان — منصّة رقمية مُقترَحة لتحويل قانون 202/2020 المادة 17 من نصّ إلى نظام يعمل. ما يعمل اليوم: شبكة Dr.WEEE للاسترداد المرخّصة من WMRA، وتحالف موقّع مع REMIT للتكرير.">
+<meta name="keywords" content="EPR, Extended Producer Responsibility, Egypt, WMRA, e-waste, Mizan, ميزان, المسؤولية الممتدة, Law 202, Article 17, ChemiCan, Dr.WEEE, CBAM, carbon credits, WEEE recycling Egypt">
+<meta name="author" content="ChemiCan Consulting Ltd. · ChemiCan Egypt SAE">
+<link rel="canonical" href="https://mizan.eco">
+
+<!-- Language alternates -->
+<link rel="alternate" hreflang="ar-EG" href="https://mizan.eco/">
+<link rel="alternate" hreflang="ar" href="https://mizan.eco/?lang=ar">
+<link rel="alternate" hreflang="en" href="https://mizan.eco/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://mizan.eco/">
+
+<!-- ═══════ OPEN GRAPH (Facebook · LinkedIn · WhatsApp) ═══════ -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MIZAN · ميزان">
+<meta property="og:url" content="https://mizan.eco">
+<meta property="og:title" content="MIZAN · ميزان — Egypt's Proposed National EPR Platform">
+<meta property="og:description" content="A proposed national platform to turn Law 202/2020 Article 17 into an operating system for e-waste compliance. Live today: Dr.WEEE take-back (WMRA-licensed since 2018) + signed REMIT refining alliance. منصّة مقترَحة تحوّل نصّ القانون إلى نظام يعمل.">
+<meta property="og:image" content="https://mizan.eco/assets/og-image.png">
+<meta property="og:image:secure_url" content="https://mizan.eco/assets/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MIZAN · ميزان — Egypt's proposed digital-native EPR compliance platform">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:locale:alternate" content="en_US">
+
+<!-- ═══════ TWITTER CARD ═══════ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ChemiCan">
+<meta name="twitter:title" content="MIZAN · ميزان — Egypt's Proposed National EPR Platform">
+<meta name="twitter:description" content="Turning Law 202/2020 Article 17 from text into a working system. Live today: Dr.WEEE take-back + REMIT refining alliance.">
+<meta name="twitter:image" content="https://mizan.eco/assets/og-image.png">
+<meta name="twitter:image:alt" content="MIZAN — Egypt's proposed EPR platform">
+
+<!-- ═══════ WHATSAPP-SPECIFIC HINTS ═══════ -->
+<meta itemprop="name" content="MIZAN · ميزان — Egypt's Proposed EPR Platform">
+<meta itemprop="description" content="A proposed national digital-native platform for Extended Producer Responsibility in Egypt.">
+<meta itemprop="image" content="https://mizan.eco/assets/og-image.png">
+
+<!-- ═══════ JSON-LD STRUCTURED DATA ═══════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "MIZAN",
+  "alternateName": "ميزان",
+  "url": "https://mizan.eco",
+  "logo": "https://mizan.eco/assets/logo.svg",
+  "image": "https://mizan.eco/assets/og-image.png",
+  "description": "Egypt's proposed national digital-native platform for Extended Producer Responsibility (EPR) under Law 202/2020 Article 17. Operated by ChemiCan Consulting.",
+  "founder": {
+    "@type": "Organization",
+    "name": "ChemiCan Consulting Ltd.",
+    "url": "https://chemican.ca"
+  },
+  "address": [
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "300-160 Quarry Park Boulevard",
+      "addressLocality": "Calgary",
+      "addressRegion": "Alberta",
+      "addressCountry": "CA"
+    },
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "Sheraton El Nozha",
+      "addressLocality": "Cairo",
+      "addressCountry": "EG"
+    }
+  ],
+  "email": "info@mizan.eco",
+  "telephone": "+201066503933",
+  "sameAs": ["https://chemican.ca"]
+}
+</script>
+
+<!-- ═══════ FONTS + ICONS ═══════ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<!-- ═══════════ HONESTY RIBBON (persistent top bar) ═══════════ -->
+<!-- ═══════════ HONESTY RIBBON ═══════════ -->
 <div class="honesty-ribbon">
-  <span class="ribbon-icon">◆</span>
-  <span class="ribbon-text">
-    Mizan is a <strong>proposed national platform</strong>, currently in active discussion with WMRA and stakeholders.
-    Our operating footprint today: <strong>Dr.WEEE take-back</strong> (WMRA-licensed since 2018) and a signed <strong>REMIT refining alliance</strong>.
-  </span>
-  <a href="#reality-check" class="ribbon-cta">See what's real today →</a>
+  <span class="ribbon-icon" aria-hidden="true">◆</span>
+  <span class="ribbon-text" data-i18n="ribbon.text"></span>
+  <a href="#reality-check" class="ribbon-cta" data-i18n="ribbon.cta"></a>
 </div>
 
 <!-- ═══════════ NAVIGATION ═══════════ -->
-<nav class="nav">
-  <div class="nav-brand">
+<nav class="nav" aria-label="Main">
+  <a href="#top" class="nav-brand">
     <span class="nav-logo">MIZAN</span>
     <span class="nav-ar">ميزان</span>
+  </a>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#problem" data-i18n="nav.problem"></a>
+    <a href="#insight" data-i18n="nav.insight"></a>
+    <a href="#architecture" data-i18n="nav.architecture"></a>
+    <a href="#reality-check" data-i18n="nav.reality"></a>
+    <a href="#partners" data-i18n="nav.partners"></a>
+    <a href="#contact" data-i18n="nav.contact"></a>
   </div>
-  <div class="nav-links">
-    <a href="#problem">The Problem</a>
-    <a href="#insight">The Insight</a>
-    <a href="#architecture">Architecture</a>
-    <a href="#reality-check">Real vs Proposed</a>
-    <a href="#partners">Partners</a>
-    <a href="#contact">Contact</a>
+
+  <div class="nav-actions">
+    <button class="lang-toggle" id="langToggle" aria-label="Switch language" title="Switch language">
+      <span class="lang-current">EN</span>
+    </button>
+    <a href="#audiences" class="nav-cta" data-i18n="nav.cta"></a>
   </div>
-  <a href="#audiences" class="nav-cta">For My Role →</a>
 </nav>
 
 <!-- ═══════════ HERO ═══════════ -->
-<header class="hero">
-  <div class="hero-bg-orbit"></div>
+<header class="hero" id="top">
+  <div class="hero-bg-orbit" aria-hidden="true"></div>
   <div class="hero-inner">
-    <div class="hero-badge">◆ Proposed under Law 202/2020 · Article 17 ◆</div>
-    <h1 class="hero-title">MIZAN</h1>
-    <div class="hero-ar">ميزان</div>
-    <p class="hero-tagline">
-      Egypt's <strong>proposed</strong> national platform for<br>
-      Extended Producer Responsibility.
-    </p>
-    <p class="hero-sub">
-      One Arabic word · three commitments:
-      <span class="hero-pill">وزن Weight</span>
-      <span class="hero-pill">عدالة Justice</span>
-      <span class="hero-pill">توازن Balance</span>
-    </p>
-    <div class="hero-ctas">
-      <a href="#architecture" class="btn-primary">See the Architecture →</a>
-      <a href="#reality-check" class="btn-ghost">What's operating today</a>
+    <div class="hero-badge" data-i18n="hero.badge"></div>
+    <h1 class="hero-title" dir="ltr">MIZAN</h1>
+    <div class="hero-ar" dir="rtl">ميزان</div>
+    <p class="hero-tagline" data-i18n-html="hero.tagline"></p>
+    <p class="hero-sub" data-i18n="hero.sub"></p>
+    <div class="hero-pills">
+      <span class="hero-pill" dir="rtl"><span class="pill-ar">وزن</span> <span class="pill-en">Weight</span></span>
+      <span class="hero-pill" dir="rtl"><span class="pill-ar">عدالة</span> <span class="pill-en">Justice</span></span>
+      <span class="hero-pill" dir="rtl"><span class="pill-ar">توازن</span> <span class="pill-en">Balance</span></span>
     </div>
-    <div class="hero-scroll">↓ Scroll</div>
+    <div class="hero-ctas">
+      <a href="#architecture" class="btn-primary" data-i18n="hero.cta1"></a>
+      <a href="#reality-check" class="btn-ghost" data-i18n="hero.cta2"></a>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">↓</div>
   </div>
 </header>
 
 <!-- ═══════════ PROBLEM ═══════════ -->
-<section id="problem" class="section section-dark">
+<section id="problem" class="section section-alt">
   <div class="section-inner">
-    <div class="section-eyebrow">◆ The Mandate</div>
-    <h2 class="section-title">Egypt generates half a million tonnes of e-waste every year.<br>Five percent is formally recycled.</h2>
+    <div class="section-eyebrow" data-i18n="problem.eyebrow"></div>
+    <h2 class="section-title" data-i18n-html="problem.title"></h2>
 
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-number">0.5<span>M</span></div>
-        <div class="stat-label">tonnes / year</div>
-        <div class="stat-source">Global E-Waste Monitor · 2020</div>
+        <div class="stat-number" dir="ltr">0.5<span>M</span></div>
+        <div class="stat-label" data-i18n="problem.stat1.label"></div>
+        <div class="stat-source" data-i18n="problem.stat1.source"></div>
       </div>
       <div class="stat-card stat-red">
-        <div class="stat-number">~5<span>%</span></div>
-        <div class="stat-label">formally recycled</div>
-        <div class="stat-source">Rest: burned · dumped · lost to informal</div>
+        <div class="stat-number" dir="ltr">~5<span>%</span></div>
+        <div class="stat-label" data-i18n="problem.stat2.label"></div>
+        <div class="stat-source" data-i18n="problem.stat2.source"></div>
       </div>
       <div class="stat-card stat-gold">
-        <div class="stat-number">~11.5<span>B</span></div>
-        <div class="stat-label">EGP annual addressable value</div>
-        <div class="stat-source">Formal metals recovery · SRI 2024</div>
+        <div class="stat-number" dir="ltr">~11.5<span>B</span></div>
+        <div class="stat-label" data-i18n="problem.stat3.label"></div>
+        <div class="stat-source" data-i18n="problem.stat3.source"></div>
       </div>
     </div>
 
     <div class="quote-card">
-      <div class="quote-mark">"</div>
-      <div class="quote-text">
-        Egypt's e-waste system is not under-performing. It is <strong>unmeasured</strong>.
-        What is unmeasured cannot be managed, regulated, traded, or financed.
-      </div>
-      <div class="quote-source">— Mizan strategic thesis · derived from SRI + Soliman findings</div>
+      <div class="quote-mark" aria-hidden="true">"</div>
+      <div class="quote-text" data-i18n-html="problem.quote"></div>
+      <div class="quote-source" data-i18n="problem.quoteSource"></div>
     </div>
 
     <div class="four-crises">
-      <h3 class="sub-title">One waste stream · Four cascading crises</h3>
+      <h3 class="sub-title" data-i18n="problem.crisesTitle"></h3>
       <div class="crisis-grid">
         <div class="crisis-card">
-          <div class="crisis-icon">⚕</div>
-          <div class="crisis-title">Health</div>
-          <div class="crisis-body">Informal workers — many women and children — burn wires and crack CRT screens without protection.</div>
+          <div class="crisis-icon" aria-hidden="true">⚕</div>
+          <div class="crisis-title" data-i18n="problem.c1.t"></div>
+          <div class="crisis-body" data-i18n="problem.c1.b"></div>
         </div>
         <div class="crisis-card">
-          <div class="crisis-icon">🌊</div>
-          <div class="crisis-title">Environment</div>
-          <div class="crisis-body">One CRT screen holds 4 kg of lead. Batteries leach cobalt and lithium into the Nile catchment.</div>
+          <div class="crisis-icon" aria-hidden="true">🌊</div>
+          <div class="crisis-title" data-i18n="problem.c2.t"></div>
+          <div class="crisis-body" data-i18n="problem.c2.b"></div>
         </div>
         <div class="crisis-card">
-          <div class="crisis-icon">◈</div>
-          <div class="crisis-title">Economy</div>
-          <div class="crisis-body">Copper 275,000 EGP/t. Mobile PCBs 400,000+ EGP/t. Egypt imports what it burns.</div>
+          <div class="crisis-icon" aria-hidden="true">◈</div>
+          <div class="crisis-title" data-i18n="problem.c3.t"></div>
+          <div class="crisis-body" data-i18n="problem.c3.b"></div>
         </div>
         <div class="crisis-card">
-          <div class="crisis-icon">⬢</div>
-          <div class="crisis-title">Trade</div>
-          <div class="crisis-body">CBAM requires supply-chain end-of-life accountability. Egyptian exporters without WEEE compliance face EU barriers.</div>
+          <div class="crisis-icon" aria-hidden="true">⬢</div>
+          <div class="crisis-title" data-i18n="problem.c4.t"></div>
+          <div class="crisis-body" data-i18n="problem.c4.b"></div>
         </div>
       </div>
     </div>
@@ -132,274 +211,235 @@
 <!-- ═══════════ INSIGHT ═══════════ -->
 <section id="insight" class="section">
   <div class="section-inner">
-    <div class="section-eyebrow">◆ The Insight</div>
-    <h2 class="section-title">The answer already has a name.<br><span class="gold">Extended Producer Responsibility.</span></h2>
+    <div class="section-eyebrow" data-i18n="insight.eyebrow"></div>
+    <h2 class="section-title" data-i18n-html="insight.title"></h2>
 
     <div class="insight-grid">
       <div class="insight-block">
-        <div class="insight-num">01</div>
+        <div class="insight-num" dir="ltr">01</div>
         <div class="insight-body">
-          <div class="insight-head">The principle</div>
-          "The one who profits from placing a product on the market must share in what happens to it at end-of-life."
+          <div class="insight-head" data-i18n="insight.b1.h"></div>
+          <div data-i18n-html="insight.b1.body"></div>
         </div>
       </div>
       <div class="insight-block">
-        <div class="insight-num">02</div>
+        <div class="insight-num" dir="ltr">02</div>
         <div class="insight-body">
-          <div class="insight-head">Global adoption</div>
-          <strong>40+ countries</strong> operate mature EPR schemes. Germany, France, UK, Italy, Japan, Korea — recovery rates 60–95%.
+          <div class="insight-head" data-i18n="insight.b2.h"></div>
+          <div data-i18n-html="insight.b2.body"></div>
         </div>
       </div>
       <div class="insight-block">
-        <div class="insight-num">03</div>
+        <div class="insight-num" dir="ltr">03</div>
         <div class="insight-body">
-          <div class="insight-head">Egyptian foundation</div>
-          <strong>Law 202/2020 · Article 17</strong> already authorises WMRA to delegate EPR schemes to specialised entities. The legal door is open.
+          <div class="insight-head" data-i18n="insight.b3.h"></div>
+          <div data-i18n-html="insight.b3.body"></div>
         </div>
       </div>
     </div>
 
-    <div class="callout callout-gold">
-      <strong>EPR is not a tax.</strong> Financial proceeds must be allocated to the implementation of the EPR scheme itself — collection, treatment, awareness, and audit.
-    </div>
+    <div class="callout callout-gold" data-i18n-html="insight.callout"></div>
   </div>
 </section>
 
-<!-- ═══════════ THREE-LAYER ARCHITECTURE ═══════════ -->
+<!-- ═══════════ THREE-LAYER ═══════════ -->
 <section class="section section-navy">
   <div class="section-inner">
-    <div class="section-eyebrow gold">◆ The Design</div>
-    <h2 class="section-title white">Three layers · One system</h2>
-    <p class="section-lede">
-      Mizan is <strong>proposed</strong> to operate through a governance structure that no single actor controls — a design pattern followed by Erion (Italy), Ecosystem (France), Recolight (UK), and Stiftung EAR (Germany).
-    </p>
+    <div class="section-eyebrow gold" data-i18n="layers.eyebrow"></div>
+    <h2 class="section-title white" data-i18n="layers.title"></h2>
+    <p class="section-lede" data-i18n-html="layers.lede"></p>
 
     <div class="layer-stack">
-      <div class="layer layer-01">
-        <div class="layer-num">01</div>
+      <div class="layer">
+        <div class="layer-num" dir="ltr">01</div>
         <div class="layer-body">
-          <div class="layer-title">MIZAN ALLIANCE · Non-Profit Governance</div>
-          <div class="layer-desc">Founded by the <strong>Federation of Egyptian Industries</strong> via ECO-FEI · governed by producers through the Engineering + ICT Chambers · zero-dividend clause. Represents obligated producers.</div>
+          <div class="layer-title" data-i18n="layers.l1.t"></div>
+          <div class="layer-desc" data-i18n-html="layers.l1.d"></div>
         </div>
-        <div class="layer-share">10%</div>
+        <div class="layer-share" dir="ltr">10%</div>
       </div>
-      <div class="layer layer-02">
-        <div class="layer-num">02</div>
+      <div class="layer">
+        <div class="layer-num" dir="ltr">02</div>
         <div class="layer-body">
-          <div class="layer-title">MIZAN OPERATIONS · ChemiCan</div>
-          <div class="layer-desc">Platform · calculation engine · chain-of-custody · certificate generation · Microsoft Azure with Egyptian data residency. Long-term exclusive operating contract proposed.</div>
+          <div class="layer-title" data-i18n="layers.l2.t"></div>
+          <div class="layer-desc" data-i18n-html="layers.l2.d"></div>
         </div>
-        <div class="layer-share">30%</div>
+        <div class="layer-share" dir="ltr">30%</div>
       </div>
-      <div class="layer layer-03">
-        <div class="layer-num">03</div>
+      <div class="layer">
+        <div class="layer-num" dir="ltr">03</div>
         <div class="layer-body">
-          <div class="layer-title">FIELD LAYER · Open Competitive Network</div>
-          <div class="layer-desc">WMRA-licensed collectors + treatment facilities · selection through the algorithmic <strong>MIZAN INDEX</strong> · no exclusivity · any licensed operator can compete.</div>
+          <div class="layer-title" data-i18n="layers.l3.t"></div>
+          <div class="layer-desc" data-i18n-html="layers.l3.d"></div>
         </div>
-        <div class="layer-share">60%</div>
+        <div class="layer-share" dir="ltr">60%</div>
       </div>
     </div>
 
     <div class="wmra-badge">
-      <span class="wmra-icon">◆</span>
-      <span class="wmra-text">
-        <strong>WMRA</strong> retains sovereign regulatory authority — sustained by a proposed <strong>statutory 5% allocation</strong>, unencumbered by operational burden.
-      </span>
+      <span class="wmra-icon" aria-hidden="true">◆</span>
+      <span class="wmra-text" data-i18n-html="layers.wmra"></span>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ INTERACTIVE ARCHITECTURE — 14 CLICKS ═══════════ -->
+<!-- ═══════════ INTERACTIVE ARCHITECTURE (14 CLICKS) ═══════════ -->
 <section id="architecture" class="section section-black">
   <div class="section-inner section-inner-wide">
-    <div class="section-eyebrow gold">◆ The Architecture in One Picture</div>
-    <h2 class="section-title white">Every counterparty · One legal instrument.</h2>
-    <p class="section-lede white-70">
-      What makes Mizan <em>enforceable</em> is not the number of contracts — it is the <strong>unified legal architecture</strong>. Every actor signs into the same marketplace instrument, on the same terms, with the same audit trail, and the same dispute path.
-    </p>
+    <div class="section-eyebrow gold" data-i18n="arch.eyebrow"></div>
+    <h2 class="section-title white" data-i18n="arch.title"></h2>
+    <p class="section-lede white-70" data-i18n-html="arch.lede"></p>
 
     <div class="arch-interactive">
-      <!-- LEFT: The living diagram -->
       <div class="arch-diagram-wrap">
         <div class="arch-progress">
-          <span class="progress-label">Step</span>
+          <span class="progress-label" data-i18n="arch.step"></span>
           <span class="progress-num" id="progressNum">00</span>
-          <span class="progress-of">of 14</span>
+          <span class="progress-of" data-i18n="arch.of"></span>
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         </div>
 
-        <svg class="arch-svg" id="archSvg" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
-          <!-- Background grid -->
+        <svg class="arch-svg" id="archSvg" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive architecture diagram">
           <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(200,169,81,0.05)" stroke-width="0.5"/>
             </pattern>
-            <marker id="arrow-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M0,0 L10,5 L0,10 z" fill="#C8A951"/>
-            </marker>
-            <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M0,0 L10,5 L0,10 z" fill="#1A5F2A"/>
-            </marker>
-            <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M0,0 L10,5 L0,10 z" fill="#B5453A"/>
-            </marker>
+            <marker id="arrow-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C8A951"/></marker>
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1A5F2A"/></marker>
+            <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#B5453A"/></marker>
           </defs>
           <rect width="900" height="700" fill="url(#grid)"/>
 
-          <!-- Central Hub (always visible) -->
-          <g class="node node-hub">
+          <!-- Central hub (always visible) -->
+          <g>
             <rect x="360" y="290" width="180" height="120" rx="8" fill="#0A1F38" stroke="#C8A951" stroke-width="2"/>
             <text x="450" y="335" text-anchor="middle" fill="#C8A951" font-family="Playfair Display" font-size="24" font-weight="900">MIZAN</text>
-            <text x="450" y="360" text-anchor="middle" fill="#F0D98A" font-size="11" letter-spacing="2">MARKETPLACE</text>
-            <text x="450" y="385" text-anchor="middle" fill="#F0D98A" font-size="9" font-style="italic">single legal spine</text>
+            <text x="450" y="360" text-anchor="middle" fill="#F0D98A" font-size="11" letter-spacing="2" data-svg-i18n="svg.marketplace">MARKETPLACE</text>
+            <text x="450" y="385" text-anchor="middle" fill="#F0D98A" font-size="9" font-style="italic" data-svg-i18n="svg.spine">single legal spine</text>
           </g>
 
-          <!-- STATE 1: PRO Label (inside hub) -->
-          <g class="reveal reveal-1" data-state="1">
-            <text x="450" y="315" text-anchor="middle" fill="#C8A951" font-size="12" font-weight="700" letter-spacing="1.5">PRO</text>
-          </g>
+          <g class="reveal reveal-1"><text x="450" y="315" text-anchor="middle" fill="#C8A951" font-size="12" font-weight="700" letter-spacing="1.5">PRO</text></g>
 
-          <!-- STATE 2: ChemiCan (upper-left of hub) -->
-          <g class="reveal reveal-2" data-state="2">
+          <g class="reveal reveal-2">
             <rect x="60" y="200" width="180" height="70" rx="6" fill="#FAF6E9" stroke="#C8A951" stroke-width="2"/>
             <text x="150" y="225" text-anchor="middle" fill="#0A1F38" font-weight="700" font-size="14">ChemiCan</text>
-            <text x="150" y="243" text-anchor="middle" fill="#6B7C93" font-size="10" font-style="italic">Build · Operate</text>
-            <text x="150" y="258" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="600">proposed exclusive operator</text>
+            <text x="150" y="243" text-anchor="middle" fill="#6B7C93" font-size="10" font-style="italic" data-svg-i18n="svg.build">Build · Operate</text>
+            <text x="150" y="258" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="600" data-svg-i18n="svg.proposedOp">proposed operator</text>
             <line x1="240" y1="245" x2="360" y2="310" stroke="#C8A951" stroke-width="2" stroke-dasharray="4,3"/>
           </g>
 
-          <!-- STATE 3: International Partners (top) -->
-          <g class="reveal reveal-3" data-state="3">
+          <g class="reveal reveal-3">
             <rect x="330" y="60" width="240" height="65" rx="6" fill="#0F2C4D" stroke="#C8A951" stroke-width="2"/>
-            <text x="450" y="80" text-anchor="middle" fill="#F0D98A" font-size="10" letter-spacing="1.5">INTERNATIONAL PARTNERS</text>
+            <text x="450" y="80" text-anchor="middle" fill="#F0D98A" font-size="10" letter-spacing="1.5" data-svg-i18n="svg.intPartners">INTERNATIONAL PARTNERS</text>
             <text x="450" y="100" text-anchor="middle" fill="#C8A951" font-weight="700" font-size="12">Landbell · ERION · WEEE Forum</text>
-            <text x="450" y="117" text-anchor="middle" fill="#F0D98A" font-size="9" font-style="italic">technical expertise · governance model</text>
+            <text x="450" y="117" text-anchor="middle" fill="#F0D98A" font-size="9" font-style="italic" data-svg-i18n="svg.expertise">technical expertise · governance</text>
             <line x1="450" y1="125" x2="450" y2="290" stroke="#C8A951" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6"/>
           </g>
 
-          <!-- STATE 4: Producers (left middle) + Attract arrow -->
-          <g class="reveal reveal-4" data-state="4">
+          <g class="reveal reveal-4">
             <rect x="60" y="330" width="180" height="70" rx="6" fill="#E6F3EC" stroke="#1A5F2A" stroke-width="2"/>
-            <text x="150" y="358" text-anchor="middle" fill="#0A1F38" font-weight="700" font-size="14">PRODUCERS</text>
-            <text x="150" y="377" text-anchor="middle" fill="#6B7C93" font-size="9" font-style="italic">via NAFEZA + e-Invoicing</text>
-            <text x="150" y="392" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="600">automatic obligation calc</text>
+            <text x="150" y="358" text-anchor="middle" fill="#0A1F38" font-weight="700" font-size="14" data-svg-i18n="svg.producers">PRODUCERS</text>
+            <text x="150" y="377" text-anchor="middle" fill="#6B7C93" font-size="9" font-style="italic" data-svg-i18n="svg.viaNafeza">via NAFEZA + e-Invoicing</text>
+            <text x="150" y="392" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="600" data-svg-i18n="svg.autoCalc">automatic obligation</text>
             <line x1="240" y1="365" x2="360" y2="365" stroke="#1A5F2A" stroke-width="2" marker-end="url(#arrow-green)"/>
-            <text x="300" y="358" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="700">Attract &amp; Calculate</text>
+            <text x="300" y="358" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="700" data-svg-i18n="svg.attract">Attract &amp; Calculate</text>
           </g>
 
-          <!-- STATE 5: e-Finance (lower left) + EPR Pay arrow -->
-          <g class="reveal reveal-5" data-state="5">
+          <g class="reveal reveal-5">
             <rect x="60" y="460" width="180" height="70" rx="6" fill="#FAF6E9" stroke="#C8A951" stroke-width="2"/>
             <text x="150" y="488" text-anchor="middle" fill="#0A1F38" font-weight="700" font-size="13">e-FINANCE</text>
-            <text x="150" y="506" text-anchor="middle" fill="#6B7C93" font-size="9" font-style="italic">Gov payment gateway</text>
-            <text x="150" y="521" text-anchor="middle" fill="#C8A951" font-weight="700" font-size="9">sovereign escrow</text>
+            <text x="150" y="506" text-anchor="middle" fill="#6B7C93" font-size="9" font-style="italic" data-svg-i18n="svg.gov">Gov payment gateway</text>
+            <text x="150" y="521" text-anchor="middle" fill="#C8A951" font-weight="700" font-size="9" data-svg-i18n="svg.escrow">sovereign escrow</text>
             <line x1="150" y1="400" x2="150" y2="460" stroke="#C8A951" stroke-width="2" marker-end="url(#arrow-gold)"/>
-            <text x="180" y="435" fill="#C8A951" font-size="9" font-weight="700">EPR Pay</text>
+            <text x="180" y="435" fill="#C8A951" font-size="9" font-weight="700" data-svg-i18n="svg.eprPay">EPR Pay</text>
           </g>
 
-          <!-- STATE 6: WMRA (lower right) + 5% Pay % arrow -->
-          <g class="reveal reveal-6" data-state="6">
+          <g class="reveal reveal-6">
             <rect x="660" y="460" width="180" height="70" rx="6" fill="#0A1F38" stroke="#C8A951" stroke-width="2"/>
             <text x="750" y="485" text-anchor="middle" fill="#C8A951" font-weight="700" font-size="13">WMRA</text>
-            <text x="750" y="502" text-anchor="middle" fill="#F0D98A" font-size="8" font-style="italic">regulatory oversight</text>
-            <text x="750" y="518" text-anchor="middle" fill="#F0D98A" font-size="9" font-weight="700">sovereign · Law 202</text>
+            <text x="750" y="502" text-anchor="middle" fill="#F0D98A" font-size="8" font-style="italic" data-svg-i18n="svg.oversight">regulatory oversight</text>
+            <text x="750" y="518" text-anchor="middle" fill="#F0D98A" font-size="9" font-weight="700" data-svg-i18n="svg.sovLaw">sovereign · Law 202</text>
             <line x1="240" y1="495" x2="660" y2="495" stroke="#C8A951" stroke-width="2" marker-end="url(#arrow-gold)"/>
-            <text x="450" y="488" text-anchor="middle" fill="#C8A951" font-size="10" font-weight="700">Pay % — 5%</text>
+            <text x="450" y="488" text-anchor="middle" fill="#C8A951" font-size="10" font-weight="700" data-svg-i18n="svg.pay5">Pay — 5%</text>
           </g>
 
-          <!-- STATE 7: Manage/Delegate arrow -->
-          <g class="reveal reveal-7" data-state="7">
+          <g class="reveal reveal-7">
             <line x1="660" y1="475" x2="540" y2="360" stroke="#F0D98A" stroke-width="2" marker-end="url(#arrow-gold)"/>
-            <text x="620" y="425" text-anchor="middle" fill="#F0D98A" font-size="9" font-weight="700">Manage · Delegate</text>
+            <text x="620" y="425" text-anchor="middle" fill="#F0D98A" font-size="9" font-weight="700" data-svg-i18n="svg.delegate">Manage · Delegate</text>
           </g>
 
-          <!-- STATE 8: Recyclers (top right) + Work Order -->
-          <g class="reveal reveal-8" data-state="8">
+          <g class="reveal reveal-8">
             <rect x="660" y="200" width="180" height="70" rx="6" fill="#E6F3EC" stroke="#1A5F2A" stroke-width="2"/>
-            <text x="750" y="225" text-anchor="middle" fill="#0A1F38" font-weight="700" font-size="12">RECYCLERS / REFINERY</text>
-            <text x="750" y="243" text-anchor="middle" fill="#6B7C93" font-size="9" font-style="italic">44 WMRA-licensed operators</text>
-            <text x="750" y="258" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="600">selected via MIZAN INDEX</text>
+            <text x="750" y="225" text-anchor="middle" fill="#0A1F38" font-weight="700" font-size="12" data-svg-i18n="svg.recyclers">RECYCLERS / REFINERY</text>
+            <text x="750" y="243" text-anchor="middle" fill="#6B7C93" font-size="9" font-style="italic" data-svg-i18n="svg.licensed">44 WMRA-licensed</text>
+            <text x="750" y="258" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="600" data-svg-i18n="svg.viaIndex">selected via MIZAN INDEX</text>
             <line x1="540" y1="305" x2="660" y2="240" stroke="#1A5F2A" stroke-width="2" marker-end="url(#arrow-green)"/>
-            <text x="600" y="270" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="700">Work Order</text>
+            <text x="600" y="270" text-anchor="middle" fill="#1A5F2A" font-size="9" font-weight="700" data-svg-i18n="svg.workOrder">Work Order</text>
           </g>
 
-          <!-- STATE 9: Proof of Treatment (reverse arrow) -->
-          <g class="reveal reveal-9" data-state="9">
+          <g class="reveal reveal-9">
             <line x1="660" y1="255" x2="540" y2="325" stroke="#5B3E8A" stroke-width="2" marker-end="url(#arrow-red)"/>
-            <text x="640" y="300" text-anchor="middle" fill="#5B3E8A" font-size="9" font-weight="700">Proof of Treatment</text>
+            <text x="640" y="300" text-anchor="middle" fill="#5B3E8A" font-size="9" font-weight="700" data-svg-i18n="svg.proof">Proof of Treatment</text>
           </g>
 
-          <!-- STATE 10: Clearing Data (over the whole diagram) -->
-          <g class="reveal reveal-10" data-state="10">
+          <g class="reveal reveal-10">
             <rect x="360" y="200" width="180" height="42" rx="4" fill="#5B3E8A" opacity="0.9"/>
-            <text x="450" y="220" text-anchor="middle" fill="white" font-size="10" font-weight="700">CLEARING · DATA · AUDIT</text>
-            <text x="450" y="235" text-anchor="middle" fill="#F0D98A" font-size="8" font-style="italic">every tonne · every producer · every quarter</text>
+            <text x="450" y="220" text-anchor="middle" fill="white" font-size="10" font-weight="700" data-svg-i18n="svg.clearing">CLEARING · DATA · AUDIT</text>
+            <text x="450" y="235" text-anchor="middle" fill="#F0D98A" font-size="8" font-style="italic" data-svg-i18n="svg.everyTonne">every tonne · every quarter</text>
           </g>
 
-          <!-- STATE 11: Payment Authorization arrow (PRO → e-Finance) -->
-          <g class="reveal reveal-11" data-state="11">
+          <g class="reveal reveal-11">
             <line x1="360" y1="395" x2="240" y2="470" stroke="#B5453A" stroke-width="2" marker-end="url(#arrow-red)"/>
-            <text x="280" y="450" text-anchor="middle" fill="#B5453A" font-size="9" font-weight="700">Payment Authorization</text>
+            <text x="280" y="450" text-anchor="middle" fill="#B5453A" font-size="9" font-weight="700" data-svg-i18n="svg.payAuth">Payment Authorization</text>
           </g>
 
-          <!-- STATE 12: Pay % 30% to Recyclers -->
-          <g class="reveal reveal-12" data-state="12">
+          <g class="reveal reveal-12">
             <line x1="240" y1="490" x2="660" y2="270" stroke="#1A5F2A" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrow-green)"/>
             <rect x="440" y="378" width="70" height="22" rx="3" fill="#1A5F2A"/>
             <text x="475" y="393" text-anchor="middle" fill="white" font-size="10" font-weight="700">Pay 30%</text>
           </g>
 
-          <!-- STATE 13: Pay % 30% to ChemiCan -->
-          <g class="reveal reveal-13" data-state="13">
+          <g class="reveal reveal-13">
             <line x1="240" y1="490" x2="240" y2="270" stroke="#C8A951" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrow-gold)"/>
             <rect x="180" y="365" width="70" height="22" rx="3" fill="#C8A951"/>
             <text x="215" y="380" text-anchor="middle" fill="#0A1F38" font-size="10" font-weight="700">Pay 30%</text>
           </g>
 
-          <!-- STATE 14: EPR Certificate + Carbon Credit -->
-          <g class="reveal reveal-14" data-state="14">
+          <g class="reveal reveal-14">
             <rect x="330" y="600" width="240" height="70" rx="6" fill="#C8A951" stroke="#0A1F38" stroke-width="2"/>
-            <text x="450" y="623" text-anchor="middle" fill="#0A1F38" font-weight="900" font-size="11" letter-spacing="1">TWO ASSETS · ONE CERTIFICATE</text>
-            <text x="450" y="642" text-anchor="middle" fill="#0A1F38" font-size="10" font-weight="700">◆ EPR Compliance Discharge</text>
-            <text x="450" y="658" text-anchor="middle" fill="#0A1F38" font-size="10" font-weight="700">◆ Carbon Credit (GOEIC EVVU)</text>
+            <text x="450" y="623" text-anchor="middle" fill="#0A1F38" font-weight="900" font-size="11" letter-spacing="1" data-svg-i18n="svg.twoAssets">TWO ASSETS · ONE CERTIFICATE</text>
+            <text x="450" y="642" text-anchor="middle" fill="#0A1F38" font-size="10" font-weight="700" data-svg-i18n="svg.eprCert">◆ EPR Compliance Discharge</text>
+            <text x="450" y="658" text-anchor="middle" fill="#0A1F38" font-size="10" font-weight="700" data-svg-i18n="svg.carbonCert">◆ Carbon Credit (GOEIC EVVU)</text>
             <line x1="150" y1="400" x2="330" y2="620" stroke="#C8A951" stroke-width="2" stroke-dasharray="4,3"/>
-            <text x="230" y="530" fill="#C8A951" font-size="9" font-weight="700" font-style="italic">issued to producer</text>
+            <text x="230" y="530" fill="#C8A951" font-size="9" font-weight="700" font-style="italic" data-svg-i18n="svg.issued">issued to producer</text>
           </g>
-
         </svg>
       </div>
 
-      <!-- RIGHT: Narrative panel -->
       <div class="arch-narrative-wrap">
         <div class="narrative-header">
-          <div class="narrative-click-badge" id="clickBadge">◆ Click 00 · Baseline</div>
-          <h3 class="narrative-title" id="narrativeTitle">The empty stage</h3>
+          <div class="narrative-click-badge" id="clickBadge">◆ 00</div>
+          <h3 class="narrative-title" id="narrativeTitle"></h3>
         </div>
-        <div class="narrative-body" id="narrativeBody">
-          Every element you're about to see was authored deliberately.
-          Press <strong>Next</strong> or use the controls to walk through the 14 clicks — the same sequence delivered at the Four Seasons Cairo sponsor keynote on 11 August 2026.
-        </div>
+        <div class="narrative-body" id="narrativeBody"></div>
 
         <div class="narrative-controls">
-          <button class="ctrl-btn" id="prevBtn" aria-label="Previous">◀ Prev</button>
-          <button class="ctrl-btn ctrl-play" id="playBtn" aria-label="Play/Pause">▶ Play All</button>
-          <button class="ctrl-btn" id="nextBtn" aria-label="Next">Next ▶</button>
-          <button class="ctrl-btn ctrl-reset" id="resetBtn" aria-label="Reset">↻ Reset</button>
+          <button class="ctrl-btn" id="prevBtn" data-i18n="arch.prev"></button>
+          <button class="ctrl-btn ctrl-play" id="playBtn" data-i18n="arch.play"></button>
+          <button class="ctrl-btn" id="nextBtn" data-i18n="arch.next"></button>
+          <button class="ctrl-btn ctrl-reset" id="resetBtn" data-i18n="arch.reset"></button>
         </div>
 
         <div class="narrative-jump">
-          <div class="jump-label">Jump to click:</div>
-          <div class="jump-grid" id="jumpGrid">
-            <!-- populated by JS -->
-          </div>
+          <div class="jump-label" data-i18n="arch.jump"></div>
+          <div class="jump-grid" id="jumpGrid"></div>
         </div>
       </div>
     </div>
 
     <div class="callout callout-navy">
-      <strong>One instrument binds all six.</strong> No side-agreements. No parallel deals. Every transaction routes through the marketplace's audit trail — and every audit reads the same legal terms.
-      <div class="callout-source">— The Single-Instrument Principle · Mizan Model v8</div>
+      <span data-i18n-html="arch.principle"></span>
+      <div class="callout-source" data-i18n="arch.principleSource"></div>
     </div>
   </div>
 </section>
@@ -407,76 +447,32 @@
 <!-- ═══════════ REALITY CHECK ═══════════ -->
 <section id="reality-check" class="section">
   <div class="section-inner">
-    <div class="section-eyebrow">◆ Radical Honesty</div>
-    <h2 class="section-title">What is <span class="green-text">real today</span> vs what is <span class="gold-text">proposed</span>.</h2>
-    <p class="section-lede">
-      We think the fastest way to earn trust is to tell you exactly what exists on the ground — and exactly what still requires WMRA sign-off and regulatory issuance.
-    </p>
+    <div class="section-eyebrow" data-i18n="reality.eyebrow"></div>
+    <h2 class="section-title" data-i18n-html="reality.title"></h2>
+    <p class="section-lede" data-i18n-html="reality.lede"></p>
 
     <div class="reality-split">
-      <!-- LEFT: What's real -->
       <div class="reality-col reality-real">
         <div class="reality-header">
-          <div class="reality-badge">✓ OPERATING TODAY</div>
-          <div class="reality-flag">Verifiable · WMRA-licensed · Auditable</div>
+          <div class="reality-badge" data-i18n="reality.realBadge"></div>
+          <div class="reality-flag" data-i18n="reality.realFlag"></div>
         </div>
-        <ul class="reality-list">
-          <li>
-            <strong>Dr.WEEE take-back network</strong> — WMRA-licensed collection since 2018 · Haram operational base · 8 years continuous monthly data · Microsoft Dynamics 365 stack.
-          </li>
-          <li>
-            <strong>REMIT Recycling alliance</strong> — signed alliance contract with #11 on WMRA's official 22-operator list · copper smelting from recycled material.
-          </li>
-          <li>
-            <strong>ChemiCan Egypt SAE</strong> — commercial registry 269179 · founded 2020 · Sheraton El Nozha, Cairo.
-          </li>
-          <li>
-            <strong>ChemiCan Consulting Ltd.</strong> — Canadian parent · Calgary, Alberta · Microsoft Canada Partner MPN 6890737 · DLA Piper Canada + Egypt counsel.
-          </li>
-          <li>
-            <strong>Mizan Model v8</strong> — full legal architecture drafted by DLA Piper · calculation engine built · Mizan EPR Calculator operational.
-          </li>
-          <li>
-            <strong>Founding co-lead</strong> — CEBC Environment, Climate &amp; Sustainability Committee (launched 11 August 2026).
-          </li>
-        </ul>
+        <ul class="reality-list" id="realList"></ul>
       </div>
 
-      <!-- RIGHT: What's proposed -->
       <div class="reality-col reality-proposed">
         <div class="reality-header">
-          <div class="reality-badge">◆ IN ACTIVE DISCUSSION</div>
-          <div class="reality-flag">Under WMRA review · Article 17 sub-decree pending</div>
+          <div class="reality-badge" data-i18n="reality.propBadge"></div>
+          <div class="reality-flag" data-i18n="reality.propFlag"></div>
         </div>
-        <ul class="reality-list">
-          <li>
-            <strong>Mizan as the appointed PRO</strong> — subject to WMRA authorisation under Law 202/2020 Article 17. Non-binding MoU currently under DLA Piper review.
-          </li>
-          <li>
-            <strong>The Alliance layer (ECO-FEI)</strong> — governance under formation with the Federation of Egyptian Industries · engagement with Dr Ahmed Kamal underway.
-          </li>
-          <li>
-            <strong>The escrow architecture</strong> — dependent on e-Finance integration and Article 17 sub-decree issuance (expected Q4 2026).
-          </li>
-          <li>
-            <strong>Two-certificate mechanism</strong> — WMRA compliance + GOEIC/EVVU carbon credit issuance · methodology under discussion with GOEIC.
-          </li>
-          <li>
-            <strong>MIZAN INDEX</strong> — algorithmic operator scoring · reference framework aligned with World Bank REOI EG-EEAA-458996 in flight.
-          </li>
-          <li>
-            <strong>Compliance Credit mechanic</strong> — Flow A/B ledger described in the Mizan Model v8 · requires sub-decree issuance to be enforceable.
-          </li>
-        </ul>
+        <ul class="reality-list" id="propList"></ul>
       </div>
     </div>
 
     <div class="quote-card quote-navy">
-      <div class="quote-mark">"</div>
-      <div class="quote-text">
-        We are not asking anyone to adopt an aspiration. We are offering to activate a system that is already contractually assembled — and to earn the operational role through open, transparent process.
-      </div>
-      <div class="quote-source">— Mizan positioning · public commitment</div>
+      <div class="quote-mark" aria-hidden="true">"</div>
+      <div class="quote-text" data-i18n-html="reality.quote"></div>
+      <div class="quote-source" data-i18n="reality.quoteSource"></div>
     </div>
   </div>
 </section>
@@ -484,98 +480,77 @@
 <!-- ═══════════ MIZAN INDEX ═══════════ -->
 <section class="section section-purple">
   <div class="section-inner">
-    <div class="section-eyebrow gold">◆ Anti-Monopoly by Design</div>
-    <h2 class="section-title white">The MIZAN INDEX · A second balance.</h2>
-    <p class="section-lede white-70">
-      The first balance measures what <strong>producers owe</strong>. The second measures what <strong>operators earn</strong>. Both by algorithm. Both published. Both auditable. Both — literally — <em>Mizan</em>.
-    </p>
+    <div class="section-eyebrow gold" data-i18n="index.eyebrow"></div>
+    <h2 class="section-title white" data-i18n="index.title"></h2>
+    <p class="section-lede white-70" data-i18n-html="index.lede"></p>
 
     <div class="index-matrix">
-      <div class="matrix-axis matrix-y">
-        <div class="axis-label">Performance Score</div>
-        <div class="axis-band band-excellent">100+ · Excellence</div>
-        <div class="axis-band band-strong">85–99 · Strong</div>
-        <div class="axis-band band-standard">70–84 · Standard</div>
-        <div class="axis-band band-probation">50–69 · Probation</div>
-        <div class="axis-band band-below">&lt;50 · Below Threshold</div>
+      <div class="matrix-axis">
+        <div class="axis-label" data-i18n="index.performance"></div>
+        <div class="axis-band band-excellent" data-i18n="index.band1"></div>
+        <div class="axis-band band-strong" data-i18n="index.band2"></div>
+        <div class="axis-band band-standard" data-i18n="index.band3"></div>
+        <div class="axis-band band-probation" data-i18n="index.band4"></div>
+        <div class="axis-band band-below" data-i18n="index.band5"></div>
       </div>
-      <div class="matrix-axis matrix-x">
-        <div class="axis-label">Capability Tier (WMRA licence)</div>
-        <div class="tier-row">
-          <span class="tier-badge">T1</span> Collection only
-        </div>
-        <div class="tier-row">
-          <span class="tier-badge">T2</span> + Dismantling
-        </div>
-        <div class="tier-row">
-          <span class="tier-badge">T3</span> + Basic refining
-        </div>
-        <div class="tier-row tier-highlight">
-          <span class="tier-badge tier-gold">T4</span> + Precious metals <em>(REMIT)</em>
-        </div>
-        <div class="tier-row">
-          <span class="tier-badge tier-gold">T5</span> + Hazardous + PoP
-        </div>
+      <div class="matrix-axis">
+        <div class="axis-label" data-i18n="index.capability"></div>
+        <div class="tier-row"><span class="tier-badge">T1</span> <span data-i18n="index.t1"></span></div>
+        <div class="tier-row"><span class="tier-badge">T2</span> <span data-i18n="index.t2"></span></div>
+        <div class="tier-row"><span class="tier-badge">T3</span> <span data-i18n="index.t3"></span></div>
+        <div class="tier-row tier-highlight"><span class="tier-badge tier-gold">T4</span> <span data-i18n-html="index.t4"></span></div>
+        <div class="tier-row"><span class="tier-badge tier-gold">T5</span> <span data-i18n="index.t5"></span></div>
       </div>
     </div>
 
     <div class="parity-callout">
-      <div class="parity-title">◆ Within-Bracket Parity</div>
-      <div class="parity-body">
-        "When operators share the same tier and score, they share work-orders <strong>equally</strong>."
-        Algorithmic rotation. Never favor-selected. This clause is the anti-monopoly guarantee — it protects small licensed operators as much as it protects the market.
-      </div>
+      <div class="parity-title" data-i18n="index.parityTitle"></div>
+      <div class="parity-body" data-i18n-html="index.parityBody"></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ AUDIENCE CTAs ═══════════ -->
-<section id="audiences" class="section section-dark">
+<!-- ═══════════ AUDIENCES ═══════════ -->
+<section id="audiences" class="section section-alt">
   <div class="section-inner">
-    <div class="section-eyebrow">◆ For Your Role</div>
-    <h2 class="section-title">If you're a...</h2>
+    <div class="section-eyebrow" data-i18n="aud.eyebrow"></div>
+    <h2 class="section-title" data-i18n="aud.title"></h2>
 
     <div class="audience-grid">
       <div class="audience-card">
-        <div class="audience-icon">🏛</div>
-        <div class="audience-role">Decision Maker</div>
-        <div class="audience-copy">
-          Ministry · WMRA · FEI · World Bank · Diplomatic Corps
-        </div>
+        <div class="audience-icon" aria-hidden="true">🏛</div>
+        <div class="audience-role" data-i18n="aud.a1.role"></div>
+        <div class="audience-copy" data-i18n="aud.a1.copy"></div>
         <ul class="audience-list">
-          <li>Full ministerial package (Model v8 · Financial Model · Field Guide)</li>
-          <li>Non-binding MoU draft (DLA Piper reviewed)</li>
-          <li>Direct meeting with ChemiCan leadership</li>
+          <li data-i18n="aud.a1.l1"></li>
+          <li data-i18n="aud.a1.l2"></li>
+          <li data-i18n="aud.a1.l3"></li>
         </ul>
-        <a href="mailto:mohanad.elsayed@chemican.ca?subject=Mizan · Decision-Maker Package Request" class="audience-btn">Request the Package →</a>
+        <a href="mailto:info@mizan.eco?subject=Decision-Maker%20Package" class="audience-btn" data-i18n="aud.a1.cta"></a>
       </div>
 
       <div class="audience-card audience-card-gold">
-        <div class="audience-icon">🏭</div>
-        <div class="audience-role">Obligated Producer</div>
-        <div class="audience-copy">
-          Electronics · appliances · ICT · fertilisers · exporters facing CBAM
-        </div>
+        <div class="audience-icon" aria-hidden="true">🏭</div>
+        <div class="audience-role" data-i18n="aud.a2.role"></div>
+        <div class="audience-copy" data-i18n="aud.a2.copy"></div>
         <ul class="audience-list">
-          <li>Understand your future obligation under Article 17</li>
-          <li>Learn the Compliance Credit mechanic (Flow A/B)</li>
-          <li>Explore two-certificate value (WMRA + Carbon Credit)</li>
+          <li data-i18n="aud.a2.l1"></li>
+          <li data-i18n="aud.a2.l2"></li>
+          <li data-i18n="aud.a2.l3"></li>
         </ul>
-        <a href="mailto:mohanad.elsayed@chemican.ca?subject=Mizan · Producer Briefing Request" class="audience-btn">Book a Producer Briefing →</a>
+        <a href="mailto:info@mizan.eco?subject=Producer%20Briefing" class="audience-btn" data-i18n="aud.a2.cta"></a>
       </div>
 
       <div class="audience-card audience-card-green">
-        <div class="audience-icon">♻</div>
-        <div class="audience-role">Licensed Recycler</div>
-        <div class="audience-copy">
-          One of Egypt's 44 WMRA-licensed processors · collectors · refiners
-        </div>
+        <div class="audience-icon" aria-hidden="true">♻</div>
+        <div class="audience-role" data-i18n="aud.a3.role"></div>
+        <div class="audience-copy" data-i18n="aud.a3.copy"></div>
         <ul class="audience-list">
-          <li>See how MIZAN INDEX would rank your capability</li>
-          <li>Understand Within-Bracket Parity guarantees</li>
-          <li>Discuss integration into the field layer</li>
+          <li data-i18n="aud.a3.l1"></li>
+          <li data-i18n="aud.a3.l2"></li>
+          <li data-i18n="aud.a3.l3"></li>
         </ul>
-        <a href="mailto:mohanad.elsayed@chemican.ca?subject=Mizan · Recycler Integration Discussion" class="audience-btn">Open a Discussion →</a>
+        <a href="mailto:info@mizan.eco?subject=Recycler%20Integration" class="audience-btn" data-i18n="aud.a3.cta"></a>
       </div>
     </div>
   </div>
@@ -584,63 +559,46 @@
 <!-- ═══════════ PARTNERS ═══════════ -->
 <section id="partners" class="section">
   <div class="section-inner">
-    <div class="section-eyebrow">◆ The Partner Network</div>
-    <h2 class="section-title">Best-in-class per stream · one shared platform.</h2>
-    <p class="section-lede">
-      Every waste stream in Egypt already has an existing leader. Mizan does <strong>not replace them</strong> — Mizan is proposed as the shared physical + digital footprint they can each anchor to.
-    </p>
+    <div class="section-eyebrow" data-i18n="partners.eyebrow"></div>
+    <h2 class="section-title" data-i18n="partners.title"></h2>
+    <p class="section-lede" data-i18n-html="partners.lede"></p>
 
-    <div class="partner-grid">
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: Dr.WEEE]</div><div class="partner-role">E-waste anchor · Signed</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: REMIT]</div><div class="partner-role">Refining · Signed</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: Tagaddod]</div><div class="partner-role">UCO → Biodiesel</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: Dawarha]</div><div class="partner-role">Plastic + PET</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: Greener]</div><div class="partner-role">Batteries</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: TileGreen]</div><div class="partner-role">Downstream</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: Microsoft]</div><div class="partner-role">Cloud partner</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: DLA Piper]</div><div class="partner-role">Legal counsel</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: Landbell]</div><div class="partner-role">Intl. EPR expertise</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: ERION]</div><div class="partner-role">Italian PRO model</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: WEEE Forum]</div><div class="partner-role">Brussels-based membership</div></div>
-      <div class="partner-tile"><div class="partner-logo-placeholder">[LOGO: CEBC]</div><div class="partner-role">Founding committee co-lead</div></div>
-    </div>
+    <div class="partner-grid" id="partnerGrid"></div>
 
-    <p class="partner-note">
-      <em>Logos above are placeholders. Final partner disclosures will follow each partner's own communication timing.</em>
-    </p>
+    <p class="partner-note" data-i18n="partners.note"></p>
   </div>
 </section>
 
 <!-- ═══════════ TEAM ═══════════ -->
 <section class="section section-cream">
   <div class="section-inner">
-    <div class="section-eyebrow">◆ The Team</div>
-    <h2 class="section-title">Bilateral by design.</h2>
+    <div class="section-eyebrow" data-i18n="team.eyebrow"></div>
+    <h2 class="section-title" data-i18n="team.title"></h2>
 
     <div class="team-grid">
       <div class="team-card">
-        <div class="team-avatar">[PHOTO: Mohamed Elsayed]</div>
-        <div class="team-name">Mohamed Elsayed</div>
-        <div class="team-role">CEO · ChemiCan Consulting Ltd.</div>
-        <div class="team-place">🇨🇦 Calgary, Canada</div>
+        <div class="team-avatar">[PHOTO]</div>
+        <div class="team-name" data-i18n="team.t1.n"></div>
+        <div class="team-role" data-i18n="team.t1.r"></div>
+        <div class="team-place" dir="ltr">🇨🇦 Calgary, Canada</div>
       </div>
       <div class="team-card">
-        <div class="team-avatar">[PHOTO: Mohanad Elsayed]</div>
-        <div class="team-name">Mohanad Elsayed</div>
-        <div class="team-role">Vice Chairman · ChemiCan Egypt</div>
-        <div class="team-place">🇪🇬 Cairo, Egypt</div>
+        <div class="team-avatar">[PHOTO]</div>
+        <div class="team-name" data-i18n="team.t2.n"></div>
+        <div class="team-role" data-i18n="team.t2.r"></div>
+        <div class="team-place" dir="ltr">🇪🇬 Cairo, Egypt</div>
       </div>
       <div class="team-card">
-        <div class="team-avatar">[PHOTO: Essam Hashem]</div>
-        <div class="team-name">Eng. Essam Hashem</div>
-        <div class="team-role">CEO · Dr.WEEE · Board member</div>
-        <div class="team-place">🇪🇬 8 years live ops · Haram base</div>
+        <div class="team-avatar">[PHOTO]</div>
+        <div class="team-name" data-i18n="team.t3.n"></div>
+        <div class="team-role" data-i18n="team.t3.r"></div>
+        <div class="team-place" data-i18n="team.t3.p"></div>
       </div>
       <div class="team-card">
-        <div class="team-avatar">[PHOTO: Ibrahim Farouk]</div>
-        <div class="team-name">Dr. Ibrahim Farouk</div>
-        <div class="team-role">CEO · BioRotterdam · Board member</div>
-        <div class="team-place">🇳🇱 Rotterdam</div>
+        <div class="team-avatar">[PHOTO]</div>
+        <div class="team-name" data-i18n="team.t4.n"></div>
+        <div class="team-role" data-i18n="team.t4.r"></div>
+        <div class="team-place" dir="ltr">🇳🇱 Rotterdam</div>
       </div>
     </div>
   </div>
@@ -649,33 +607,33 @@
 <!-- ═══════════ CONTACT ═══════════ -->
 <section id="contact" class="section section-navy">
   <div class="section-inner">
-    <div class="section-eyebrow gold">◆ Contact</div>
-    <h2 class="section-title white">Open door · Direct line.</h2>
+    <div class="section-eyebrow gold" data-i18n="contact.eyebrow"></div>
+    <h2 class="section-title white" data-i18n="contact.title"></h2>
 
     <div class="contact-grid">
       <div class="contact-card">
-        <div class="contact-label">General inquiry</div>
-        <a href="mailto:info@mizan.eco" class="contact-value">info@mizan.eco</a>
+        <div class="contact-label" data-i18n="contact.c1.l"></div>
+        <a href="mailto:info@mizan.eco" class="contact-value" dir="ltr">info@mizan.eco</a>
       </div>
       <div class="contact-card">
-        <div class="contact-label">Vice Chairman · Egypt</div>
-        <a href="mailto:mohanad.elsayed@chemican.ca" class="contact-value">mohanad.elsayed@chemican.ca</a>
-        <div class="contact-sub">+20 106 650 3933</div>
+        <div class="contact-label" data-i18n="contact.c2.l"></div>
+        <a href="mailto:mohanad.elsayed@chemican.ca" class="contact-value" dir="ltr">mohanad.elsayed@chemican.ca</a>
+        <div class="contact-sub" dir="ltr">+20 106 650 3933</div>
       </div>
       <div class="contact-card">
-        <div class="contact-label">Legal counsel</div>
-        <div class="contact-value">DLA Piper Canada + Egypt</div>
-        <div class="contact-sub">Ahmed Selim · ahmed.selim@ca.dlapiper.com</div>
+        <div class="contact-label" data-i18n="contact.c3.l"></div>
+        <div class="contact-value" data-i18n="contact.c3.v"></div>
+        <div class="contact-sub" dir="ltr">ahmed.selim@ca.dlapiper.com</div>
       </div>
       <div class="contact-card">
-        <div class="contact-label">Field operations · Dr.WEEE</div>
-        <div class="contact-value">Haram operational base</div>
-        <div class="contact-sub">Site visits by appointment</div>
+        <div class="contact-label" data-i18n="contact.c4.l"></div>
+        <div class="contact-value" data-i18n="contact.c4.v"></div>
+        <div class="contact-sub" data-i18n="contact.c4.s"></div>
       </div>
     </div>
 
     <div class="contact-cta">
-      <a href="mailto:mohanad.elsayed@chemican.ca?subject=Mizan · I'd like to learn more" class="btn-primary btn-large">Reach out directly →</a>
+      <a href="mailto:info@mizan.eco" class="btn-primary btn-large" data-i18n="contact.cta"></a>
     </div>
   </div>
 </section>
@@ -686,34 +644,31 @@
     <div class="footer-brand">
       <div class="footer-logo">MIZAN</div>
       <div class="footer-ar">ميزان</div>
-      <div class="footer-tagline">Egypt's proposed national platform for<br>Extended Producer Responsibility.</div>
+      <div class="footer-tagline" data-i18n-html="footer.tagline"></div>
     </div>
 
     <div class="footer-honesty">
-      <div class="footer-honesty-title">◆ Honesty statement</div>
-      <p>
-        <strong>Mizan is a proposed platform</strong>, currently in active discussion with the Waste Management Regulatory Authority (WMRA) and stakeholders. This site describes both what is operating today (Dr.WEEE take-back, REMIT alliance, ChemiCan legal and operational structure) and what would activate under Law 202/2020 Article 17 with proper WMRA authorisation and sub-decree issuance.
-      </p>
-      <p>
-        No claim of PRO status is made. No public authority is misrepresented. Every stakeholder mentioned is engaged in good-faith dialogue.
-      </p>
+      <div class="footer-honesty-title" data-i18n="footer.honestyTitle"></div>
+      <p data-i18n-html="footer.honesty1"></p>
+      <p data-i18n-html="footer.honesty2"></p>
     </div>
 
     <div class="footer-eco">
       <div class="eco-badge">
-        <span class="eco-mark">.eco</span>
-        <span class="eco-text">Registered under the .eco commitment — public pledge to environmental transparency.</span>
+        <span class="eco-mark" dir="ltr">.eco</span>
+        <span class="eco-text" data-i18n="footer.eco"></span>
       </div>
     </div>
 
     <div class="footer-meta">
-      <div>© 2026 ChemiCan Consulting Ltd. · ChemiCan Egypt SAE</div>
-      <div>CR 269179 · Tax 869-889-744 · MPN 6890737</div>
-      <div><a href="mailto:info@mizan.eco">info@mizan.eco</a> · <a href="https://chemican.ca" target="_blank" rel="noopener">chemican.ca</a></div>
+      <div dir="ltr">© 2026 ChemiCan Consulting Ltd. · ChemiCan Egypt SAE</div>
+      <div dir="ltr">CR 269179 · Tax 869-889-744 · MPN 6890737</div>
+      <div dir="ltr"><a href="mailto:info@mizan.eco">info@mizan.eco</a> · <a href="https://chemican.ca" target="_blank" rel="noopener">chemican.ca</a></div>
     </div>
   </div>
 </footer>
 
-<script src="/script.js"></script>
+<script src="/translations.js"></script>
+<script src="/app.js"></script>
 </body>
 </html>

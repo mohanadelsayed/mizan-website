@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A1F38"/>
+      <stop offset="60%" stop-color="#0F2C4D"/>
+      <stop offset="100%" stop-color="#1A4D7A"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0%" stop-color="rgba(200,169,81,0.25)"/>
+      <stop offset="60%" stop-color="rgba(200,169,81,0)"/>
+    </radialGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(200,169,81,0.06)" stroke-width="1"/>
+    </pattern>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&amp;family=Playfair+Display:wght@900&amp;family=Inter:wght@400;600&amp;display=swap');
+      .en-serif { font-family: 'Playfair Display', Georgia, serif; }
+      .ar { font-family: 'Cairo', sans-serif; }
+      .ui { font-family: 'Inter', sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <ellipse cx="600" cy="315" rx="500" ry="350" fill="url(#glow)"/>
+
+  <!-- Top gold bar -->
+  <rect y="0" width="1200" height="6" fill="#C8A951"/>
+  <!-- Bottom gold bar -->
+  <rect y="624" width="1200" height="6" fill="#C8A951"/>
+
+  <!-- Top badge -->
+  <g transform="translate(600, 90)">
+    <rect x="-260" y="-22" width="520" height="44" fill="none" stroke="#C8A951" stroke-width="1"/>
+    <text x="0" y="6" text-anchor="middle" fill="#C8A951" class="ui" font-size="15" letter-spacing="4" font-weight="600">
+      ◆  PROPOSED UNDER EGYPT LAW 202/2020 · ARTICLE 17  ◆
+    </text>
+  </g>
+
+  <!-- Main MIZAN wordmark -->
+  <text x="600" y="285" text-anchor="middle" fill="#C8A951" class="en-serif" font-size="180" font-weight="900" letter-spacing="18">
+    MIZAN
+  </text>
+
+  <!-- Divider -->
+  <line x1="500" y1="310" x2="700" y2="310" stroke="#C8A951" stroke-width="2"/>
+
+  <!-- Arabic wordmark -->
+  <text x="600" y="380" text-anchor="middle" fill="#F0D98A" class="ar" font-size="70" font-weight="700">
+    ميزان
+  </text>
+
+  <!-- Tagline (bilingual) -->
+  <text x="600" y="450" text-anchor="middle" fill="#FFFFFF" class="ui" font-size="24" font-weight="400" opacity="0.9">
+    Egypt's proposed national platform for
+  </text>
+  <text x="600" y="480" text-anchor="middle" fill="#C8A951" class="ui" font-size="26" font-weight="600">
+    Extended Producer Responsibility
+  </text>
+
+  <!-- Trinity pills -->
+  <g transform="translate(600, 535)">
+    <!-- Weight -->
+    <rect x="-330" y="-18" width="200" height="36" rx="18" fill="rgba(200,169,81,0.12)" stroke="rgba(200,169,81,0.5)"/>
+    <text x="-230" y="6" text-anchor="middle" fill="#F0D98A" class="ar" font-size="17" font-weight="700">وزن  ·  Weight</text>
+
+    <rect x="-100" y="-18" width="200" height="36" rx="18" fill="rgba(200,169,81,0.12)" stroke="rgba(200,169,81,0.5)"/>
+    <text x="0" y="6" text-anchor="middle" fill="#F0D98A" class="ar" font-size="17" font-weight="700">عدالة  ·  Justice</text>
+
+    <rect x="130" y="-18" width="200" height="36" rx="18" fill="rgba(200,169,81,0.12)" stroke="rgba(200,169,81,0.5)"/>
+    <text x="230" y="6" text-anchor="middle" fill="#F0D98A" class="ar" font-size="17" font-weight="700">توازن  ·  Balance</text>
+  </g>
+
+  <!-- Footer meta -->
+  <text x="600" y="600" text-anchor="middle" fill="rgba(200,169,81,0.7)" class="ui" font-size="14" letter-spacing="3" font-weight="600">
+    MIZAN.ECO  ·  BY CHEMICAN CONSULTING  ·  ChemiCan  ×  Dr.WEEE  ×  REMIT
+  </text>
+</svg>
