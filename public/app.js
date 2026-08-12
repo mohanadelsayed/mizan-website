@@ -48,13 +48,17 @@
     // Language toggle button label — shows the *other* language
     langToggle.querySelector('.lang-current').textContent = lang === 'ar' ? 'EN' : 'ع';
 
-    // All [data-i18n] — plain text
+    // All [data-i18n] — auto-detects HTML in value; uses innerHTML if present,
+    // textContent otherwise. All translations are static (no user input) so safe.
+    const hasHtml = (s) => /<\/?[a-z][\s\S]*>/i.test(s);
     document.querySelectorAll('[data-i18n]').forEach(node => {
       const key = node.getAttribute('data-i18n');
-      node.textContent = get(key);
+      const val = get(key);
+      if (hasHtml(val)) node.innerHTML = val;
+      else node.textContent = val;
     });
 
-    // All [data-i18n-html] — allows inline HTML like <strong>, <em>, <br>
+    // All [data-i18n-html] — explicit HTML
     document.querySelectorAll('[data-i18n-html]').forEach(node => {
       const key = node.getAttribute('data-i18n-html');
       node.innerHTML = get(key);

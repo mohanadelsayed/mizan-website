@@ -44,6 +44,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -52,9 +54,23 @@ body {
   background: var(--cream);
   line-height: 1.6;
   overflow-x: hidden;
+  max-width: 100vw;
+  min-width: 0;
+  position: relative;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
+/* Defensive: never let media exceed its container */
+img, svg, video, iframe, canvas {
+  max-width: 100%;
+  height: auto;
+}
+iframe { height: auto; min-height: 100%; }
+/* Long words / URLs shouldn't blow up narrow layouts */
+p, li, a, span, div, td, th { overflow-wrap: anywhere; }
+/* But don't break the diagram SVG text */
+svg text { overflow-wrap: normal; }
 
 /* Utilities to lock direction for numbers, English brands, etc. */
 [dir="ltr"] { unicode-bidi: embed; }
@@ -675,10 +691,12 @@ html[dir="rtl"] .progress-bar { margin-left: 0; margin-right: 8px; }
   transition: width 0.5s ease;
 }
 .arch-svg {
-  width: 100%; height: auto;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: 1300 / 700;
   background: #FEFEFE;
   border-radius: 6px;
-  min-height: 400px;
   display: block;
   box-shadow: inset 0 0 0 1px rgba(200,169,81,0.15);
 }
@@ -898,14 +916,15 @@ html[dir="rtl"] .vision-note { border-left: none; border-right: 3px solid var(--
   font-weight: 600;
 }
 
-/* ═══════════ VIDEO — full-width breakout ═══════════ */
+/* ═══════════ VIDEO — full width (safe, no breakout hacks) ═══════════ */
 .video-wrap {
-  margin: 40px calc(50% - 50vw) 50px;
-  padding: 0 24px;
-  max-width: 100vw;
+  margin: 40px 0 50px;
+  width: 100%;
+  max-width: 100%;
 }
 .video-frame {
   position: relative;
+  width: 100%;
   padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
@@ -913,13 +932,12 @@ html[dir="rtl"] .vision-note { border-left: none; border-right: 3px solid var(--
   background: #000;
   border: 2px solid rgba(200,169,81,0.3);
   box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,169,81,0.15);
-  max-width: 1600px;
-  margin: 0 auto;
 }
 .video-frame iframe {
   position: absolute;
   top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   border: 0;
 }
 .video-caption {
@@ -927,9 +945,6 @@ html[dir="rtl"] .vision-note { border-left: none; border-right: 3px solid var(--
   color: rgba(255,255,255,0.7);
   font-size: 13px;
   margin-top: 14px;
-  max-width: 1600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 .video-caption a {
   color: var(--gold);
@@ -994,7 +1009,7 @@ html[dir="rtl"] .video-caption a { margin-left: 0; margin-right: 6px; }
 /* Thumbnails — 4-across on desktop, 2-across on tablet, 1-across on small mobile */
 .event-thumbs {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 18px;
 }
 .event-thumbs .event-photo {
