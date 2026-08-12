@@ -123,13 +123,24 @@
 
   // ═══════════ CLICK STATE MACHINE ═══════════
   function renderClick(n) {
+    const prev = currentClick;
     currentClick = Math.max(0, Math.min(14, n));
     const c = I18N[lang].clicks[currentClick];
 
     // SVG reveals
     for (let i = 1; i <= 14; i++) {
       const g = svg.querySelector(`.reveal-${i}`);
-      if (g) g.classList.toggle('active', i <= currentClick);
+      if (!g) continue;
+      const wasActive = g.classList.contains('active');
+      const shouldBeActive = i <= currentClick;
+      g.classList.toggle('active', shouldBeActive);
+      // Pulse only the newest step forward
+      g.classList.remove('newly-active');
+      if (shouldBeActive && !wasActive && currentClick > prev) {
+        // Trigger pulse via reflow
+        void g.offsetWidth;
+        g.classList.add('newly-active');
+      }
     }
 
     // Narrative
