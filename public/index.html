@@ -93,13 +93,6 @@
 </head>
 <body>
 
-<!-- ═══════════ HONESTY RIBBON ═══════════ -->
-<div class="honesty-ribbon">
-  <span class="ribbon-icon" aria-hidden="true">◆</span>
-  <span class="ribbon-text" data-i18n="ribbon.text"></span>
-  <a href="#reality-check" class="ribbon-cta" data-i18n="ribbon.cta"></a>
-</div>
-
 <!-- ═══════════ NAVIGATION ═══════════ -->
 <nav class="nav" aria-label="Main">
   <a href="#top" class="nav-brand">
@@ -118,7 +111,6 @@
     <a href="#stores" data-i18n="nav.stores"></a>
     <a href="#reality-check" data-i18n="nav.reality"></a>
     <a href="#launch" data-i18n="nav.launch"></a>
-    <a href="#partners" data-i18n="nav.partners"></a>
     <a href="#contact" data-i18n="nav.contact"></a>
   </div>
 
@@ -148,7 +140,6 @@
       <a href="#architecture" class="btn-primary" data-i18n="hero.cta1"></a>
       <a href="#reality-check" class="btn-ghost" data-i18n="hero.cta2"></a>
     </div>
-    <div class="hero-scroll" aria-hidden="true">↓</div>
   </div>
 </header>
 
@@ -258,7 +249,6 @@
           <div class="layer-title" data-i18n="layers.l1.t"></div>
           <div class="layer-desc" data-i18n-html="layers.l1.d"></div>
         </div>
-        <div class="layer-share" dir="ltr">10%</div>
       </div>
       <div class="layer">
         <div class="layer-num" dir="ltr">02</div>
@@ -266,7 +256,6 @@
           <div class="layer-title" data-i18n="layers.l2.t"></div>
           <div class="layer-desc" data-i18n-html="layers.l2.d"></div>
         </div>
-        <div class="layer-share" dir="ltr">30%</div>
       </div>
       <div class="layer">
         <div class="layer-num" dir="ltr">03</div>
@@ -274,7 +263,6 @@
           <div class="layer-title" data-i18n="layers.l3.t"></div>
           <div class="layer-desc" data-i18n-html="layers.l3.d"></div>
         </div>
-        <div class="layer-share" dir="ltr">60%</div>
       </div>
     </div>
 
@@ -348,24 +336,24 @@
             <text x="247" y="360" text-anchor="middle" fill="#1F6DC1" font-size="11" font-weight="700" data-svg-i18n="svg.operate">Operate</text>
           </g>
 
-          <!-- ═══════════ CLICK 3 · Partners (bottom-left) ═══════════ -->
+          <!-- ═══════════ CLICK 3 · Partners (compact, close to ChemiCan + MIZAN) ═══════════ -->
           <g class="reveal reveal-3">
-            <text x="55" y="475" fill="#333" font-size="11" font-style="italic" data-svg-i18n="svg.potPartners">Potential Vendors/partners</text>
-            <text x="55" y="495" fill="#0F2C4D" font-size="13" font-weight="700">Landbell</text>
-            <text x="55" y="513" fill="#0F2C4D" font-size="13" font-weight="700">ERION</text>
-            <text x="55" y="531" fill="#0F2C4D" font-size="13" font-weight="700">WEEE Forum</text>
-            <!-- Dashed green line from partners to MIZAN PRO -->
-            <line x1="180" y1="500" x2="330" y2="415" stroke="#2E7D4F" stroke-width="2" stroke-dasharray="6,4"/>
+            <text x="55" y="405" fill="#333" font-size="11" font-style="italic" data-svg-i18n="svg.potPartners">Potential Vendors/partners</text>
+            <text x="55" y="425" fill="#0F2C4D" font-size="13" font-weight="700">Landbell</text>
+            <text x="55" y="443" fill="#0F2C4D" font-size="13" font-weight="700">ERION</text>
+            <text x="55" y="461" fill="#0F2C4D" font-size="13" font-weight="700">WEEE Forum</text>
+            <!-- Dashed green line from partners into MIZAN PRO edge -->
+            <line x1="195" y1="430" x2="305" y2="395" stroke="#2E7D4F" stroke-width="2" stroke-dasharray="6,4"/>
           </g>
 
-          <!-- ═══════════ CLICK 4 · Producers + Attract/Calculate obligation ═══════════ -->
+          <!-- ═══════════ CLICK 4 · Producers + Attract/Calculate (arrow inverted: MIZAN → Producers) ═══════════ -->
           <g class="reveal reveal-4">
             <rect x="1100" y="310" width="140" height="70" rx="4" fill="url(#nodeBlue)" stroke="#3D77A8" stroke-width="1"/>
             <text x="1170" y="352" text-anchor="middle" fill="#0F2C4D" font-size="15" font-weight="700" data-svg-i18n="svg.producers">Producers</text>
-            <!-- Attract green curve arrow, Producers → MIZAN PRO (long curve through bottom) -->
-            <path d="M 1100 380 Q 900 620 525 420" fill="none" stroke="#2E7D4F" stroke-width="3" marker-end="url(#a-green)"/>
-            <text x="720" y="580" text-anchor="middle" fill="#2E7D4F" font-size="12" font-weight="700" data-svg-i18n="svg.attractFull">Attract and calculate obligation</text>
-            <text x="720" y="600" text-anchor="middle" fill="#2E7D4F" font-size="10" font-style="italic" data-svg-i18n="svg.viaNafezaLong">(Declaration/ NAFEZA and e-INVOICING)</text>
+            <!-- Inverted attract arrow: MIZAN PRO → Producers, dips through bottom -->
+            <path d="M 525 425 Q 810 655 1095 385" fill="none" stroke="#2E7D4F" stroke-width="3" marker-end="url(#a-green)"/>
+            <text x="770" y="555" text-anchor="middle" fill="#2E7D4F" font-size="12" font-weight="700" data-svg-i18n="svg.attractFull">Attract and calculate obligation</text>
+            <text x="770" y="572" text-anchor="middle" fill="#2E7D4F" font-size="10" font-style="italic" data-svg-i18n="svg.viaNafezaLong">(Declaration/ NAFEZA and e-INVOICING)</text>
           </g>
 
           <!-- ═══════════ CLICK 5 · EPR Pay + e-Finance ═══════════ -->
@@ -428,10 +416,10 @@
             <text x="862" y="400" text-anchor="middle" fill="#1F6DC1" font-size="10" font-weight="700" data-svg-i18n="svg.payAuth">Payment Authorization</text>
           </g>
 
-          <!-- ═══════════ CLICK 12 · Pay % (top curve, e-Finance → Recyclers) ═══════════ -->
+          <!-- ═══════════ CLICK 12 · Pay % (from same start as first Pay%, e-Finance → MIZAN PRO) ═══════════ -->
           <g class="reveal reveal-12">
-            <path d="M 960 300 Q 800 30 200 75" fill="none" stroke="#6B4E9E" stroke-width="2.5" marker-end="url(#a-purple)"/>
-            <text x="560" y="45" text-anchor="middle" fill="#6B4E9E" font-size="12" font-weight="700">Pay %</text>
+            <path d="M 895 325 Q 700 140 525 320" fill="none" stroke="#6B4E9E" stroke-width="2.5" marker-end="url(#a-purple)"/>
+            <text x="700" y="155" text-anchor="middle" fill="#6B4E9E" font-size="12" font-weight="700">Pay %</text>
           </g>
 
           <!-- ═══════════ CLICK 13 · Pay % (middle curve, e-Finance → Producers or other) ═══════════ -->
@@ -440,12 +428,12 @@
             <text x="580" y="180" text-anchor="middle" fill="#6B4E9E" font-size="12" font-weight="700">Pay %</text>
           </g>
 
-          <!-- ═══════════ CLICK 14 · EPR Certificate + Carbon Credit ═══════════ -->
+          <!-- ═══════════ CLICK 14 · EPR Certificate + Carbon Credit (curved arrow, matches other arcs) ═══════════ -->
           <g class="reveal reveal-14">
-            <text x="1080" y="440" text-anchor="end" fill="#0F2C4D" font-size="11" font-weight="600" data-svg-i18n="svg.eprCertLine1">EPR Certificate / Discharge of Liability</text>
-            <text x="1080" y="458" text-anchor="end" fill="#0F2C4D" font-size="11" font-weight="600" data-svg-i18n="svg.eprCertLine2">Carbon Credit (Through GOEIC EVVU)</text>
-            <!-- Black arrow from MIZAN PRO to Producers (through center, straight line) -->
-            <line x1="525" y1="380" x2="1095" y2="380" stroke="#333" stroke-width="1.5" marker-end="url(#a-black)"/>
+            <!-- Curved black arrow from MIZAN PRO edge to Producers, arcing through mid-space -->
+            <path d="M 500 415 Q 780 500 1090 400" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#a-black)"/>
+            <text x="785" y="475" text-anchor="middle" fill="#0F2C4D" font-size="11" font-weight="600" data-svg-i18n="svg.eprCertLine1">EPR Certificate / Discharge of Liability</text>
+            <text x="785" y="491" text-anchor="middle" fill="#0F2C4D" font-size="11" font-weight="600" data-svg-i18n="svg.eprCertLine2">Carbon Credit (Through GOEIC EVVU)</text>
           </g>
         </svg>
       </div>
@@ -458,16 +446,21 @@
         <div class="narrative-body" id="narrativeBody"></div>
 
         <div class="narrative-controls">
-          <button class="ctrl-btn" id="prevBtn" data-i18n="arch.prev"></button>
+          <button class="ctrl-btn nav-arrow" id="prevBtn" aria-label="Previous">
+            <span class="arrow-glyph" aria-hidden="true">←</span>
+            <span data-i18n="arch.prev"></span>
+          </button>
           <button class="ctrl-btn ctrl-play" id="playBtn" data-i18n="arch.play"></button>
-          <button class="ctrl-btn" id="nextBtn" data-i18n="arch.next"></button>
+          <button class="ctrl-btn nav-arrow" id="nextBtn" aria-label="Next">
+            <span data-i18n="arch.next"></span>
+            <span class="arrow-glyph" aria-hidden="true">→</span>
+          </button>
           <button class="ctrl-btn ctrl-reset" id="resetBtn" data-i18n="arch.reset"></button>
         </div>
 
-        <div class="narrative-jump">
-          <div class="jump-label" data-i18n="arch.jump"></div>
-          <div class="jump-grid" id="jumpGrid"></div>
-        </div>
+        <!-- Timeline dot navigation — replaces the old jump grid.
+             Works as both progress indicator + jump target on desktop and mobile. -->
+        <div class="step-timeline" id="stepTimeline" role="tablist" aria-label="Architecture steps"></div>
       </div>
     </div>
 
@@ -578,17 +571,12 @@
     </div>
 
     <div class="event-gallery">
-      <figure class="event-photo event-hero">
-        <img src="/assets/event/hero.jpg" alt="Mohanad Elsayed delivering the MIZAN sponsor keynote — CEBC Roundtable, Four Seasons Cairo" loading="lazy" width="1400" height="796">
-        <figcaption data-i18n="launch.p0"></figcaption>
-      </figure>
-
       <div class="event-thumbs">
         <figure class="event-photo">
-          <a href="/assets/event/photo1.jpg" target="_blank" rel="noopener">
-            <img src="/assets/event/photo1-thumb.jpg" data-full="/assets/event/photo1.jpg" alt="Panel with Motaz Raslan speaking · CEBC roundtable" loading="lazy" width="600" height="399">
+          <a href="/assets/event/hero.jpg" target="_blank" rel="noopener">
+            <img src="/assets/event/hero.jpg" alt="Mohanad Elsayed delivering the MIZAN sponsor keynote — CEBC Roundtable, Four Seasons Cairo" loading="lazy" width="1400" height="796">
           </a>
-          <figcaption data-i18n="launch.p1"></figcaption>
+          <figcaption data-i18n="launch.p0"></figcaption>
         </figure>
         <figure class="event-photo">
           <a href="/assets/event/photo2.jpg" target="_blank" rel="noopener">
@@ -618,35 +606,97 @@
   </div>
 </section>
 
-<!-- ═══════════ MIZAN INDEX ═══════════ -->
-<section class="section section-purple">
+<!-- ═══════════ MIZAN INDEX · ANTI-MONOPOLY BY DESIGN ═══════════ -->
+<section class="section section-purple index-v2">
   <div class="section-inner">
     <div class="section-eyebrow gold" data-i18n="index.eyebrow"></div>
-    <h2 class="section-title white" data-i18n="index.title"></h2>
+    <h2 class="section-title white" data-i18n-html="index.title"></h2>
     <p class="section-lede white-70" data-i18n-html="index.lede"></p>
 
-    <div class="index-matrix">
-      <div class="matrix-axis">
-        <div class="axis-label" data-i18n="index.performance"></div>
-        <div class="axis-band band-excellent" data-i18n="index.band1"></div>
-        <div class="axis-band band-strong" data-i18n="index.band2"></div>
-        <div class="axis-band band-standard" data-i18n="index.band3"></div>
-        <div class="axis-band band-probation" data-i18n="index.band4"></div>
-        <div class="axis-band band-below" data-i18n="index.band5"></div>
+    <!-- ─── TWO BALANCES · animated equilibrium ─── -->
+    <div class="two-balances" aria-hidden="false">
+      <div class="balance balance-owe">
+        <div class="balance-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="52" height="52"><path d="M32 6v52M8 20h48M20 20l-8 22a10 10 0 0020 0zM44 20l-8 22a10 10 0 0020 0z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="balance-title" data-i18n-html="index.balances.oweTitle"></div>
+        <div class="balance-sub" data-i18n="index.balances.oweSub"></div>
+        <div class="balance-line" data-i18n="index.balances.oweLine"></div>
       </div>
-      <div class="matrix-axis">
-        <div class="axis-label" data-i18n="index.capability"></div>
-        <div class="tier-row"><span class="tier-badge">T1</span> <span data-i18n="index.t1"></span></div>
-        <div class="tier-row"><span class="tier-badge">T2</span> <span data-i18n="index.t2"></span></div>
-        <div class="tier-row"><span class="tier-badge">T3</span> <span data-i18n="index.t3"></span></div>
-        <div class="tier-row tier-highlight"><span class="tier-badge tier-gold">T4</span> <span data-i18n-html="index.t4"></span></div>
-        <div class="tier-row"><span class="tier-badge tier-gold">T5</span> <span data-i18n="index.t5"></span></div>
+
+      <div class="balance-fulcrum" aria-hidden="true">
+        <div class="fulcrum-dot"></div>
+        <div class="fulcrum-glyph">⚖</div>
+        <div class="fulcrum-dot"></div>
+      </div>
+
+      <div class="balance balance-earn">
+        <div class="balance-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="52" height="52"><path d="M32 6v52M8 20h48M20 20l-8 22a10 10 0 0020 0zM44 20l-8 22a10 10 0 0020 0z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="balance-title" data-i18n-html="index.balances.earnTitle"></div>
+        <div class="balance-sub" data-i18n="index.balances.earnSub"></div>
+        <div class="balance-line" data-i18n="index.balances.earnLine"></div>
       </div>
     </div>
 
-    <div class="parity-callout">
-      <div class="parity-title" data-i18n="index.parityTitle"></div>
-      <div class="parity-body" data-i18n-html="index.parityBody"></div>
+    <!-- ─── CAPABILITY × PERFORMANCE MATRIX (visual grid) ─── -->
+    <div class="matrix-block">
+      <div class="matrix-heading">
+        <div class="matrix-heading-title" data-i18n="index.matrixTitle"></div>
+        <div class="matrix-heading-sub" data-i18n="index.matrixSub"></div>
+      </div>
+
+      <div class="matrix-visual">
+        <div class="matrix-y-label" data-i18n="index.performance"></div>
+        <div class="matrix-grid" id="matrixGrid" aria-hidden="true"></div>
+        <div class="matrix-y-scale">
+          <span data-i18n="index.band1"></span>
+          <span data-i18n="index.band2"></span>
+          <span data-i18n="index.band3"></span>
+          <span data-i18n="index.band4"></span>
+          <span data-i18n="index.band5"></span>
+        </div>
+        <div class="matrix-x-scale">
+          <span><b>T1</b> <em data-i18n="index.t1"></em></span>
+          <span><b>T2</b> <em data-i18n="index.t2"></em></span>
+          <span><b>T3</b> <em data-i18n="index.t3"></em></span>
+          <span class="hi"><b>T4</b> <em data-i18n-html="index.t4"></em></span>
+          <span><b>T5</b> <em data-i18n="index.t5"></em></span>
+        </div>
+        <div class="matrix-x-label" data-i18n="index.capability"></div>
+      </div>
+    </div>
+
+    <!-- ─── THREE PILLARS · rotating card row ─── -->
+    <div class="pillars-block">
+      <div class="pillars-heading" data-i18n="index.pillarsTitle"></div>
+      <div class="pillar-grid">
+        <div class="pillar pillar-01">
+          <div class="pillar-num" data-i18n="index.p1.num"></div>
+          <div class="pillar-title" data-i18n="index.p1.title"></div>
+          <div class="pillar-body" data-i18n-html="index.p1.body"></div>
+          <div class="pillar-note" data-i18n-html="index.p1.note"></div>
+        </div>
+        <div class="pillar pillar-02">
+          <div class="pillar-num" data-i18n="index.p2.num"></div>
+          <div class="pillar-title" data-i18n="index.p2.title"></div>
+          <div class="pillar-body" data-i18n="index.p2.body"></div>
+          <ol class="pillar-steps" id="pillarSteps"></ol>
+        </div>
+        <div class="pillar pillar-03">
+          <div class="pillar-num" data-i18n="index.p3.num"></div>
+          <div class="pillar-title" data-i18n="index.p3.title"></div>
+          <div class="pillar-body" data-i18n-html="index.p3.body"></div>
+          <ul class="pillar-bullets" id="pillarBullets"></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── CLOSING KICKER ─── -->
+    <div class="index-closing">
+      <div class="index-closing-kicker" data-i18n="index.closingKicker"></div>
+      <div class="index-closing-line" data-i18n-html="index.closingLine"></div>
     </div>
   </div>
 </section>
@@ -697,19 +747,6 @@
   </div>
 </section>
 
-<!-- ═══════════ PARTNERS ═══════════ -->
-<section id="partners" class="section">
-  <div class="section-inner">
-    <div class="section-eyebrow" data-i18n="partners.eyebrow"></div>
-    <h2 class="section-title" data-i18n="partners.title"></h2>
-    <p class="section-lede" data-i18n-html="partners.lede"></p>
-
-    <div class="partner-grid" id="partnerGrid"></div>
-
-    <p class="partner-note" data-i18n="partners.note"></p>
-  </div>
-</section>
-
 <!-- ═══════════ TEAM ═══════════ -->
 <section class="section section-cream">
   <div class="section-inner">
@@ -718,25 +755,25 @@
 
     <div class="team-grid">
       <div class="team-card">
-        <div class="team-avatar">[PHOTO]</div>
+        <div class="team-avatar"><img src="/assets/team/mohamed.jpg" alt="Mohamed Elsayed" loading="lazy" width="220" height="220"></div>
         <div class="team-name" data-i18n="team.t1.n"></div>
         <div class="team-role" data-i18n="team.t1.r"></div>
         <div class="team-place" dir="ltr">🇨🇦 Calgary, Canada</div>
       </div>
       <div class="team-card">
-        <div class="team-avatar">[PHOTO]</div>
+        <div class="team-avatar"><img src="/assets/team/mohanad.png" alt="Mohanad Elsayed" loading="lazy" width="220" height="220"></div>
         <div class="team-name" data-i18n="team.t2.n"></div>
         <div class="team-role" data-i18n="team.t2.r"></div>
         <div class="team-place" dir="ltr">🇪🇬 Cairo, Egypt</div>
       </div>
       <div class="team-card">
-        <div class="team-avatar">[PHOTO]</div>
+        <div class="team-avatar"><img src="/assets/team/essam.jpg" alt="Essam Hashem" loading="lazy" width="220" height="220"></div>
         <div class="team-name" data-i18n="team.t3.n"></div>
         <div class="team-role" data-i18n="team.t3.r"></div>
         <div class="team-place" data-i18n="team.t3.p"></div>
       </div>
       <div class="team-card">
-        <div class="team-avatar">[PHOTO]</div>
+        <div class="team-avatar"><img src="/assets/team/ibrahim.jpg" alt="Ibrahim Farouk" loading="lazy" width="220" height="220"></div>
         <div class="team-name" data-i18n="team.t4.n"></div>
         <div class="team-role" data-i18n="team.t4.r"></div>
         <div class="team-place" dir="ltr">🇳🇱 Rotterdam</div>
@@ -792,13 +829,6 @@
       <div class="footer-honesty-title" data-i18n="footer.honestyTitle"></div>
       <p data-i18n-html="footer.honesty1"></p>
       <p data-i18n-html="footer.honesty2"></p>
-    </div>
-
-    <div class="footer-eco">
-      <div class="eco-badge">
-        <span class="eco-mark" dir="ltr">.eco</span>
-        <span class="eco-text" data-i18n="footer.eco"></span>
-      </div>
     </div>
 
     <div class="footer-meta">

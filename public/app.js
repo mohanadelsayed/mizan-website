@@ -24,10 +24,12 @@
   const nextBtn = el('nextBtn');
   const playBtn = el('playBtn');
   const resetBtn = el('resetBtn');
-  const jumpGrid = el('jumpGrid');
+  const stepTimeline = el('stepTimeline');
   const realList = el('realList');
   const propList = el('propList');
-  const partnerGrid = el('partnerGrid');
+  const matrixGrid = el('matrixGrid');
+  const pillarSteps = el('pillarSteps');
+  const pillarBullets = el('pillarBullets');
 
   // ═══════════ I18N HELPERS ═══════════
   function get(path, obj = I18N[lang]) {
@@ -64,20 +66,23 @@
       node.innerHTML = get(key);
     });
 
-    // SVG text nodes
+    // SVG text nodes — accept either "svg.foo" or plain "foo" key form.
     document.querySelectorAll('[data-svg-i18n]').forEach(node => {
-      const key = node.getAttribute('data-svg-i18n');
-      node.textContent = SVG_I18N[lang][key] || node.textContent;
+      const raw = node.getAttribute('data-svg-i18n');
+      const key = raw.replace(/^svg\./, '');
+      const val = SVG_I18N[lang] && SVG_I18N[lang][key];
+      if (val) node.textContent = val;
     });
 
     // Reality lists
     buildRealityLists();
 
-    // Partner grid
-    buildPartnerGrid();
+    // MIZAN INDEX — matrix + pillars (lang-dependent text)
+    buildMatrixGrid();
+    buildPillarLists();
 
-    // Jump grid labels (numbers stay LTR, but rebuild for good measure)
-    if (jumpGrid.children.length === 0) buildJumpGrid();
+    // Step timeline (built once, but re-render state)
+    if (stepTimeline && stepTimeline.children.length === 0) buildStepTimeline();
 
     // Update current click narrative
     renderClick(currentClick);
@@ -110,19 +115,57 @@
     });
   }
 
-  // ═══════════ PARTNERS ═══════════
-  function buildPartnerGrid() {
-    partnerGrid.innerHTML = '';
-    const roles = I18N[lang].partners.roles;
-    PARTNER_LOGOS.forEach((name, i) => {
-      const tile = document.createElement('div');
-      tile.className = 'partner-tile';
-      tile.innerHTML = `
-        <div class="partner-logo-placeholder">[${name}]</div>
-        <div class="partner-role">${roles[i] || ''}</div>
-      `;
-      partnerGrid.appendChild(tile);
-    });
+  // ═══════════ MIZAN INDEX · matrix + pillars ═══════════
+  // Matrix cell class per (row=performance, col=capability-tier)
+  // Row 0 = 100+ Excellence  ·  Row 4 = <50 Below Threshold
+  // Col 0 = T1 Collection    ·  Col 4 = T5 Hazardous + PoP
+  const MATRIX_MAP = [
+    // row 0 (Excellence)
+    ['tier-strong','tier-strong','tier-excellent','tier-excellent','tier-excellent'],
+    // row 1 (Strong)
+    ['tier-strong','tier-strong','tier-strong','tier-excellent','tier-excellent'],
+    // row 2 (Standard)
+    ['tier-standard','tier-standard','tier-standard','tier-strong','tier-strong'],
+    // row 3 (Probation)
+    ['tier-probation','tier-probation','tier-probation','tier-probation','tier-probation'],
+    // row 4 (Below Threshold)
+    ['tier-below','tier-below','tier-below','tier-below','tier-below'],
+  ];
+  // Highlight cell — T4 × Excellence (REMIT)
+  const HERO_CELL = { row: 0, col: 3 };
+
+  function buildMatrixGrid() {
+    if (!matrixGrid) return;
+    matrixGrid.innerHTML = '';
+    for (let r = 0; r < 5; r++) {
+      for (let c = 0; c < 5; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'matrix-cell ' + MATRIX_MAP[r][c];
+        if (r === HERO_CELL.row && c === HERO_CELL.col) cell.classList.add('hero-cell');
+        matrixGrid.appendChild(cell);
+      }
+    }
+  }
+
+  function buildPillarLists() {
+    if (pillarSteps) {
+      pillarSteps.innerHTML = '';
+      const steps = (I18N[lang].index.p2 && I18N[lang].index.p2.steps) || [];
+      steps.forEach(txt => {
+        const li = document.createElement('li');
+        li.textContent = txt;
+        pillarSteps.appendChild(li);
+      });
+    }
+    if (pillarBullets) {
+      pillarBullets.innerHTML = '';
+      const bullets = (I18N[lang].index.p3 && I18N[lang].index.p3.bullets) || [];
+      bullets.forEach(txt => {
+        const li = document.createElement('li');
+        li.textContent = txt;
+        pillarBullets.appendChild(li);
+      });
+    }
   }
 
   // ═══════════ CLICK STATE MACHINE ═══════════
@@ -160,12 +203,20 @@
     prevBtn.disabled = currentClick === 0;
     nextBtn.disabled = currentClick === 14;
 
-    // Jump grid state
-    jumpGrid.querySelectorAll('.jump-btn').forEach((btn, i) => {
-      btn.classList.remove('done', 'current');
-      if (i < currentClick) btn.classList.add('done');
-      if (i === currentClick) btn.classList.add('current');
-    });
+    // Step timeline state
+    if (stepTimeline) {
+      stepTimeline.querySelectorAll('.step-dot').forEach((btn, i) => {
+        btn.classList.remove('done', 'current');
+        if (i < currentClick) btn.classList.add('done');
+        if (i === currentClick) btn.classList.add('current');
+      });
+      // Scroll the current dot into view so mobile users can see progress
+      const curDot = stepTimeline.querySelector('.step-dot.current');
+      if (curDot && stepTimeline.scrollWidth > stepTimeline.clientWidth) {
+        const inline = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+        curDot.scrollIntoView({ behavior: inline, block: 'nearest', inline: 'center' });
+      }
+    }
   }
 
   function nextClick() { if (currentClick < 14) renderClick(currentClick + 1); }
@@ -191,16 +242,18 @@
 
   function togglePlay() { playInterval ? stopPlay() : startPlay(); }
 
-  function buildJumpGrid() {
-    jumpGrid.innerHTML = '';
+  function buildStepTimeline() {
+    if (!stepTimeline) return;
+    stepTimeline.innerHTML = '';
     for (let i = 0; i <= 14; i++) {
       const b = document.createElement('button');
-      b.className = 'jump-btn';
+      b.className = 'step-dot';
       b.type = 'button';
       b.textContent = String(i).padStart(2, '0');
-      b.setAttribute('aria-label', `Jump to click ${i}`);
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-label', `Step ${i}`);
       b.addEventListener('click', () => { stopPlay(); renderClick(i); });
-      jumpGrid.appendChild(b);
+      stepTimeline.appendChild(b);
     }
   }
 
@@ -274,7 +327,7 @@
          : 'ar';
 
     // Build dynamic content
-    buildJumpGrid();
+    buildStepTimeline();
     applyI18n();
     renderClick(0);
 
