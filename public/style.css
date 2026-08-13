@@ -876,6 +876,29 @@ html[dir="rtl"] .narrative-body { border-left: none; border-right: 3px solid var
   transform: scale(1.05);
   box-shadow: 0 3px 12px rgba(200,169,81,0.5);
 }
+/* Launch-simulation CTA sitting right under the step timeline —
+   invites the user into the live sim from within the arch walkthrough. */
+.step-launch-btn {
+  display: block;
+  margin-top: 14px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+  box-shadow: 0 4px 14px rgba(200,169,81,0.3);
+}
+.step-launch-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 8px 22px rgba(200,169,81,0.45);
+}
+
 .nav-arrow { display: inline-flex; align-items: center; gap: 6px; }
 .arrow-glyph { font-family: var(--font-mono); font-weight: 700; }
 html[dir="rtl"] .nav-arrow .arrow-glyph:first-child { transform: scaleX(-1); }

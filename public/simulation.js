@@ -125,18 +125,26 @@ const world = {
 };
 
 // ═══════════ SIM CLOCK ═══════════
+// Displays only the sim-hour (minutes suppressed) — feels calmer than a constantly-flickering minute counter.
 function formatSimTime() {
   const totalMin = world.simMinutes;
   const day = Math.floor(totalMin / (60 * 24)) + 1;
   const hour = Math.floor((totalMin % (60 * 24)) / 60);
-  const min = Math.floor(totalMin % 60);
   const label = uiLang === 'ar' ? 'يوم' : 'Day';
-  return `Q1 · ${label} ${String(day).padStart(2, '0')} · ${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
+  return `Q1 · ${label} ${String(day).padStart(2, '0')} · ${String(hour).padStart(2, '0')}:00`;
 }
 
 // ═══════════ I18N ═══════════
 function get(path) {
   return path.split('.').reduce((o, k) => (o ? o[k] : ''), I18N[uiLang]) ?? '';
+}
+// Info-tooltip helper — returns a small ⓘ chip HTML that shows the glossary entry on hover.
+function info(termKey, edge) {
+  const tip = get('sim.glossary.' + termKey) || '';
+  const aria = get('sim.infoAria') || 'info';
+  const cls = edge ? ' ' + edge : '';
+  const safeTip = tip.replace(/"/g, '&quot;');
+  return `<span class="sim-info${cls}" data-tip="${safeTip}" role="button" tabindex="0" aria-label="${aria}"></span>`;
 }
 function applyI18n() {
   html.setAttribute('lang', uiLang);
@@ -172,8 +180,11 @@ let renderRaf = null;
 let lastStateTs = 0;
 let lastRenderTs = 0;
 
-// One "state tick" = 30 sim-minutes at speed 1× = 500ms real
-const BASE_TICK_MS = 500;
+// One "state tick" = 20 sim-minutes at speed 1× = 1000ms real
+// (was 500ms · 30min — too fast; user found it dizzying).
+// New rhythm: 1 tick / sec, 72 ticks / sim-day = ~72 sec per day at 1× · calm & readable.
+const BASE_TICK_MS = 1000;
+const SIM_MIN_PER_TICK = 20;
 
 function stateTick() {
   const now = performance.now();
@@ -197,13 +208,15 @@ function stateTick() {
 
 function advanceWorld() {
   world.tick++;
-  world.simMinutes += 30; // 30 sim-minutes per tick
+  world.simMinutes += SIM_MIN_PER_TICK;
 
   const rng = world.rng;
 
-  // Every tick, generate proportional volume of new events
-  const baseKg = D.NATIONAL_BASELINE.annual_tonnes * 1000 / (365 * 48); // kg per tick per 100% coverage
-  const rampUp = Math.min(1, 0.15 + world.tick / 200); // volume ramps over first few sim days
+  // National throughput this tick — calibrated from POM 2022 CAPMAS baseline in sim-data.
+  // Ticks per sim-day = (24*60) / SIM_MIN_PER_TICK = 72 ticks/day.
+  const ticksPerDay = (24 * 60) / SIM_MIN_PER_TICK;
+  const baseKg = D.NATIONAL_BASELINE.annual_tonnes * 1000 / (365 * ticksPerDay);
+  const rampUp = Math.min(1, 0.15 + world.tick / 220);
   const nationalKgThisTick = baseKg * rampUp * D.NATIONAL_BASELINE.ict_phase1_share;
 
   world.cumulativeTonnes += nationalKgThisTick / 1000;
@@ -211,14 +224,18 @@ function advanceWorld() {
   if (world.simMinutes % (60 * 24) === 0) world.tonnesToday = 0; // reset daily
 
   // ── New import declarations (producer feed)
+  // Per calculator model: fee is per-UNIT, not per-kg. Only compliance-rate share is fee-paying.
+  // Compliance ramp: 2027 starts at 10%. Applied here as a floor · scales with sim ramp.
   if (world.tick % 2 === 0) {
     const producer = D.pickWeighted(rng, D.PRODUCERS, D.PRODUCERS.map(p => p.share));
     const device = D.pick(rng, D.DEVICES);
     const units = Math.floor(D.between(rng, 40, 800));
     const kg = units * device.avg_kg;
-    const fee_egp = kg * device.fee_egp_per_kg;
+    const complianceRate = D.COMPLIANCE_RAMP[2027] / 100; // 10% year one
+    const compliantUnits = units * complianceRate;
+    const fee_egp = compliantUnits * device.fee_egp;
     const gov = D.pickWeighted(rng, D.GOVERNORATES, D.GOVERNORATES.map(g => g.weight));
-    const imp = { id: `IMP-${world.tick}`, producer, device, units, kg, fee_egp, gov, ts: world.simMinutes };
+    const imp = { id: `IMP-${String(world.tick).padStart(4, '0')}`, producer, device, units, kg, fee_egp, gov, ts: world.simMinutes };
     world.imports.unshift(imp);
     if (world.imports.length > 30) world.imports.pop();
     world.obligationsCalculated++;
@@ -290,18 +307,20 @@ function advanceWorld() {
     world.verificationsPending = Math.max(0, world.verificationsPending - 1);
     world.verificationsDone++;
     world.wmra.approvedToday++;
-    const release = p.kg * 55; // approx per-kg escrow release
+    // Release amount is the escrowed fee proportional to this batch's kg (approx per-kg fee cover).
+    const release = p.kg * 55;
     world.escrowReleased += release;
     world.escrowHeld = Math.max(0, world.escrowHeld - release);
-    world.wmra.statutory5pct += release * D.SPLIT_PROPOSED.wmra;
-    world.board.quarterlyFinancial.wmra += release * D.SPLIT_PROPOSED.wmra;
-    world.board.quarterlyFinancial.consortium += release * D.SPLIT_PROPOSED.consortium;
-    world.board.quarterlyFinancial.ops += release * D.SPLIT_PROPOSED.operations;
-    world.board.quarterlyFinancial.collectors += release * D.SPLIT_PROPOSED.collectors;
-    world.board.quarterlyFinancial.refiners += release * D.SPLIT_PROPOSED.refiners;
-    if (p.refiner.name_en === world.refiner.id) world.refiner.revenueEscrow += release * D.SPLIT_PROPOSED.refiners;
-    // Some of the collector share is Dr.WEEE
-    if (Math.random() < 0.3) world.collector.weeklyEarnings += release * D.SPLIT_PROPOSED.collectors;
+    // Per calculator baseline (line 1357): 5% WMRA · 5% ECO-FEI · 30% Mizan Ops · 30% Collectors · 30% Refiners.
+    const SPL = D.SPLIT_CALCULATOR;
+    world.wmra.statutory5pct += release * SPL.wmra;
+    world.board.quarterlyFinancial.wmra += release * SPL.wmra;
+    world.board.quarterlyFinancial.consortium += release * SPL.ecofei;
+    world.board.quarterlyFinancial.ops += release * SPL.mizan;
+    world.board.quarterlyFinancial.collectors += release * SPL.collectors;
+    world.board.quarterlyFinancial.refiners += release * SPL.refiners;
+    if (p.refiner.name_en === world.refiner.id) world.refiner.revenueEscrow += release * SPL.refiners;
+    if (Math.random() < 0.3) world.collector.weeklyEarnings += release * SPL.collectors;
     bus.emit('verify:done', p);
   }
 
@@ -333,6 +352,9 @@ function advanceWorld() {
     bus.emit('board:approval', null);
   }
 
+  // ── Advance the end-to-end story tracker
+  advanceE2E();
+
   // ── Tick global
   bus.emit('tick', { tick: world.tick, simMinutes: world.simMinutes });
 }
@@ -357,10 +379,14 @@ function generateWorkOrder(rng) {
 }
 
 // ═══════════ RENDER LOOP (rAF, interpolated) ═══════════
+let lastClockValue = '';
 function renderTick() {
-  // Update clock
+  // Update clock only when the displayed value would change — avoids constant flicker.
   const cv = $('simClockValue');
-  if (cv) cv.textContent = formatSimTime();
+  if (cv) {
+    const now = formatSimTime();
+    if (now !== lastClockValue) { cv.textContent = now; lastClockValue = now; }
+  }
 
   // Update hero + pulse tickers via animation
   updateNumberEl('heroTonnes', world.tonnesToday, 1);
@@ -387,6 +413,14 @@ function renderTick() {
   // Update national tickers if act 3 visible
   if (curAct === 3) updateNationalTickers();
 
+  // Story ribbons + escrow + pulse — cheap enough to run every frame; ticker-style animation reads calm now.
+  if (curAct === 1) renderE2EStory('storyE2ETrack', 'storyFollowing');
+  if (curAct === 2) {
+    renderE2EStory('storyRibbonTrack', 'storyRibbonWhat', { compact: true });
+    renderEscrowRibbon();
+    if (world.tick % 2 === 0) renderPulseEvents();
+  }
+
   renderRaf = requestAnimationFrame(renderTick);
 }
 function updateNumberEl(id, target, decimals = 0) {
@@ -411,6 +445,70 @@ function stopEngine() {
   if (stateTimer) clearTimeout(stateTimer);
   if (renderRaf) cancelAnimationFrame(renderRaf);
   renderRaf = null;
+}
+
+// ═══════════ E2E STORY (single transaction lifecycle) ═══════════
+// Runs one transaction through all 10 steps end-to-end, then rotates to the next transaction.
+// Visible on Act 1 (landing) as the "life of a single transaction" ribbon,
+// and on Act 2 (any persona dashboard) as a compact story ribbon.
+const E2E_TOTAL_STEPS = 10;
+const E2E_TICKS_PER_STEP = 3;
+world.e2e = { step: 0, subject: null, subjectTick: 0 };
+function seedE2ESubject() {
+  const p = D.pickWeighted(world.rng, D.PRODUCERS, D.PRODUCERS.map(x => x.share));
+  const d = D.pick(world.rng, D.DEVICES);
+  const units = Math.floor(D.between(world.rng, 100, 500));
+  world.e2e.subject = { producer: p, device: d, units, id: `TX-${String(world.tick).padStart(4, '0')}`, kg: units * d.avg_kg, fee: units * (D.COMPLIANCE_RAMP[2027] / 100) * d.fee_egp };
+  world.e2e.step = 0;
+  world.e2e.subjectTick = world.tick;
+}
+function advanceE2E() {
+  if (!world.e2e.subject) seedE2ESubject();
+  if (world.tick - world.e2e.subjectTick >= E2E_TICKS_PER_STEP) {
+    world.e2e.step++;
+    world.e2e.subjectTick = world.tick;
+    if (world.e2e.step >= E2E_TOTAL_STEPS) seedE2ESubject();
+    else bus.emit('e2e:step', world.e2e);
+  }
+}
+
+// Render E2E story ribbon into a given root element
+function renderE2EStory(rootId, subjectRootId, opts = {}) {
+  const track = $(rootId);
+  const subj = $(subjectRootId);
+  if (!track) return;
+  const steps = I18N[uiLang].sim.narrative.steps;
+  track.innerHTML = '';
+  steps.forEach((step, i) => {
+    const el = document.createElement('div');
+    el.className = 'sim-e2e-step' + (opts.compact ? ' small' : '') + (i < world.e2e.step ? ' done' : i === world.e2e.step ? ' current' : '');
+    el.innerHTML = `<span class="sim-e2e-num">${String(i + 1).padStart(2, '0')}</span><span>${step[uiLang]}</span>`;
+    track.appendChild(el);
+  });
+  if (subj && world.e2e.subject) {
+    const s = world.e2e.subject;
+    const label = uiLang === 'ar' ? 'تتبّع الآن' : 'Now following';
+    subj.innerHTML = `${label}: <b>${s.units} × ${uiLang === 'ar' ? s.device.name_ar : s.device.name_en}</b> · ${uiLang === 'ar' ? s.producer.name_ar : s.producer.name_en} · ${s.id}`;
+  }
+}
+
+// ═══════════ ESCROW RIBBON ═══════════
+function renderEscrowRibbon() {
+  const held = $('escrowHeld');
+  const inEl = $('escrowIn');
+  const outEl = $('escrowOut');
+  if (held) held.textContent = fmt(world.escrowHeld, { maximumFractionDigits: 0 });
+  if (inEl) inEl.textContent = fmt(world.escrowHeld + world.escrowReleased, { maximumFractionDigits: 0 });
+  if (outEl) outEl.textContent = fmt(world.escrowReleased, { maximumFractionDigits: 0 });
+  // Add tooltips once
+  const title = document.querySelector('.sim-escrow-title');
+  if (title && !title.querySelector('.sim-info')) {
+    title.insertAdjacentHTML('beforeend', info('escrow'));
+  }
+  ['inLabel', 'outLabel', 'held'].forEach((key, i) => {
+    const lblKey = i === 2 ? '.sim-escrow-vault-lbl' : null;
+    // no-op — kept simple; escrow ribbon labels themselves are self-explaining
+  });
 }
 
 // ═══════════ ACT NAVIGATION ═══════════
@@ -473,17 +571,30 @@ function enterPersona(id) {
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
+// Map tab keys → glossary term for the ⓘ icon shown next to each tab.
+const TAB_GLOSSARY = {
+  producer:  { obligation: 'obligation', credit: 'complianceCredit', escrow: 'escrow', certs: 'ver', cbam: 'cbam', quarterly: 'obligation' },
+  citizen:   { nearest: 'chainOfCustody', value: 'complianceCredit', points: 'flowA', history: 'chainOfCustody', impact: 'ver', learn: 'epr' },
+  collector: { queue: 'workOrder', route: 'chainOfCustody', scanner: 'chainOfCustody', manifest: 'proofOfTreatment', earnings: 'splitProposed', score: 'mizanIndex' },
+  refiner:   { incoming: 'workOrder', index: 'mizanIndex', treatment: 'weeelabex', metals: 'recoveredValue', revenue: 'splitProposed', weeelabex: 'weeelabex' },
+  wmra:      { verify: 'proofOfTreatment', audit: 'chainOfCustody', kpis: 'compliancePct', heatmap: 'mizanIndex', share: 'wmraShare', report: 'compliancePct' },
+  board:     { approvals: 'workOrder', transparency: 'mizanIndex', registry: 'pom', financial: 'splitProposed', weeeforum: 'weeeForumMember', auditor: 'chainOfCustody' },
+};
+
 function buildTabs(persona) {
   const tabsRoot = $('dashTabs');
   const labels = I18N[uiLang].sim[persona].tabs;
   const order = Object.keys(labels);
+  const glossMap = TAB_GLOSSARY[persona] || {};
   tabsRoot.innerHTML = '';
   order.forEach((key, i) => {
     const b = document.createElement('button');
     b.className = 'sim-dash-tab' + (i === curTab ? ' active' : '');
     b.dataset.tab = i;
     b.dataset.tabKey = key;
-    b.innerHTML = `<span class="sim-dash-tab-num">${String(i + 1).padStart(2, '0')}</span><span>${labels[key]}</span>`;
+    const glossKey = glossMap[key];
+    const infoHtml = glossKey ? info(glossKey, 'right') : '';
+    b.innerHTML = `<span class="sim-dash-tab-num">${String(i + 1).padStart(2, '0')}</span><span>${labels[key]}</span>${infoHtml}`;
     b.addEventListener('click', () => { curTab = i; renderTab(persona, i); highlightTab(i); highlightStory(i); });
     tabsRoot.appendChild(b);
   });
@@ -500,15 +611,70 @@ function buildStoryTrack(persona) {
     const s = document.createElement('div');
     s.className = 'sim-story-step' + (i === curTab ? ' current' : (i < curTab ? ' done' : ''));
     s.innerHTML = `<span class="sim-story-num">${String(i + 1).padStart(2, '0')}</span><span>${label}</span>`;
-    s.addEventListener('click', () => { curTab = i; renderTab(persona, i); highlightTab(i); highlightStory(i); });
+    s.addEventListener('click', () => { curTab = i; renderTab(persona, i); highlightTab(i); highlightStory(i); renderStoryDetail(persona, i); });
     track.appendChild(s);
   });
+  renderStoryDetail(persona, curTab);
 }
 function highlightStory(idx) {
   document.querySelectorAll('.sim-story-step').forEach((s, i) => {
     s.classList.remove('current', 'done');
     if (i < idx) s.classList.add('done');
     if (i === idx) s.classList.add('current');
+  });
+  if (curPersona) renderStoryDetail(curPersona, idx);
+}
+
+// Deep story detail card — shows the full explanation for the current step.
+// Includes: who acts, what happens, how, and a live example.
+function renderStoryDetail(persona, idx) {
+  const root = $('storyDetail');
+  if (!root) return;
+  const deep = (I18N[uiLang].sim.storyDeep || {})[persona];
+  if (!deep || !deep[idx]) { root.innerHTML = ''; return; }
+  const step = deep[idx];
+  const num = String(idx + 1).padStart(2, '0');
+  const totalSteps = deep.length;
+  const labels = uiLang === 'ar'
+    ? { step: 'الخطوة', of: 'من', actor: 'الفاعل', what: 'ما يحدث', how: 'كيف', example: 'مثال حيّ', prev: '← السابق', next: 'التالي →' }
+    : { step: 'Step', of: 'of', actor: 'Actor', what: 'What happens', how: 'How', example: 'Live example', prev: '← Prev', next: 'Next →' };
+  root.innerHTML = `
+    <div class="sim-story-detail-head">
+      <div class="sim-story-detail-num"><span class="lbl">${labels.step}</span><span class="num">${num}</span><span class="of">${labels.of} ${String(totalSteps).padStart(2, '0')}</span></div>
+      <h3 class="sim-story-detail-title">${step.title}</h3>
+    </div>
+    <div class="sim-story-detail-body">
+      <div class="sim-story-detail-row">
+        <div class="sim-story-detail-lbl">◆ ${labels.actor}</div>
+        <div class="sim-story-detail-txt sim-story-detail-actor">${step.who}</div>
+      </div>
+      <div class="sim-story-detail-row">
+        <div class="sim-story-detail-lbl">◆ ${labels.what}</div>
+        <div class="sim-story-detail-txt">${step.what}</div>
+      </div>
+      <div class="sim-story-detail-row">
+        <div class="sim-story-detail-lbl">◆ ${labels.how}</div>
+        <div class="sim-story-detail-txt sim-story-detail-how">${step.how}</div>
+      </div>
+      <div class="sim-story-detail-example">
+        <span class="sim-story-detail-lbl">◆ ${labels.example}</span>
+        <span class="sim-story-detail-txt">${step.example}</span>
+      </div>
+    </div>
+    <div class="sim-story-detail-nav">
+      <button class="sim-story-detail-btn" ${idx === 0 ? 'disabled' : ''} data-dir="prev">${labels.prev}</button>
+      <button class="sim-story-detail-btn primary" ${idx === totalSteps - 1 ? 'disabled' : ''} data-dir="next">${labels.next}</button>
+    </div>
+  `;
+  root.querySelectorAll('.sim-story-detail-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const dir = b.dataset.dir;
+      const next = dir === 'next' ? Math.min(totalSteps - 1, curTab + 1) : Math.max(0, curTab - 1);
+      curTab = next;
+      renderTab(persona, next);
+      highlightTab(next);
+      highlightStory(next);
+    });
   });
 }
 
@@ -540,11 +706,12 @@ function makeHint(text) {
   el.textContent = text;
   return el;
 }
-function makeMetric(label, value, sub) {
+function makeMetric(label, value, sub, glossaryKey) {
   const el = document.createElement('div');
   el.className = 'sim-metric';
+  const infoHtml = glossaryKey ? info(glossaryKey) : '';
   el.innerHTML = `
-    <div class="sim-metric-label">${label}</div>
+    <div class="sim-metric-label">${label}${infoHtml}</div>
     <div class="sim-metric-value">${value}</div>
     ${sub ? `<div class="sim-metric-sub">${sub}</div>` : ''}
   `;
@@ -580,9 +747,9 @@ const TAB_RENDERERS = {
     obligation(root, t) {
       root.appendChild(makeHint(t.liveHint || ''));
       root.appendChild(makeMetricRow([
-        makeMetric(t.declared, fmt(world.producer.shipments)),
-        makeMetric(t.weight, fmtKg(world.producer.obligation_kg) + ' kg'),
-        makeMetric(t.due, fmtEgp(world.producer.fee_egp) + ' EGP'),
+        makeMetric(t.declared, fmt(world.producer.shipments), null, 'nafeza'),
+        makeMetric(t.weight, fmtKg(world.producer.obligation_kg) + ' kg', null, 'pom'),
+        makeMetric(t.due, fmtEgp(world.producer.fee_egp) + ' EGP', null, 'obligation'),
       ]));
       const feedTitle = document.createElement('div');
       feedTitle.className = 'sim-tab-hint';
@@ -598,9 +765,9 @@ const TAB_RENDERERS = {
     credit(root, t) {
       const net = Math.max(0, world.producer.flowB_paid - world.producer.flowA_credit);
       root.appendChild(makeMetricRow([
-        makeMetric(t.flowB, fmtEgp(world.producer.flowB_paid) + ' EGP'),
-        makeMetric(t.flowA, fmtEgp(world.producer.flowA_credit) + ' EGP'),
-        makeMetric(t.net, fmtEgp(net) + ' EGP'),
+        makeMetric(t.flowB, fmtEgp(world.producer.flowB_paid) + ' EGP', null, 'flowB'),
+        makeMetric(t.flowA, fmtEgp(world.producer.flowA_credit) + ' EGP', null, 'flowA'),
+        makeMetric(t.net, fmtEgp(net) + ' EGP', null, 'complianceCredit'),
       ]));
       const hint = document.createElement('div');
       hint.className = 'sim-tab-hint';
@@ -629,8 +796,8 @@ const TAB_RENDERERS = {
     },
     certs(root, t) {
       root.appendChild(makeMetricRow([
-        makeMetric(t.epr, fmt(world.producer.certs.length)),
-        makeMetric(t.carbon, fmt(world.producer.certs.length)),
+        makeMetric(t.epr, fmt(world.producer.certs.length), null, 'complianceCredit'),
+        makeMetric(t.carbon, fmt(world.producer.certs.length), null, 'ver'),
       ]));
       const feed = makeFeed('certFeed');
       root.appendChild(feed);
@@ -641,8 +808,8 @@ const TAB_RENDERERS = {
     },
     cbam(root, t) {
       root.appendChild(makeMetricRow([
-        makeMetric(t.coverage, fmt(Math.min(100, world.cbamCovers * 12)) + '%'),
-        makeMetric(t.shipments, fmt(world.cbamCovers)),
+        makeMetric(t.coverage, fmt(Math.min(100, world.cbamCovers * 12)) + '%', null, 'cbam'),
+        makeMetric(t.shipments, fmt(world.cbamCovers), null, 'cbam'),
       ]));
       const btn = document.createElement('button');
       btn.className = 'sim-btn sim-btn-ghost';
@@ -1003,14 +1170,15 @@ const TAB_RENDERERS = {
       root.appendChild(makeHint(t.proposed));
       const f = world.board.quarterlyFinancial;
       const total = f.wmra + f.consortium + f.ops + f.collectors + f.refiners;
+      // Split labels match the Mizan_EPR_Calculator default (line 1357): 5% / 5% / 30% / 30% / 30%.
       root.appendChild(makeMetricRow([
-        makeMetric(t.wmra + ' · 5%', fmtEgp(f.wmra) + ' EGP'),
-        makeMetric(t.consortium + ' · 15%', fmtEgp(f.consortium) + ' EGP'),
-        makeMetric(t.operations + ' · 15%', fmtEgp(f.ops) + ' EGP'),
-        makeMetric(t.collectors + ' · 35%', fmtEgp(f.collectors) + ' EGP'),
-        makeMetric(t.refiners + ' · 30%', fmtEgp(f.refiners) + ' EGP'),
+        makeMetric(t.wmra + ' · 5%', fmtEgp(f.wmra) + ' EGP', null, 'wmraShare'),
+        makeMetric(t.consortium + ' · 5%', fmtEgp(f.consortium) + ' EGP', null, 'splitProposed'),
+        makeMetric(t.operations + ' · 30%', fmtEgp(f.ops) + ' EGP', null, 'splitProposed'),
+        makeMetric(t.collectors + ' · 30%', fmtEgp(f.collectors) + ' EGP', null, 'splitProposed'),
+        makeMetric(t.refiners + ' · 30%', fmtEgp(f.refiners) + ' EGP', null, 'splitProposed'),
       ]));
-      const totalMetric = makeMetric(uiLang === 'ar' ? 'الإجمالي المُصرَف' : 'Total released', fmtEgp(total) + ' EGP');
+      const totalMetric = makeMetric(uiLang === 'ar' ? 'الإجمالي المُصرَف' : 'Total released', fmtEgp(total) + ' EGP', null, 'escrow');
       totalMetric.classList.add('big');
       root.appendChild(totalMetric);
     },
@@ -1087,39 +1255,65 @@ function runCleanups() {
   cleanups.clear();
 }
 
-// ═══════════ SYSTEM PULSE MINI-SVG ═══════════
+// ═══════════ "LIVE AROUND YOU" · contextual event stream ═══════════
+// Replaces the previous static mini-SVG (which was decorative-only) with a
+// live-updating list of events happening in other parts of the system that
+// affect the current persona. Also gives quick-jump buttons to other personas.
+const PULSE_RECENT = { events: [] };
+function pushPulse(payload) {
+  PULSE_RECENT.events.unshift(payload);
+  if (PULSE_RECENT.events.length > 40) PULSE_RECENT.events.pop();
+}
+bus.on('imports:new', (e) => pushPulse({ kind: 'producer', ts: e.ts, who: uiLang === 'ar' ? e.producer.name_ar : e.producer.name_en, action: uiLang === 'ar' ? `أقرّ ${e.units} × ${e.device.name_en}` : `declared ${e.units} × ${e.device.name_en}`, value: fmtEgp(e.fee_egp) + ' EGP' }));
+bus.on('orders:new', (e) => pushPulse({ kind: 'board', ts: e.ts, who: uiLang === 'ar' ? 'مجلس التحالف' : 'Consortium Board', action: uiLang === 'ar' ? `أصدر أمر عمل إلى ${e.refiner.name_en}` : `issued a work order to ${e.refiner.name_en}`, value: fmtKg(e.kg) + ' kg' }));
+bus.on('handoffs:new', (e) => pushPulse({ kind: 'collector', ts: e.ts, who: uiLang === 'ar' ? 'الجامع' : 'Collector', action: uiLang === 'ar' ? `سلّم إلى ${e.refiner.name_en}` : `handed to ${e.refiner.name_en}`, value: fmtKg(e.kg) + ' kg' }));
+bus.on('proofs:new', (e) => pushPulse({ kind: 'refiner', ts: e.ts, who: uiLang === 'ar' ? 'المكرِّر' : 'Refiner', action: uiLang === 'ar' ? `رفع إثبات المعالجة` : `uploaded proof of treatment`, value: fmtKg(e.kg) + ' kg' }));
+bus.on('verify:done', (e) => pushPulse({ kind: 'wmra', ts: e.ts, who: 'WMRA', action: uiLang === 'ar' ? `اعتمد الإثبات ← تحرير الضمان` : `approved · escrow released`, value: fmtEgp(e.kg * 55) + ' EGP' }));
+bus.on('certs:issued', () => pushPulse({ kind: 'producer', ts: world.simMinutes, who: uiLang === 'ar' ? 'المنتِج' : 'Producer', action: uiLang === 'ar' ? `استلم شهادة إبراء + كربون` : `received discharge + carbon cert`, value: '✓' }));
+bus.on('citizen:return', (e) => pushPulse({ kind: 'citizen', ts: world.simMinutes, who: uiLang === 'ar' ? 'المواطن' : 'Citizen', action: uiLang === 'ar' ? `أعاد جهازاً · نقاط استرداد` : `returned a device · earned points`, value: '+' + fmt(e.points) + ' pts' }));
+
 function buildPulse() {
-  const svg = $('pulseSvg');
-  if (!svg) return;
-  svg.innerHTML = `
-    <defs>
-      <radialGradient id="pulseGold" cx="0.4" cy="0.35" r="0.7">
-        <stop offset="0%" stop-color="#D9B968"/>
-        <stop offset="100%" stop-color="#9C7E38"/>
-      </radialGradient>
-    </defs>
-    <circle cx="120" cy="160" r="42" fill="url(#pulseGold)"/>
-    <text x="120" y="164" text-anchor="middle" fill="white" font-size="10" font-weight="800" font-family="Inter">MIZAN</text>
-    <text x="120" y="175" text-anchor="middle" fill="white" font-size="7" font-family="Inter">PRO</text>
-
-    <rect x="12" y="140" width="60" height="26" rx="3" fill="#5C93BF" stroke="#3D77A8"/>
-    <text x="42" y="156" text-anchor="middle" fill="#0F2C4D" font-size="9" font-weight="700">ChemiCan</text>
-
-    <ellipse cx="200" cy="60" rx="30" ry="20" fill="#7BAECC" stroke="#3D77A8"/>
-    <text x="200" y="63" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="Inter">Refiner</text>
-
-    <rect x="180" y="240" width="50" height="26" rx="3" fill="#5C93BF" stroke="#3D77A8"/>
-    <text x="205" y="256" text-anchor="middle" fill="#0F2C4D" font-size="8" font-weight="700">Producer</text>
-
-    <ellipse cx="80" cy="60" rx="30" ry="20" fill="#3D77A8" stroke="#0F2C4D"/>
-    <text x="80" y="58" text-anchor="middle" fill="white" font-size="7" font-weight="700">WMRA</text>
-    <text x="80" y="68" text-anchor="middle" fill="white" font-size="7" font-weight="700">Officer</text>
-
-    <line x1="72" y1="153" x2="80" y2="153" stroke="#1F6DC1" stroke-width="1.5"/>
-    <path d="M 155 155 Q 190 100 200 80" stroke="#6B4E9E" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
-    <path d="M 195 240 Q 155 195 155 175" stroke="#2E7D4F" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
-    <path d="M 110 75 Q 100 130 100 145" stroke="#C8442A" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
-  `;
+  const jumps = $('pulseJumpGrid');
+  if (jumps) {
+    jumps.innerHTML = '';
+    D.PERSONAS.filter(p => p.id !== curPersona).forEach(p => {
+      const b = document.createElement('button');
+      b.className = 'sim-pulse-jump-btn';
+      b.title = get(`sim.personas.${p.id}.name`);
+      b.innerHTML = `<span class="sim-pulse-jump-glyph">${p.glyph}</span><span class="sim-pulse-jump-name">${get('sim.personas.' + p.id + '.name')}</span>`;
+      b.addEventListener('click', () => enterPersona(p.id));
+      jumps.appendChild(b);
+    });
+  }
+  renderPulseEvents();
+}
+function renderPulseEvents() {
+  const root = $('pulseEvents');
+  if (!root) return;
+  const events = PULSE_RECENT.events.filter(e => e.kind !== curPersona).slice(0, 5);
+  root.innerHTML = '';
+  if (events.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'sim-pulse-empty';
+    empty.textContent = uiLang === 'ar' ? 'بانتظار أول حدث …' : 'Waiting for first event …';
+    root.appendChild(empty);
+    return;
+  }
+  const glyphOf = { producer: '◈', citizen: '◉', collector: '◆', refiner: '⬢', wmra: '⚖', board: '◇' };
+  events.forEach(e => {
+    const li = document.createElement('div');
+    li.className = 'sim-pulse-event sim-pulse-event-' + e.kind;
+    li.innerHTML = `
+      <span class="sim-pulse-event-glyph">${glyphOf[e.kind] || '◆'}</span>
+      <div class="sim-pulse-event-main">
+        <div class="sim-pulse-event-who">${e.who}</div>
+        <div class="sim-pulse-event-action">${e.action}</div>
+      </div>
+      <span class="sim-pulse-event-val">${e.value}</span>
+    `;
+    li.addEventListener('click', () => enterPersona(e.kind));
+    root.appendChild(li);
+  });
 }
 
 // ═══════════ ACT 3 — NATIONAL VIEW ═══════════

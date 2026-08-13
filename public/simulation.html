@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/style.css?v=8">
-<link rel="stylesheet" href="/simulation.css?v=1">
+<link rel="stylesheet" href="/style.css?v=9">
+<link rel="stylesheet" href="/simulation.css?v=3">
 </head>
 <body class="sim-body">
 
@@ -56,25 +56,29 @@
     <h1 class="sim-hero-title" data-i18n-html="sim.landing.title"></h1>
     <p class="sim-hero-lede" data-i18n="sim.landing.lede"></p>
 
-    <div class="sim-tickers-hero" role="status">
-      <div class="sim-ticker sim-ticker-hero">
-        <div class="sim-ticker-num" id="heroTonnes">0</div>
-        <div class="sim-ticker-label" data-i18n="sim.landing.tickerTonnes"></div>
-      </div>
-      <div class="sim-ticker sim-ticker-hero">
-        <div class="sim-ticker-num" id="heroEscrow">0</div>
-        <div class="sim-ticker-label" data-i18n="sim.landing.tickerEscrow"></div>
-      </div>
-      <div class="sim-ticker sim-ticker-hero">
-        <div class="sim-ticker-num" id="heroCerts">0</div>
-        <div class="sim-ticker-label" data-i18n="sim.landing.tickerCerts"></div>
-      </div>
+    <!-- Compact live activity strip · replaces the previous 3-card block.
+         A single-line reading of the currently-operating system. -->
+    <div class="sim-activity-strip" role="status" aria-live="polite">
+      <div class="sim-act-item"><span class="sim-act-dot"></span><span class="sim-act-num" id="heroTonnes">0</span> <span class="sim-act-lbl" data-i18n="sim.landing.tickerTonnes"></span></div>
+      <div class="sim-act-sep">·</div>
+      <div class="sim-act-item"><span class="sim-act-num" id="heroEscrow">0</span> <span class="sim-act-lbl" data-i18n="sim.landing.tickerEscrow"></span></div>
+      <div class="sim-act-sep">·</div>
+      <div class="sim-act-item"><span class="sim-act-num" id="heroCerts">0</span> <span class="sim-act-lbl" data-i18n="sim.landing.tickerCerts"></span></div>
     </div>
   </div>
 
   <div class="sim-choose">
     <div class="sim-choose-title" data-i18n="sim.landing.pickPersona"></div>
     <div class="sim-persona-grid" id="personaGrid"></div>
+  </div>
+
+  <!-- End-to-end story · single transaction · always visible so the whole flow reads at a glance -->
+  <div class="sim-story-e2e" aria-label="End-to-end transaction story">
+    <div class="sim-story-e2e-head">
+      <span class="sim-story-e2e-eyebrow" data-i18n-html="sim.landing.storyEyebrow"></span>
+      <span class="sim-story-e2e-following" id="storyFollowing"></span>
+    </div>
+    <div class="sim-story-e2e-track" id="storyE2ETrack"></div>
   </div>
 </section>
 
@@ -93,6 +97,35 @@
     </div>
   </div>
 
+  <!-- Escrow ribbon · always visible above every dashboard so the escrow mechanic isn't hidden -->
+  <div class="sim-escrow-ribbon" id="escrowRibbon">
+    <div class="sim-escrow-title" data-i18n-html="sim.escrow.title"></div>
+    <div class="sim-escrow-flow">
+      <div class="sim-escrow-side sim-escrow-in">
+        <div class="sim-escrow-lbl" data-i18n-html="sim.escrow.inLabel"></div>
+        <div class="sim-escrow-val" id="escrowIn">0</div>
+      </div>
+      <div class="sim-escrow-vault">
+        <div class="sim-escrow-vault-glyph">🔒</div>
+        <div class="sim-escrow-vault-num" id="escrowHeld">0</div>
+        <div class="sim-escrow-vault-lbl" data-i18n-html="sim.escrow.held"></div>
+      </div>
+      <div class="sim-escrow-side sim-escrow-out">
+        <div class="sim-escrow-lbl" data-i18n-html="sim.escrow.outLabel"></div>
+        <div class="sim-escrow-val" id="escrowOut">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story ribbon · single active transaction with progress bar -->
+  <div class="sim-story-ribbon" id="storyRibbon">
+    <div class="sim-story-ribbon-head">
+      <span class="sim-story-ribbon-eyebrow" data-i18n-html="sim.narrative.eyebrow"></span>
+      <span class="sim-story-ribbon-what" id="storyRibbonWhat"></span>
+    </div>
+    <div class="sim-story-ribbon-track" id="storyRibbonTrack"></div>
+  </div>
+
   <div class="sim-dash-body">
     <!-- Left tabs -->
     <aside class="sim-dash-tabs" id="dashTabs" role="tablist"></aside>
@@ -100,20 +133,25 @@
     <!-- Center content -->
     <main class="sim-dash-content" id="dashContent"></main>
 
-    <!-- Right system-pulse -->
+    <!-- Right rail · "Live around you" — a contextual event stream that shows
+         what OTHER personas are doing right now that affects the current one.
+         Replaces the earlier static mini-diagram which was purely decorative. -->
     <aside class="sim-dash-pulse">
-      <div class="sim-pulse-title" data-i18n="sim.landing.eyebrow"></div>
-      <svg class="sim-pulse-svg" id="pulseSvg" viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="System pulse mini-view"></svg>
-      <div class="sim-pulse-tickers">
-        <div><span data-i18n="sim.national.tickers.tonnes"></span> <b id="pulseTonnes">0</b></div>
-        <div><span data-i18n="sim.national.tickers.escrow"></span> <b id="pulseEscrow">0</b></div>
-        <div><span data-i18n="sim.national.tickers.certs"></span> <b id="pulseCerts">0</b></div>
+      <div class="sim-pulse-title" data-i18n="sim.pulse.title"></div>
+      <div class="sim-pulse-sub" data-i18n="sim.pulse.sub"></div>
+      <div class="sim-pulse-events" id="pulseEvents" aria-live="polite"></div>
+      <div class="sim-pulse-jump">
+        <div class="sim-pulse-jump-label" data-i18n="sim.pulse.jumpLabel"></div>
+        <div class="sim-pulse-jump-grid" id="pulseJumpGrid"></div>
       </div>
     </aside>
   </div>
 
-  <!-- Bottom story track -->
+  <!-- Bottom story track — 5-step progress visual -->
   <div class="sim-story-track" id="storyTrack" role="progressbar" aria-label="Persona story steps"></div>
+
+  <!-- Deep detail card for the currently-active step (populated from persona-story deep entries) -->
+  <div class="sim-story-detail" id="storyDetail" role="region" aria-live="polite"></div>
 </section>
 
 <!-- ═══════════ ACT 3 · NATIONAL VIEW + DOSSIER ═══════════ -->
@@ -157,8 +195,8 @@
   </div>
 </div>
 
-<script src="/translations.js?v=8"></script>
-<script src="/sim-data.js?v=1"></script>
-<script src="/simulation.js?v=1"></script>
+<script src="/translations.js?v=11"></script>
+<script src="/sim-data.js?v=2"></script>
+<script src="/simulation.js?v=4"></script>
 </body>
 </html>

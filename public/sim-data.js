@@ -115,14 +115,52 @@ const PRICES_EGP = {
 };
 
 // ─────── DEVICE ARCHETYPES ───────
+// Per-unit EPR fees from Mizan_EPR_Calculator (Dr. Tawfik draft, Apr 2026, calibrated Jun 2026).
+// Fees are PER UNIT, not per kg. This matches the calculator's core formula:
+//   revenue = pom_units × compliance_pct × fee_per_unit_egp
+// Material yields per tonne of device from calculator lines 1287-1299.
 const DEVICES = [
-  { id: 'phone',   name_ar: 'هاتف ذكي',      name_en: 'Smartphone',       avg_kg: 0.18, cu_g: 14, au_g: 0.034, al_g: 25, pcb_g: 30, fee_egp_per_kg: 45 },
-  { id: 'tablet',  name_ar: 'جهاز لوحي',     name_en: 'Tablet',           avg_kg: 0.45, cu_g: 20, au_g: 0.045, al_g: 90, pcb_g: 55, fee_egp_per_kg: 40 },
-  { id: 'laptop',  name_ar: 'حاسوب محمول',   name_en: 'Laptop',           avg_kg: 2.10, cu_g: 130, au_g: 0.22, al_g: 350, pcb_g: 180, fee_egp_per_kg: 38 },
-  { id: 'desktop', name_ar: 'حاسوب مكتبي',   name_en: 'Desktop PC',       avg_kg: 8.50, cu_g: 640, au_g: 0.85, al_g: 1200, pcb_g: 350, fee_egp_per_kg: 30 },
-  { id: 'tv',      name_ar: 'تلفاز',         name_en: 'Television',       avg_kg: 15.0, cu_g: 480, au_g: 0.4, al_g: 900, pcb_g: 400, fee_egp_per_kg: 22 },
-  { id: 'appliance', name_ar: 'جهاز منزلي',  name_en: 'Large Appliance',  avg_kg: 35.0, cu_g: 850, au_g: 0.2, al_g: 2100, pcb_g: 300, fee_egp_per_kg: 18 },
+  { id: 'phone',    name_ar: 'هاتف ذكي',      name_en: 'Smartphone',       avg_kg: 0.18, fee_egp: 5,  yield: { cu_kg_per_t: 130, au_g_per_t: 100, ag_g_per_t: 250, co_kg_per_t: 27 } },
+  { id: 'laptop',   name_ar: 'حاسوب محمول',   name_en: 'Laptop',           avg_kg: 2.10, fee_egp: 16, yield: { cu_kg_per_t: 55, au_g_per_t: 27, ag_g_per_t: 145, al_kg_per_t: 180 } },
+  { id: 'desktop',  name_ar: 'حاسوب مكتبي',   name_en: 'Desktop PC',       avg_kg: 8.50, fee_egp: 55, yield: { cu_kg_per_t: 90, au_g_per_t: 4, ag_g_per_t: 20, steel_kg_per_t: 575 } },
+  { id: 'monitor',  name_ar: 'شاشة LCD',      name_en: 'LCD monitor',      avg_kg: 6.00, fee_egp: 40, yield: { cu_kg_per_t: 45, au_g_per_t: 3, ag_g_per_t: 12, al_kg_per_t: 90 } },
+  { id: 'printer',  name_ar: 'طابعة/ناسخة',   name_en: 'Printer/copier',   avg_kg: 12.0, fee_egp: 46, yield: { cu_kg_per_t: 35, au_g_per_t: 2, ag_g_per_t: 10, steel_kg_per_t: 380 } },
+  { id: 'router',   name_ar: 'راوتر/مودم',    name_en: 'Router/modem',     avg_kg: 0.50, fee_egp: 5,  yield: { cu_kg_per_t: 80, au_g_per_t: 20, ag_g_per_t: 60 } },
+  { id: 'accessory', name_ar: 'ملحقات',       name_en: 'Accessories',      avg_kg: 0.35, fee_egp: 5,  yield: { cu_kg_per_t: 40, au_g_per_t: 5, ag_g_per_t: 20 } },
 ];
+
+// ─────── PLACED-ON-MARKET (POM) ─── 2022 CAPMAS baseline via SRI ───────
+// From Mizan_EPR_Calculator lines 1306-1354. These are annual unit volumes for Egypt.
+const POM_2022 = {
+  phone:     5338335,
+  laptop:    3741590,
+  desktop:      47804,
+  monitor:     184090,
+  printer:     632333,
+  router:    1876444,
+  accessory: 5000000,
+};
+
+// ─────── COMPLIANCE RAMP ─── Y1-Y5 ───────
+// From calculator line 1403: `compliancePct = 10 + i * 10`
+const COMPLIANCE_RAMP = { 2027: 10, 2028: 20, 2029: 30, 2030: 40, 2031: 50 };
+
+// ─────── PROPOSED SPLIT (calculator default) ───────
+// From calculator line 1357. NOTE: all shares are PROPOSED for negotiation.
+const SPLIT_CALCULATOR = { wmra: 0.05, ecofei: 0.05, mizan: 0.30, collectors: 0.30, refiners: 0.30 };
+
+// ─────── METAL PRICES ─── June 2026, EGP ───────
+// From calculator lines 1269-1280.
+const METAL_PRICES_EGP = {
+  gold_per_g:      6650,   // LBMA scrap-adjusted
+  silver_per_g:      97,
+  palladium_per_g: 1750,
+  copper_per_kg:    520,
+  aluminum_per_kg:   95,
+  steel_per_kg:      22,
+  cobalt_per_kg:   1700,
+  plastic_per_kg:     6,
+};
 
 // ─────── DEVICE MODEL ARCHETYPES (for "Follow this device") ───────
 const DEVICE_MODELS = [
@@ -226,6 +264,8 @@ window.SIM_DATA = {
   makeRng, pick, pickWeighted, between,
   PRODUCERS, DISTRIBUTORS, REFINERS, GOVERNORATES,
   PRICES_EGP, DEVICES, DEVICE_MODELS,
-  SPLIT_PROPOSED, WEEE_FORUM_CRITERIA, NATIONAL_BASELINE,
+  SPLIT_PROPOSED, SPLIT_CALCULATOR,
+  WEEE_FORUM_CRITERIA, NATIONAL_BASELINE,
   STORY_TEMPLATES, PERSONAS,
+  POM_2022, COMPLIANCE_RAMP, METAL_PRICES_EGP,
 };
