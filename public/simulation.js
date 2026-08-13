@@ -312,7 +312,12 @@ function stateTick() {
 function advanceWorld() {
   world.tick++;
   world.simMinutes += SIM_MIN_PER_TICK;
-
+  // ─── FIXED MODE ───
+  // Metric values shown to the user are fixed calculator-derived examples.
+  // We keep the tick running so the clock and E2E ribbon still update on user action,
+  // but we don't mutate any of the reported metric state. Function is a no-op past this line.
+  return;
+  /* eslint-disable no-unreachable */
   const rng = world.rng;
 
   // National throughput this tick — calibrated from POM 2022 CAPMAS baseline in sim-data.
@@ -1898,6 +1903,31 @@ function updateMobileNavAria() {
 function init() {
   world.rng = D.makeRng(world.seed);
   applyI18n();
+
+  // Seed the world with the FIXED calculator-driven examples so every metric
+  // read renders those exact numbers. Live-mutation is disabled inside advanceWorld().
+  Object.assign(world.producer, FIXED.producer);
+  Object.assign(world.refiner, FIXED.refiner);
+  Object.assign(world.collector, FIXED.collector);
+  Object.assign(world.wmra, FIXED.wmra);
+  Object.assign(world.board, FIXED.board);
+  world.tonnesToday = FIXED.global.tonnesToday;
+  world.cumulativeTonnes = FIXED.global.cumulativeTonnes;
+  world.escrowHeld = FIXED.global.escrowHeld;
+  world.escrowReleased = FIXED.global.escrowReleased;
+  world.obligationsCalculated = FIXED.global.obligationsCalculated;
+  world.certificatesIssued = FIXED.global.certificatesIssued;
+  world.carbonCredits = FIXED.global.carbonCredits;
+  world.cbamCovers = FIXED.global.cbamCovers;
+  world.verificationsPending = FIXED.global.verificationsPending;
+  world.verificationsDone = FIXED.global.verificationsDone;
+  world.citizenPoints = FIXED.citizenPoints;
+  world.citizenReturns = FIXED.citizenReturns;
+  world.imports = FIXED.producer.shipments_list.slice();
+  // Pre-seed the pulse events (Live-around-you)
+  const seed = (uiLang === 'ar' ? FIXED_PULSE_AR : FIXED_PULSE_EN);
+  PULSE_RECENT.events = seed.map(e => ({ ...e, ts: 10 * 60 }));
+
   buildPersonaGrid();
   wireControls();
   wireMobileNav();
@@ -1906,8 +1936,6 @@ function init() {
   wireE2EControls();
   const p = paramsIn();
   startEngine();
-  // Pre-warm a few ticks so first render has data
-  for (let i = 0; i < 30; i++) advanceWorld();
   if (p.persona) enterPersona(p.persona);
   if (p.act === 3) goToAct(3);
   updateMobileNavAria();

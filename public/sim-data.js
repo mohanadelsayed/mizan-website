@@ -103,15 +103,17 @@ const GOVERNORATES = [
   { id: 'rest',    name_ar: 'باقي المحافظات', name_en: 'Rest of Egypt', weight: 0.20, lat: 27.00, lng: 30.80 },
 ];
 
-// ─────── PRICES (EGP, spot approximations for Q1 2027) ───────
+// ─────── PRICES (EGP, June 2026 · from Mizan_EPR_Calculator lines 1269-1280) ───────
+// Rebased to the calculator's exact scrap-adjusted market prices.
 const PRICES_EGP = {
-  copper_per_tonne: 275000,
+  copper_per_tonne: 520000,      // 520 EGP/kg
   pcb_per_tonne: 400000,
-  aluminum_per_tonne: 100000,
-  steel_per_tonne: 12000,
-  gold_per_kg: 3800000,
-  silver_per_kg: 60000,
-  palladium_per_kg: 1600000,
+  aluminum_per_tonne: 95000,     // 95 EGP/kg
+  steel_per_tonne: 22000,        // 22 EGP/kg
+  gold_per_kg: 6650000,          // 6,650 EGP/g
+  silver_per_kg: 97000,          // 97 EGP/g
+  palladium_per_kg: 1750000,     // 1,750 EGP/g
+  cobalt_per_tonne: 1700000,     // 1,700 EGP/kg
 };
 
 // ─────── DEVICE ARCHETYPES ───────
