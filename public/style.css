@@ -106,7 +106,7 @@ svg text { overflow-wrap: normal; }
 
 /* ═══════════ NAV ═══════════ */
 .nav {
-  position: sticky; top: 45px; z-index: 99;
+  position: sticky; top: 0; z-index: 99;
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -207,7 +207,7 @@ svg text { overflow-wrap: normal; }
 /* ═══════════ HERO ═══════════ */
 .hero {
   position: relative;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 66px);
   display: flex; align-items: center; justify-content: center;
   background: linear-gradient(135deg, #0A1F38 0%, #0F2C4D 60%, #1A4D7A 100%);
   color: white;
@@ -612,46 +612,14 @@ html[dir="rtl"] .layer:hover { transform: translateX(4px); }
 .wmra-text { font-size: 14px; line-height: 1.5; }
 
 /* ═══════════ INTERACTIVE ARCHITECTURE ═══════════ */
+/* Side-by-side layout: diagram on the leading side, narrative on the trailing side.
+   Narrative is sticky so prev/next always shows the description without scrolling. */
 .arch-interactive {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 36px;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 32px;
   margin: 36px 0;
   align-items: start;
-}
-/* Stacked variant: diagram on top full width, narrative below in a row */
-.arch-interactive.arch-stacked {
-  display: block;
-}
-.arch-interactive.arch-stacked .arch-diagram-wrap {
-  margin-bottom: 32px;
-}
-.arch-interactive.arch-stacked .arch-narrative-wrap {
-  position: relative;
-  top: auto;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 28px;
-  align-items: start;
-}
-.arch-interactive.arch-stacked .narrative-header,
-.arch-interactive.arch-stacked .narrative-body {
-  grid-column: 1;
-}
-.arch-interactive.arch-stacked .narrative-controls,
-.arch-interactive.arch-stacked .narrative-jump {
-  grid-column: 2;
-}
-.arch-interactive.arch-stacked .narrative-controls {
-  grid-row: 1;
-  margin: 0;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-}
-html[dir="rtl"] .arch-interactive.arch-stacked .narrative-controls { justify-content: flex-start; }
-.arch-interactive.arch-stacked .narrative-jump {
-  grid-row: 2;
-  margin-top: 0;
 }
 .arch-diagram-wrap {
   background: rgba(255,255,255,0.98);
@@ -700,6 +668,11 @@ html[dir="rtl"] .progress-bar { margin-left: 0; margin-right: 8px; }
   display: block;
   box-shadow: inset 0 0 0 1px rgba(200,169,81,0.15);
 }
+/* On short desktop viewports, cap SVG height so diagram + narrative fit
+   in a single viewport without needing to scroll to see the description. */
+@media (min-width: 961px) {
+  .arch-svg { max-height: min(70vh, 620px); width: auto; margin: 0 auto; }
+}
 .reveal {
   opacity: 0;
   transform: scale(0.85);
@@ -728,8 +701,17 @@ html[dir="rtl"] .progress-bar { margin-left: 0; margin-right: 8px; }
    unicode-bidi: embed preserves natural Arabic RTL rendering within LTR-anchored text. */
 .arch-svg text { direction: ltr; unicode-bidi: embed; }
 
+/* Sticky narrative — as you scroll through the arch section, the description
+   panel stays glued to the top so clicking prev/next never demands scrolling.
+   Nav is 66px tall, plus 20px breathing room. */
 .arch-narrative-wrap {
-  position: sticky; top: 130px;
+  position: sticky;
+  top: 90px;
+  align-self: start;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding-inline-end: 4px;
 }
 .narrative-header { margin-bottom: 18px; }
 .narrative-click-badge {
@@ -1824,19 +1806,13 @@ html[dir="rtl"] .pillar-bullets li { padding: 8px 22px 8px 0; }
 @media (max-width: 960px) {
   .arch-interactive {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 22px;
   }
-  .arch-narrative-wrap { position: static; }
-  .arch-interactive.arch-stacked .arch-narrative-wrap {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  .arch-narrative-wrap {
+    position: static;
+    max-height: none;
+    overflow: visible;
   }
-  .arch-interactive.arch-stacked .narrative-controls,
-  .arch-interactive.arch-stacked .narrative-jump {
-    grid-column: 1;
-    grid-row: auto;
-  }
-  .arch-interactive.arch-stacked .narrative-controls { justify-content: flex-start; }
   .reality-split { grid-template-columns: 1fr; }
   .vision-grid { grid-template-columns: 1fr; }
   .section { padding: 70px 24px; }

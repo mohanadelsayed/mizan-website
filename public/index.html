@@ -89,7 +89,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/style.css?v=2">
+<link rel="stylesheet" href="/style.css?v=4">
 </head>
 <body>
 
@@ -280,7 +280,7 @@
     <h2 class="section-title white" data-i18n="arch.title"></h2>
     <p class="section-lede white-70" data-i18n-html="arch.lede"></p>
 
-    <div class="arch-interactive arch-stacked">
+    <div class="arch-interactive">
       <div class="arch-diagram-wrap">
         <div class="arch-progress">
           <span class="progress-label" data-i18n="arch.step"></span>
@@ -416,24 +416,26 @@
             <text x="862" y="400" text-anchor="middle" fill="#1F6DC1" font-size="10" font-weight="700" data-svg-i18n="svg.payAuth">Payment Authorization</text>
           </g>
 
-          <!-- ═══════════ CLICK 12 · Pay % (from same start as first Pay%, e-Finance → MIZAN PRO) ═══════════ -->
+          <!-- ═══════════ CLICK 12 · Pay % (e-Finance → MIZAN PRO top) ═══════════ -->
           <g class="reveal reveal-12">
-            <path d="M 895 325 Q 700 140 525 320" fill="none" stroke="#6B4E9E" stroke-width="2.5" marker-end="url(#a-purple)"/>
-            <text x="700" y="155" text-anchor="middle" fill="#6B4E9E" font-size="12" font-weight="700">Pay %</text>
+            <path d="M 895 325 Q 660 150 415 230" fill="none" stroke="#6B4E9E" stroke-width="2.5" marker-end="url(#a-purple)"/>
+            <text x="650" y="180" text-anchor="middle" fill="#6B4E9E" font-size="12" font-weight="700">Pay %</text>
           </g>
 
-          <!-- ═══════════ CLICK 13 · Pay % (middle curve, e-Finance → Producers or other) ═══════════ -->
+          <!-- ═══════════ CLICK 13 · Pay % (e-Finance TOP → Recyclers) ═══════════ -->
           <g class="reveal reveal-13">
-            <path d="M 960 390 Q 700 200 240 110" fill="none" stroke="#6B4E9E" stroke-width="2.5" marker-end="url(#a-purple)"/>
-            <text x="580" y="180" text-anchor="middle" fill="#6B4E9E" font-size="12" font-weight="700">Pay %</text>
+            <path d="M 960 300 Q 560 30 200 90" fill="none" stroke="#6B4E9E" stroke-width="2.5" marker-end="url(#a-purple)"/>
+            <text x="560" y="65" text-anchor="middle" fill="#6B4E9E" font-size="12" font-weight="700">Pay %</text>
           </g>
 
-          <!-- ═══════════ CLICK 14 · EPR Certificate + Carbon Credit (curved arrow, matches other arcs) ═══════════ -->
+          <!-- ═══════════ CLICK 14 · EPR Certificate + Carbon Credit
+               Exits MIZAN bottom, deep-arcs below the green Attract arc,
+               and enters the Producers box from underneath at the midpoint
+               of its bottom edge — natural upward landing. ═══════════ -->
           <g class="reveal reveal-14">
-            <!-- Curved black arrow from MIZAN PRO edge to Producers, arcing through mid-space -->
-            <path d="M 500 415 Q 780 500 1090 400" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#a-black)"/>
-            <text x="785" y="475" text-anchor="middle" fill="#0F2C4D" font-size="11" font-weight="600" data-svg-i18n="svg.eprCertLine1">EPR Certificate / Discharge of Liability</text>
-            <text x="785" y="491" text-anchor="middle" fill="#0F2C4D" font-size="11" font-weight="600" data-svg-i18n="svg.eprCertLine2">Carbon Credit (Through GOEIC EVVU)</text>
+            <path d="M 410 455 Q 790 870 1170 380" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#a-black)"/>
+            <text x="790" y="655" text-anchor="middle" fill="#0F2C4D" font-size="11" font-weight="600" data-svg-i18n="svg.eprCertLine1">EPR Certificate / Discharge of Liability</text>
+            <text x="790" y="671" text-anchor="middle" fill="#0F2C4D" font-size="11" font-weight="600" data-svg-i18n="svg.eprCertLine2">Carbon Credit (Through GOEIC EVVU)</text>
           </g>
         </svg>
       </div>
@@ -446,15 +448,9 @@
         <div class="narrative-body" id="narrativeBody"></div>
 
         <div class="narrative-controls">
-          <button class="ctrl-btn nav-arrow" id="prevBtn" aria-label="Previous">
-            <span class="arrow-glyph" aria-hidden="true">←</span>
-            <span data-i18n="arch.prev"></span>
-          </button>
+          <button class="ctrl-btn" id="prevBtn" data-i18n="arch.prev"></button>
           <button class="ctrl-btn ctrl-play" id="playBtn" data-i18n="arch.play"></button>
-          <button class="ctrl-btn nav-arrow" id="nextBtn" aria-label="Next">
-            <span data-i18n="arch.next"></span>
-            <span class="arrow-glyph" aria-hidden="true">→</span>
-          </button>
+          <button class="ctrl-btn" id="nextBtn" data-i18n="arch.next"></button>
           <button class="ctrl-btn ctrl-reset" id="resetBtn" data-i18n="arch.reset"></button>
         </div>
 
@@ -839,7 +835,7 @@
   </div>
 </footer>
 
-<script src="/translations.js?v=2"></script>
-<script src="/app.js?v=2"></script>
+<script src="/translations.js?v=4"></script>
+<script src="/app.js?v=4"></script>
 </body>
 </html>
