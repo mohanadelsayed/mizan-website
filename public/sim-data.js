@@ -223,7 +223,7 @@ const STORY_TEMPLATES = {
     { key: 'order',      ar: 'أمر عمل من تحالف ميزان',           en: 'Work order from Mizan Consortium' },
     { key: 'route',      ar: 'خط سير محسوب',                     en: 'Route optimised' },
     { key: 'weighed',    ar: 'الأوزان مُوثَّقة بالماسح',           en: 'Weights logged via scanner' },
-    { key: 'handed',     ar: 'المواد سُلِّمت للمكرِّر',             en: 'Materials handed to refiner' },
+    { key: 'handed',     ar: 'المواد سُلِّمت للمستخلِص',             en: 'Materials handed to refiner' },
     { key: 'paid',       ar: 'المستحقّات من الضمان',              en: 'Payment released from escrow' },
   ],
   refiner: [
@@ -254,7 +254,7 @@ const PERSONAS = [
   { id: 'producer',  glyph: '◈', bg: 'gold',   name_ar: 'المنتِج',        name_en: 'Producer',        who_ar: 'نور فريد · مسؤولة الامتثال · Samsung Electronics Egypt', who_en: 'Nour Farid · Compliance Lead · Samsung Electronics Egypt' },
   { id: 'citizen',   glyph: '◉', bg: 'green',  name_ar: 'المواطن',        name_en: 'Citizen',         who_ar: 'أحمد مصطفى · أسرة قاهرية · شيراتون النزهة', who_en: 'Ahmed Mostafa · Cairo family · Sheraton El Nozha' },
   { id: 'collector', glyph: '◆', bg: 'purple', name_ar: 'الجامع',         name_en: 'Collector',       who_ar: 'قاعدة Dr.WEEE · الهرم · مرخّصة منذ 2018', who_en: 'Dr.WEEE Haram Base · WMRA-licensed since 2018' },
-  { id: 'refiner',   glyph: '⬢', bg: 'red',    name_ar: 'المكرِّر',        name_en: 'Refiner',         who_ar: 'REMIT Cairo · رخصة WMRA رقم 11 · مستوى T4', who_en: 'REMIT Cairo · WMRA licence #11 · Tier T4' },
+  { id: 'refiner',   glyph: '⬢', bg: 'red',    name_ar: 'المستخلِص',        name_en: 'Refiner',         who_ar: 'REMIT Cairo · رخصة WMRA رقم 11 · مستوى T4', who_en: 'REMIT Cairo · WMRA licence #11 · Tier T4' },
   { id: 'wmra',      glyph: '⚖', bg: 'navy',   name_ar: 'الجهاز',         name_en: 'WMRA Officer',    who_ar: 'م. رانيا صلاح · إدارة التحقّق من الامتثال', who_en: 'Eng. Rania Salah · Compliance Verification Directorate' },
   { id: 'board',     glyph: '◇', bg: 'cream',  name_ar: 'مجلس التحالف',   name_en: 'Consortium Board', who_ar: 'م. حسام زكي · غرفة الصناعات الهندسية · اتحاد الصناعات', who_en: 'Eng. Hossam Zaki · Engineering Chamber · FEI' },
 ];

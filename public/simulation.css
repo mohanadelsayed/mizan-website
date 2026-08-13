@@ -1403,27 +1403,511 @@ html[dir="rtl"] .sim-dossier-title { font-family: var(--font-display-ar); }
   .sim-story-track { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 640px) {
-  .sim-topbar { flex-direction: column; align-items: stretch; padding: 10px 14px; }
-  .sim-topbar-actions { justify-content: space-between; gap: 8px; }
+/* ═══════════════════════════════════════════════════════════
+   MOBILE (≤ 720px) · Fundamentally different UX
+   Story-first swipeable cards · bottom navigation · bottom sheets.
+   NOT a shrunken desktop.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Base — mobile-only elements are hidden by default (overridden inside the media query below). */
+.sim-mnav { display: none; }
+
+@media (max-width: 720px) {
+  /* — Watermark: quieter, at the very bottom above bottom-nav — */
+  .sim-watermark {
+    bottom: 78px;
+    font-size: 9px;
+    padding: 4px 10px;
+  }
+
+  /* — Compact top bar — */
+  .sim-topbar {
+    padding: 10px 14px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sim-brand-mark { font-size: 18px; letter-spacing: 2px; }
+  .sim-brand-live { font-size: 9px; padding: 1px 6px; letter-spacing: 1px; }
+  .sim-topbar-actions { gap: 8px; flex-wrap: nowrap; }
   .sim-clock { display: none; }
   .sim-speed { padding: 2px 4px; }
   .sim-speed-label { display: none; }
-  .sim-back { padding: 4px 8px; font-size: 11px; }
+  .sim-speed-btn { padding: 4px 6px; font-size: 10px; }
+  .sim-back { padding: 4px 8px; font-size: 10px; }
+  .sim-lang { padding: 4px 8px; font-size: 11px; }
 
-  .sim-act-1 { padding: 30px 16px 60px; }
-  .sim-hero-title { font-size: 28px; }
+  /* — ACT 1 · LANDING — */
+  .sim-act-1 { padding: 24px 16px 100px; }
+  .sim-hero { margin-bottom: 30px; }
+  .sim-hero-title { font-size: clamp(26px, 8vw, 34px); line-height: 1.15; }
   .sim-hero-lede { font-size: 14px; }
-  .sim-tickers-hero { grid-template-columns: 1fr; }
-  .sim-persona-grid { grid-template-columns: 1fr; }
+  .sim-activity-strip {
+    font-size: 11px;
+    padding: 8px 14px;
+    gap: 8px;
+    margin-top: 20px;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    border-radius: 20px;
+  }
+  .sim-activity-strip::-webkit-scrollbar { display: none; }
+  .sim-act-item { white-space: nowrap; flex: 0 0 auto; }
 
-  .sim-dash-header { flex-direction: column; align-items: flex-start; padding: 14px 16px; }
-  .sim-dash-name { font-size: 18px; }
+  /* Persona grid — 2 columns · big touch targets */
+  .sim-persona-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .sim-persona-card { padding: 18px 14px 16px; min-height: 160px; }
+  .sim-persona-glyph { font-size: 26px; margin-bottom: 8px; }
+  .sim-persona-name { font-size: 16px; }
+  .sim-persona-who { font-size: 10.5px; min-height: 34px; margin-bottom: 12px; line-height: 1.4; }
+  .sim-persona-kpi { padding-top: 10px; }
+  .sim-persona-kpi-label { font-size: 8.5px; }
+  .sim-persona-kpi-val { font-size: 14px; }
+  .sim-persona-enter { margin-top: 12px; font-size: 12px; }
+
+  /* E2E ribbon on landing — horizontal swipe strip */
+  .sim-story-e2e { padding: 14px 16px; margin-top: 36px; border-radius: 10px; }
+  .sim-story-e2e-head { flex-direction: column; gap: 6px; margin-bottom: 12px; align-items: flex-start; }
+  .sim-story-e2e-eyebrow { font-size: 10.5px; }
+  .sim-story-e2e-following { font-size: 11px; }
+  .sim-story-e2e-track {
+    grid-template-columns: repeat(10, minmax(76px, 1fr));
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 4px;
+  }
+  .sim-story-e2e-track::-webkit-scrollbar { display: none; }
+  .sim-e2e-step { scroll-snap-align: start; font-size: 10px; padding: 8px 4px 6px; min-height: 54px; }
+
+  /* — ACT 2 · MOBILE DASHBOARD REBUILD —
+     Story-first: full-screen tab content · sticky top strip · sticky bottom nav. */
+  .sim-act-2 { padding: 0 0 84px; }
+  .sim-dash-header {
+    padding: 12px 14px;
+    margin-bottom: 0;
+    background: linear-gradient(135deg, rgba(200,169,81,0.14), rgba(200,169,81,0.05));
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    position: sticky;
+    top: 64px;
+    z-index: 40;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(10,31,56,0.9);
+  }
   .sim-dash-glyph { font-size: 26px; }
-  .sim-dash-content { padding: 16px 14px; }
-  .sim-tab-title { font-size: 18px; }
-  .sim-metric-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .sim-dash-name { font-size: 17px; }
+  .sim-dash-who { font-size: 11px; line-height: 1.35; }
+  .sim-dash-actions { display: none; }
 
-  .sim-nat-canvas { padding: 8px; }
-  .sim-watermark { top: 6px; inset-inline-end: 8px; font-size: 9px; padding: 4px 8px; }
+  /* Escrow ribbon: compact single-line pill on mobile */
+  .sim-escrow-ribbon {
+    margin: 12px 14px 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+  .sim-escrow-title { font-size: 10px; margin-bottom: 8px; }
+  .sim-escrow-flow {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+  }
+  .sim-escrow-side { padding: 8px 6px; }
+  .sim-escrow-lbl { font-size: 9px; letter-spacing: 0.4px; }
+  .sim-escrow-val { font-size: 13px; }
+  .sim-escrow-vault { padding: 8px 10px; min-width: auto; }
+  .sim-escrow-vault-glyph { font-size: 16px; }
+  .sim-escrow-vault-num { font-size: 16px; }
+  .sim-escrow-vault-lbl { font-size: 8px; }
+  .sim-escrow-side.sim-escrow-in::after,
+  .sim-escrow-side.sim-escrow-out::before { display: none; }
+
+  /* Story ribbon: compact row */
+  .sim-story-ribbon { margin: 0 14px 12px; padding: 10px 12px; border-radius: 10px; }
+  .sim-story-ribbon-eyebrow { font-size: 9.5px; }
+  .sim-story-ribbon-what { font-size: 10px; }
+  .sim-story-ribbon-track {
+    grid-template-columns: repeat(10, minmax(60px, 1fr));
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+  .sim-story-ribbon-track::-webkit-scrollbar { display: none; }
+  .sim-story-ribbon-track .sim-e2e-step {
+    scroll-snap-align: start;
+    font-size: 9px;
+    min-height: 36px;
+    padding: 4px 3px;
+  }
+
+  /* Dashboard body: single column, no side rails */
+  .sim-dash-body {
+    display: block;
+    padding: 0 14px;
+    gap: 0;
+  }
+
+  /* HIDE the desktop tabs sidebar entirely — replaced by mobile tabs sheet */
+  .sim-dash-tabs { display: none; }
+
+  /* HIDE the desktop pulse rail — replaced by pulse bottom sheet */
+  .sim-dash-pulse { display: none; }
+
+  /* Main content: full-width card */
+  .sim-dash-content {
+    padding: 18px 16px;
+    border-radius: 10px;
+    min-height: 300px;
+  }
+  .sim-tab-title { font-size: 18px; margin-bottom: 14px; padding-bottom: 8px; }
+  .sim-tab-hint { font-size: 11px; margin-bottom: 14px; }
+  .sim-metric-row { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .sim-metric { padding: 12px 12px; }
+  .sim-metric-value { font-size: 18px; }
+  .sim-metric.big .sim-metric-value { font-size: 24px; }
+  .sim-metric-label { font-size: 9px; letter-spacing: 1px; }
+  .sim-metric-sub { font-size: 10px; }
+  .sim-feed { max-height: 240px; }
+  .sim-feed-item { grid-template-columns: 42px 1fr auto; gap: 8px; padding: 8px 10px; }
+  .sim-feed-time { font-size: 9px; }
+  .sim-feed-main { font-size: 12px; }
+  .sim-feed-right { font-size: 11px; }
+
+  /* Story track — sticky above bottom nav so users always see progress */
+  .sim-story-track {
+    margin: 12px 14px 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    grid-template-columns: repeat(5, minmax(58px, 1fr));
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 6px;
+    scroll-snap-type: x mandatory;
+  }
+  .sim-story-track::-webkit-scrollbar { display: none; }
+  .sim-story-step {
+    scroll-snap-align: start;
+    font-size: 10.5px;
+    padding: 6px 8px;
+    min-height: 38px;
+  }
+
+  /* Deep story detail — becomes primary card */
+  .sim-story-detail {
+    margin: 12px 14px 0;
+    padding: 18px 16px;
+    border-radius: 10px;
+  }
+  .sim-story-detail-head { gap: 12px; margin-bottom: 14px; padding-bottom: 10px; }
+  .sim-story-detail-num .num { font-size: 22px; }
+  .sim-story-detail-num .lbl { font-size: 9px; }
+  .sim-story-detail-num .of { font-size: 10px; }
+  .sim-story-detail-title { font-size: 17px; line-height: 1.25; }
+  .sim-story-detail-body { gap: 12px; margin-bottom: 12px; }
+  .sim-story-detail-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .sim-story-detail-lbl { font-size: 9px; letter-spacing: 1.2px; }
+  .sim-story-detail-txt { font-size: 13px; line-height: 1.6; }
+  .sim-story-detail-example { padding: 10px 12px; gap: 6px; flex-direction: column; align-items: flex-start; }
+  .sim-story-detail-example .sim-story-detail-txt { font-size: 12px; }
+  .sim-story-detail-nav {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding-top: 12px;
+  }
+  .sim-story-detail-btn { padding: 12px 14px; font-size: 12px; flex: 1; }
+
+  /* — ACT 3 · NATIONAL VIEW — */
+  .sim-act-3 { padding: 20px 14px 100px; }
+  .sim-nat-header { text-align: center; margin-bottom: 16px; }
+  .sim-nat-title { font-size: 22px; }
+  .sim-nat-lede { font-size: 13px; }
+  .sim-nat-canvas { padding: 6px; border-radius: 8px; }
+  .sim-nat-svg { max-height: 60vh; }
+  .sim-nat-follow { flex-direction: column; gap: 8px; align-items: stretch; margin-top: 10px; }
+  .sim-follow-btn { padding: 12px 14px; font-size: 13px; }
+  .sim-follow-hint { font-size: 11px; text-align: center; }
+  .sim-nat-tickers { grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; }
+  .sim-nat-ticker { padding: 10px 12px; }
+  .sim-nat-ticker-num { font-size: 15px; }
+  .sim-nat-ticker-label { font-size: 9px; }
+
+  /* — Info tooltip: on mobile use tap-to-toggle (JS adds .active) — */
+  .sim-info::after {
+    min-width: 200px;
+    max-width: calc(100vw - 60px);
+    font-size: 11.5px;
+    padding: 10px 12px;
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    right: 20px;
+    top: auto;
+    transform: none !important;
+    max-width: none;
+  }
+  .sim-info:hover::after { transform: none !important; }
+  .sim-info.active::after {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+
+  /* — Show mobile bottom nav — */
+  .sim-mnav {
+    display: flex;
+    position: fixed;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    bottom: 0;
+    z-index: 90;
+    background: rgba(10,31,56,0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(200,169,81,0.3);
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+    justify-content: space-around;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+/* Mobile bottom nav button styles (visibility gated by media query above) */
+.sim-mnav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 4px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 8px;
+  min-height: 52px;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+.sim-mnav-btn:active { transform: scale(0.94); }
+.sim-mnav-btn.sim-mnav-center {
+  background: var(--gold);
+  color: var(--navy);
+}
+.sim-mnav-btn.sim-mnav-center:hover,
+.sim-mnav-btn.sim-mnav-center:focus-visible { background: var(--gold-light); }
+.sim-mnav-btn:disabled { opacity: 0.3; }
+.sim-mnav-glyph { font-size: 18px; line-height: 1; }
+.sim-mnav-center .sim-mnav-glyph { font-size: 20px; }
+.sim-mnav-lbl {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* Mobile bottom sheets */
+.sim-sheet-scrim {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5,18,31,0.6);
+  z-index: 190;
+  backdrop-filter: blur(2px);
+}
+.sim-sheet-scrim.open { display: block; }
+.sim-sheet {
+  display: block;
+  position: fixed;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  bottom: 0;
+  max-height: 78vh;
+  background: linear-gradient(180deg, #0F2C4D, #0A1F38);
+  border-top: 1px solid rgba(200,169,81,0.4);
+  border-radius: 20px 20px 0 0;
+  z-index: 200;
+  padding: 8px 18px calc(18px + env(safe-area-inset-bottom, 0px));
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  overflow-y: auto;
+  box-shadow: 0 -20px 60px rgba(0,0,0,0.6);
+  visibility: hidden;
+}
+.sim-sheet.open { transform: translateY(0); visibility: visible; }
+.sim-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(200,169,81,0.4);
+  border-radius: 2px;
+  margin: 6px auto 14px;
+}
+.sim-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.sim-sheet-title {
+  font-family: var(--font-display);
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+html[dir="rtl"] .sim-sheet-title { font-family: var(--font-display-ar); }
+.sim-sheet-close {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 26px;
+  line-height: 1;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.sim-sheet-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.sim-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 45vh;
+  overflow-y: auto;
+}
+.sim-sheet-footer {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(200,169,81,0.2);
+}
+.sim-sheet-jump-label {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(200,169,81,0.7);
+  margin-bottom: 8px;
+}
+.sim-sheet-jump-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+/* Tabs sheet — grid of 6 tabs */
+.sim-tabs-sheet-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+.sim-tabs-sheet-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,169,81,0.2);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.85);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: start;
+  transition: background 0.15s;
+}
+.sim-tabs-sheet-item:active { background: rgba(200,169,81,0.15); }
+.sim-tabs-sheet-item.active {
+  background: rgba(200,169,81,0.18);
+  border-color: var(--gold);
+  color: var(--gold-light);
+  font-weight: 700;
+}
+.sim-tabs-sheet-item .sim-tabs-sheet-num {
+  font-family: var(--font-mono);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Escrow sheet — detailed ledger */
+.sim-escrow-sheet-hero {
+  padding: 24px;
+  background: linear-gradient(160deg, rgba(200,169,81,0.12), rgba(200,169,81,0.04));
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.sim-escrow-sheet-lock { font-size: 32px; margin-bottom: 6px; }
+.sim-escrow-sheet-big {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gold-light);
+  font-variant-numeric: tabular-nums;
+}
+.sim-escrow-sheet-lbl { font-size: 10.5px; color: rgba(200,169,81,0.85); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
+.sim-escrow-sheet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.sim-escrow-sheet-row + .sim-escrow-sheet-row { margin-top: 6px; }
+.sim-escrow-sheet-row-lbl { color: rgba(255,255,255,0.7); }
+.sim-escrow-sheet-row-val { font-family: var(--font-mono); color: var(--gold-light); font-weight: 700; }
+.sim-escrow-sheet-split {
+  margin-top: 14px;
+  padding: 14px;
+  background: rgba(46,125,79,0.08);
+  border: 1px dashed rgba(46,125,79,0.4);
+  border-radius: 8px;
+}
+.sim-escrow-sheet-split-title {
+  font-size: 10.5px;
+  color: #7DD87F;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.sim-escrow-sheet-split-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 12.5px;
+  border-bottom: 1px dashed rgba(255,255,255,0.08);
+}
+.sim-escrow-sheet-split-row:last-child { border-bottom: none; }
+.sim-escrow-sheet-split-row-name { color: rgba(255,255,255,0.75); }
+.sim-escrow-sheet-split-row-val { font-family: var(--font-mono); color: var(--gold-light); }
+
+/* Very small phones — extra compression */
+@media (max-width: 400px) {
+  .sim-brand-mark { font-size: 16px; }
+  .sim-brand-live { display: none; }
+  .sim-hero-title { font-size: 24px; }
+  .sim-persona-grid { grid-template-columns: 1fr; }
+  .sim-persona-card { min-height: auto; }
+  .sim-metric-row { grid-template-columns: 1fr; }
+  .sim-story-e2e-track { grid-template-columns: repeat(10, 74px); }
+  .sim-story-ribbon-track { grid-template-columns: repeat(10, 58px); }
+  .sim-story-track { grid-template-columns: repeat(5, 56px); }
+  .sim-mnav-lbl { display: none; }
+  .sim-mnav-btn { min-height: 44px; }
+  .sim-mnav-glyph { font-size: 20px; }
 }

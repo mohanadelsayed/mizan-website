@@ -14,7 +14,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/style.css?v=9">
-<link rel="stylesheet" href="/simulation.css?v=3">
+<link rel="stylesheet" href="/simulation.css?v=5">
 </head>
 <body class="sim-body">
 
@@ -178,6 +178,68 @@
   </div>
 </section>
 
+<!-- ═══════════════════ MOBILE BOTTOM NAVIGATION ═══════════════════
+     Fixed-position thumb-reachable action bar · visible only on mobile viewports.
+     Prev/Next walk story steps; center buttons open bottom sheets. -->
+<nav class="sim-mnav" id="mnavBar" aria-hidden="true">
+  <button class="sim-mnav-btn" data-mnav="prev" aria-label="Previous step">
+    <span class="sim-mnav-glyph">‹</span>
+    <span class="sim-mnav-lbl" data-i18n="sim.mnav.prev"></span>
+  </button>
+  <button class="sim-mnav-btn" data-mnav="pulse" aria-label="Live around you">
+    <span class="sim-mnav-glyph">⚡</span>
+    <span class="sim-mnav-lbl" data-i18n="sim.mnav.pulse"></span>
+  </button>
+  <button class="sim-mnav-btn sim-mnav-center" data-mnav="tabs" aria-label="All tabs">
+    <span class="sim-mnav-glyph">◆</span>
+    <span class="sim-mnav-lbl" data-i18n="sim.mnav.tabs"></span>
+  </button>
+  <button class="sim-mnav-btn" data-mnav="escrow" aria-label="Escrow">
+    <span class="sim-mnav-glyph">🔒</span>
+    <span class="sim-mnav-lbl" data-i18n="sim.mnav.escrow"></span>
+  </button>
+  <button class="sim-mnav-btn" data-mnav="next" aria-label="Next step">
+    <span class="sim-mnav-glyph">›</span>
+    <span class="sim-mnav-lbl" data-i18n="sim.mnav.next"></span>
+  </button>
+</nav>
+
+<!-- ═══════════════════ MOBILE BOTTOM SHEETS ═══════════════════
+     Slide up from the bottom · draggable handle · tap-outside to close. -->
+<div class="sim-sheet-scrim" id="sheetScrim" aria-hidden="true"></div>
+
+<aside class="sim-sheet" id="pulseSheet" aria-hidden="true" role="dialog">
+  <div class="sim-sheet-handle"></div>
+  <div class="sim-sheet-head">
+    <div class="sim-sheet-title" data-i18n-html="sim.pulse.title"></div>
+    <button class="sim-sheet-close" data-sheet-close="pulseSheet" aria-label="Close">×</button>
+  </div>
+  <div class="sim-sheet-sub" data-i18n="sim.pulse.sub"></div>
+  <div class="sim-sheet-body" id="pulseSheetBody"></div>
+  <div class="sim-sheet-footer">
+    <div class="sim-sheet-jump-label" data-i18n="sim.pulse.jumpLabel"></div>
+    <div class="sim-sheet-jump-grid" id="pulseSheetJumps"></div>
+  </div>
+</aside>
+
+<aside class="sim-sheet" id="escrowSheet" aria-hidden="true" role="dialog">
+  <div class="sim-sheet-handle"></div>
+  <div class="sim-sheet-head">
+    <div class="sim-sheet-title" data-i18n-html="sim.escrow.title"></div>
+    <button class="sim-sheet-close" data-sheet-close="escrowSheet" aria-label="Close">×</button>
+  </div>
+  <div class="sim-sheet-body" id="escrowSheetBody"></div>
+</aside>
+
+<aside class="sim-sheet" id="tabsSheet" aria-hidden="true" role="dialog">
+  <div class="sim-sheet-handle"></div>
+  <div class="sim-sheet-head">
+    <div class="sim-sheet-title" data-i18n="sim.mnav.tabsTitle"></div>
+    <button class="sim-sheet-close" data-sheet-close="tabsSheet" aria-label="Close">×</button>
+  </div>
+  <div class="sim-sheet-body" id="tabsSheetBody"></div>
+</aside>
+
 <!-- ═══════════ DOSSIER OVERLAY ═══════════ -->
 <div class="sim-dossier-overlay" id="dossierOverlay" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="sim-dossier-card">
@@ -195,8 +257,8 @@
   </div>
 </div>
 
-<script src="/translations.js?v=11"></script>
+<script src="/translations.js?v=12"></script>
 <script src="/sim-data.js?v=2"></script>
-<script src="/simulation.js?v=4"></script>
+<script src="/simulation.js?v=5"></script>
 </body>
 </html>

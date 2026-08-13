@@ -516,7 +516,6 @@ let curAct = 1;
 function goToAct(n) {
   curAct = n;
   document.querySelectorAll('.sim-act').forEach(el => el.classList.toggle('active', parseInt(el.dataset.act, 10) === n));
-  const p = paramsIn();
   const url = new URL(location.href);
   url.searchParams.set('act', String(n));
   if (curPersona) url.searchParams.set('persona', curPersona);
@@ -524,6 +523,8 @@ function goToAct(n) {
   history.replaceState({}, '', url);
 
   if (n === 3) buildNational();
+  updateMobileNavAria();
+  closeAllSheets();
 }
 
 // ═══════════ ACT 1 — PERSONA GRID ═══════════
@@ -601,6 +602,7 @@ function buildTabs(persona) {
 }
 function highlightTab(idx) {
   document.querySelectorAll('.sim-dash-tab').forEach((b, i) => b.classList.toggle('active', i === idx));
+  updateMobileNavAria();
 }
 
 function buildStoryTrack(persona) {
@@ -1553,18 +1555,236 @@ function triggerShimmer() {
   $('followBtn').classList.remove('active');
 }
 
+// ═══════════ MOBILE UX · sheets, swipe, tap-tooltip ═══════════
+const MOBILE_BP = 720;
+function isMobile() { return window.innerWidth <= MOBILE_BP; }
+
+function openSheet(id) {
+  const s = $(id);
+  if (!s) return;
+  const scrim = $('sheetScrim');
+  // Close any other sheet first
+  document.querySelectorAll('.sim-sheet.open').forEach(el => { if (el !== s) closeSheet(el.id); });
+  s.classList.add('open');
+  s.setAttribute('aria-hidden', 'false');
+  if (scrim) scrim.classList.add('open');
+  if (id === 'pulseSheet') populatePulseSheet();
+  if (id === 'escrowSheet') populateEscrowSheet();
+  if (id === 'tabsSheet') populateTabsSheet();
+  if (navigator.vibrate) navigator.vibrate(10);
+}
+function closeSheet(id) {
+  const s = $(id);
+  if (!s) return;
+  s.classList.remove('open');
+  s.setAttribute('aria-hidden', 'true');
+  if (!document.querySelector('.sim-sheet.open')) $('sheetScrim').classList.remove('open');
+}
+function closeAllSheets() {
+  document.querySelectorAll('.sim-sheet.open').forEach(el => closeSheet(el.id));
+}
+
+function populatePulseSheet() {
+  const body = $('pulseSheetBody');
+  const jumps = $('pulseSheetJumps');
+  if (!body) return;
+  // Clone the current pulse render logic into the sheet body
+  const events = PULSE_RECENT.events.filter(e => e.kind !== curPersona).slice(0, 8);
+  const glyphOf = { producer: '◈', citizen: '◉', collector: '◆', refiner: '⬢', wmra: '⚖', board: '◇' };
+  body.innerHTML = '';
+  if (events.length === 0) {
+    body.innerHTML = `<div class="sim-pulse-empty">${uiLang === 'ar' ? 'بانتظار أول حدث …' : 'Waiting for first event …'}</div>`;
+  } else {
+    events.forEach(e => {
+      const li = document.createElement('div');
+      li.className = 'sim-pulse-event';
+      li.innerHTML = `
+        <span class="sim-pulse-event-glyph">${glyphOf[e.kind] || '◆'}</span>
+        <div class="sim-pulse-event-main">
+          <div class="sim-pulse-event-who">${e.who}</div>
+          <div class="sim-pulse-event-action">${e.action}</div>
+        </div>
+        <span class="sim-pulse-event-val">${e.value}</span>
+      `;
+      li.addEventListener('click', () => { closeSheet('pulseSheet'); enterPersona(e.kind); });
+      body.appendChild(li);
+    });
+  }
+  if (jumps) {
+    jumps.innerHTML = '';
+    D.PERSONAS.filter(p => p.id !== curPersona).forEach(p => {
+      const b = document.createElement('button');
+      b.className = 'sim-pulse-jump-btn';
+      b.innerHTML = `<span class="sim-pulse-jump-glyph">${p.glyph}</span><span class="sim-pulse-jump-name">${get('sim.personas.' + p.id + '.name')}</span>`;
+      b.addEventListener('click', () => { closeSheet('pulseSheet'); enterPersona(p.id); });
+      jumps.appendChild(b);
+    });
+  }
+}
+function populateEscrowSheet() {
+  const body = $('escrowSheetBody');
+  if (!body) return;
+  const t = get('sim.escrow');
+  const SPL = D.SPLIT_CALCULATOR;
+  const isAr = uiLang === 'ar';
+  const total = world.escrowReleased;
+  const splitLbl = isAr
+    ? { wmra: 'WMRA · 5%', ecofei: 'التحالف · 5%', ops: 'ميزان تشغيل · 30%', collectors: 'الجامعون · 30%', refiners: 'المكرّرون · 30%' }
+    : { wmra: 'WMRA · 5%', ecofei: 'Consortium · 5%', ops: 'Mizan Ops · 30%', collectors: 'Collectors · 30%', refiners: 'Refiners · 30%' };
+  body.innerHTML = `
+    <div class="sim-escrow-sheet-hero">
+      <div class="sim-escrow-sheet-lock">🔒</div>
+      <div class="sim-escrow-sheet-big">${fmtEgp(world.escrowHeld)}</div>
+      <div class="sim-escrow-sheet-lbl">${t.held}</div>
+    </div>
+    <div class="sim-escrow-sheet-row">
+      <span class="sim-escrow-sheet-row-lbl">← ${t.inLabel.replace(/[←→]/g, '').trim()}</span>
+      <span class="sim-escrow-sheet-row-val">${fmtEgp(world.escrowHeld + world.escrowReleased)} EGP</span>
+    </div>
+    <div class="sim-escrow-sheet-row">
+      <span class="sim-escrow-sheet-row-lbl">→ ${t.outLabel.replace(/[←→]/g, '').trim()}</span>
+      <span class="sim-escrow-sheet-row-val">${fmtEgp(world.escrowReleased)} EGP</span>
+    </div>
+    <div class="sim-escrow-sheet-split">
+      <div class="sim-escrow-sheet-split-title">${isAr ? 'التوزيع المُقترَح · للتفاوض' : 'Proposed split · for negotiation'}</div>
+      <div class="sim-escrow-sheet-split-row"><span class="sim-escrow-sheet-split-row-name">${splitLbl.wmra}</span><span class="sim-escrow-sheet-split-row-val">${fmtEgp(total * SPL.wmra)} EGP</span></div>
+      <div class="sim-escrow-sheet-split-row"><span class="sim-escrow-sheet-split-row-name">${splitLbl.ecofei}</span><span class="sim-escrow-sheet-split-row-val">${fmtEgp(total * SPL.ecofei)} EGP</span></div>
+      <div class="sim-escrow-sheet-split-row"><span class="sim-escrow-sheet-split-row-name">${splitLbl.ops}</span><span class="sim-escrow-sheet-split-row-val">${fmtEgp(total * SPL.mizan)} EGP</span></div>
+      <div class="sim-escrow-sheet-split-row"><span class="sim-escrow-sheet-split-row-name">${splitLbl.collectors}</span><span class="sim-escrow-sheet-split-row-val">${fmtEgp(total * SPL.collectors)} EGP</span></div>
+      <div class="sim-escrow-sheet-split-row"><span class="sim-escrow-sheet-split-row-name">${splitLbl.refiners}</span><span class="sim-escrow-sheet-split-row-val">${fmtEgp(total * SPL.refiners)} EGP</span></div>
+    </div>
+  `;
+}
+function populateTabsSheet() {
+  const body = $('tabsSheetBody');
+  if (!body || !curPersona) return;
+  const labels = I18N[uiLang].sim[curPersona].tabs;
+  const keys = Object.keys(labels);
+  const grid = document.createElement('div');
+  grid.className = 'sim-tabs-sheet-grid';
+  keys.forEach((k, i) => {
+    const item = document.createElement('button');
+    item.className = 'sim-tabs-sheet-item' + (i === curTab ? ' active' : '');
+    item.innerHTML = `<span>${labels[k]}</span><span class="sim-tabs-sheet-num">${String(i + 1).padStart(2, '0')}</span>`;
+    item.addEventListener('click', () => {
+      curTab = i;
+      renderTab(curPersona, i);
+      highlightTab(i);
+      highlightStory(i);
+      closeSheet('tabsSheet');
+    });
+    grid.appendChild(item);
+  });
+  body.innerHTML = '';
+  body.appendChild(grid);
+}
+
+function wireMobileNav() {
+  document.querySelectorAll('.sim-mnav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = btn.dataset.mnav;
+      if (action === 'prev') { if (curTab > 0) { curTab--; renderTab(curPersona, curTab); highlightTab(curTab); highlightStory(curTab); } }
+      else if (action === 'next') { const totalTabs = Object.keys(I18N[uiLang].sim[curPersona].tabs).length; if (curTab < totalTabs - 1) { curTab++; renderTab(curPersona, curTab); highlightTab(curTab); highlightStory(curTab); } }
+      else if (action === 'pulse') openSheet('pulseSheet');
+      else if (action === 'escrow') openSheet('escrowSheet');
+      else if (action === 'tabs') openSheet('tabsSheet');
+    });
+  });
+  document.querySelectorAll('[data-sheet-close]').forEach(btn => {
+    btn.addEventListener('click', () => closeSheet(btn.dataset.sheetClose));
+  });
+  const scrim = $('sheetScrim');
+  if (scrim) scrim.addEventListener('click', closeAllSheets);
+  // Swipe-down on sheet handle to dismiss
+  document.querySelectorAll('.sim-sheet').forEach(sheet => {
+    let sy = 0;
+    sheet.addEventListener('touchstart', e => { if (e.target.classList.contains('sim-sheet-handle') || sheet.scrollTop === 0) sy = e.touches[0].clientY; }, { passive: true });
+    sheet.addEventListener('touchend', e => {
+      if (sy === 0) return;
+      const dy = e.changedTouches[0].clientY - sy;
+      if (dy > 80) closeSheet(sheet.id);
+      sy = 0;
+    }, { passive: true });
+  });
+}
+
+function wireSwipeTabs() {
+  const content = $('dashContent');
+  if (!content) return;
+  let sx = 0, sy = 0, sxAbs = 0;
+  content.addEventListener('touchstart', e => {
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    sxAbs = 0;
+  }, { passive: true });
+  content.addEventListener('touchmove', e => {
+    sxAbs = Math.abs(e.touches[0].clientX - sx);
+  }, { passive: true });
+  content.addEventListener('touchend', e => {
+    if (!isMobile() || !curPersona) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    // Horizontal swipe threshold + not a vertical scroll
+    if (Math.abs(dx) > 60 && Math.abs(dy) < 40) {
+      const totalTabs = Object.keys(I18N[uiLang].sim[curPersona].tabs).length;
+      // RTL: swipe RIGHT (positive dx) = NEXT; swipe LEFT = PREV
+      // LTR: swipe LEFT (negative dx) = NEXT; swipe RIGHT = PREV
+      const goNext = uiLang === 'ar' ? dx > 0 : dx < 0;
+      if (goNext && curTab < totalTabs - 1) { curTab++; renderTab(curPersona, curTab); highlightTab(curTab); highlightStory(curTab); if (navigator.vibrate) navigator.vibrate(8); }
+      else if (!goNext && curTab > 0) { curTab--; renderTab(curPersona, curTab); highlightTab(curTab); highlightStory(curTab); if (navigator.vibrate) navigator.vibrate(8); }
+    }
+  }, { passive: true });
+}
+
+function wireTapTooltips() {
+  // Tap-to-toggle for info chips on touch devices
+  document.addEventListener('click', (e) => {
+    const info = e.target.closest('.sim-info');
+    document.querySelectorAll('.sim-info.active').forEach(el => { if (el !== info) el.classList.remove('active'); });
+    if (info) {
+      e.preventDefault();
+      e.stopPropagation();
+      info.classList.toggle('active');
+    }
+  });
+  // Auto-close after 6s
+  document.addEventListener('touchstart', (e) => {
+    if (!e.target.closest('.sim-info')) {
+      document.querySelectorAll('.sim-info.active').forEach(el => el.classList.remove('active'));
+    }
+  }, { passive: true });
+}
+
+function updateMobileNavAria() {
+  const mnav = $('mnavBar');
+  if (!mnav) return;
+  mnav.setAttribute('aria-hidden', curAct !== 2 ? 'true' : 'false');
+  // Disable prev/next at edges
+  const prev = mnav.querySelector('[data-mnav="prev"]');
+  const next = mnav.querySelector('[data-mnav="next"]');
+  if (prev) prev.disabled = curTab === 0;
+  if (next && curPersona) {
+    const totalTabs = Object.keys(I18N[uiLang].sim[curPersona].tabs).length;
+    next.disabled = curTab === totalTabs - 1;
+  }
+}
+
 // ═══════════ INIT ═══════════
 function init() {
   world.rng = D.makeRng(world.seed);
   applyI18n();
   buildPersonaGrid();
   wireControls();
+  wireMobileNav();
+  wireSwipeTabs();
+  wireTapTooltips();
   const p = paramsIn();
   startEngine();
   // Pre-warm a few ticks so first render has data
   for (let i = 0; i < 30; i++) advanceWorld();
   if (p.persona) enterPersona(p.persona);
   if (p.act === 3) goToAct(3);
+  updateMobileNavAria();
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
