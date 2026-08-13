@@ -1311,6 +1311,26 @@ html[dir="rtl"] .audience-list li::before { left: auto; right: 0; }
 }
 .team-role { font-size: 12px; color: var(--gold); font-weight: 600; margin-bottom: 6px; }
 .team-place { font-size: 11px; color: var(--muted); font-style: italic; }
+.team-linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 6px 12px;
+  border-radius: 3px;
+  background: #0A66C2;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.team-linkedin:hover {
+  background: #084d94;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(10,102,194,0.35);
+}
+.team-linkedin svg { flex-shrink: 0; }
 
 /* ═══════════ CONTACT ═══════════ */
 .contact-grid {
@@ -1805,7 +1825,7 @@ html[dir="rtl"] .pillar-bullets li { padding: 8px 22px 8px 0; }
 /* Tablets (up to 960px) */
 @media (max-width: 960px) {
   .arch-interactive {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 22px;
   }
   .arch-narrative-wrap {
@@ -1852,6 +1872,32 @@ html[dir="rtl"] .pillar-bullets li { padding: 8px 22px 8px 0; }
   }
   .nav-links a::after { display: none; }
   .nav { position: sticky; }
+}
+
+/* Mobile diagram — the wrap is a grid item, so we must force min-width: 0 to
+   stop it from growing to fit the SVG's intrinsic min-width. Instead, the wrap
+   scrolls horizontally and the SVG stays at a legible size. */
+@media (max-width: 720px) {
+  .arch-interactive > .arch-diagram-wrap {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 18px 16px;
+  }
+  .arch-diagram-wrap .arch-progress {
+    position: sticky;
+    inset-inline-start: 0;
+    background: rgba(255,255,255,0.98);
+    z-index: 2;
+  }
+  .arch-svg {
+    min-width: 620px;
+    width: 620px;
+    max-width: none;
+    height: auto;
+  }
 }
 
 /* Mobile (up to 640px) */
@@ -1960,7 +2006,6 @@ html[dir="rtl"] .pillar-bullets li { padding: 8px 22px 8px 0; }
   .nav-actions { gap: 8px; }
   .nav-cta { display: none; }
   .stat-number { font-size: 42px; }
-  .arch-svg { min-height: 320px; }
   .team-avatar { width: 90px; height: 90px; }
   .team-name { font-size: 16px; }
 }
