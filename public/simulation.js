@@ -254,6 +254,11 @@ function applyI18n() {
   html.setAttribute('dir', I18N[uiLang].dir);
   html.setAttribute('data-lang', uiLang);
   document.title = get('sim.brand') + ' · ' + get('sim.landing.eyebrow');
+  // Reseed the language-specific FIXED pulse events on every language change
+  if (typeof PULSE_RECENT !== 'undefined' && PULSE_RECENT) {
+    const seed = uiLang === 'ar' ? FIXED_PULSE_AR : FIXED_PULSE_EN;
+    PULSE_RECENT.events = seed.map(e => ({ ...e, ts: 10 * 60 }));
+  }
 
   const hasHtml = (s) => /<\/?[a-z][\s\S]*>/i.test(s);
   document.querySelectorAll('[data-i18n]').forEach(node => {
