@@ -366,6 +366,32 @@ html[dir="rtl"] .sim-hero-title { font-family: var(--font-display-ar); }
   50% { box-shadow: 0 0 20px rgba(200,169,81,0.6); }
 }
 
+/* Manual step controls on the E2E ribbon */
+.sim-e2e-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+html[dir="rtl"] .sim-e2e-controls { justify-content: flex-start; }
+.sim-e2e-controls-compact { margin-top: 10px; }
+.sim-e2e-ctrl-btn {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 7px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s;
+}
+.sim-e2e-ctrl-btn:hover { background: var(--gold); color: var(--navy); }
+.sim-e2e-ctrl-btn.primary { background: var(--gold); color: var(--navy); }
+.sim-e2e-ctrl-btn.primary:hover { background: var(--gold-light); }
+
 /* ─── Escrow ribbon (Act 2) ─── */
 .sim-escrow-ribbon {
   margin-bottom: 18px;

@@ -423,6 +423,11 @@ const I18N = {
         tabs: "الأقسام",
         tabsTitle: "◆ اختر قسماً",
       },
+      e2eCtrl: {
+        prev: "← الخطوة السابقة",
+        next: "الخطوة التالية →",
+        new: "◆ معاملة جديدة",
+      },
       // Producer view
       producer: {
         tabs: {
@@ -1024,6 +1029,11 @@ const I18N = {
         escrow: "Escrow",
         tabs: "Tabs",
         tabsTitle: "◆ Choose a section",
+      },
+      e2eCtrl: {
+        prev: "← Previous step",
+        next: "Next step →",
+        new: "◆ New transaction",
       },
       producer: {
         tabs: {

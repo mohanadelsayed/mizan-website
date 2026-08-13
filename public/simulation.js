@@ -462,14 +462,25 @@ function seedE2ESubject() {
   world.e2e.step = 0;
   world.e2e.subjectTick = world.tick;
 }
+// Manual-only step control. User clicks Prev/Next to walk the narrative.
+// Removes the previous auto-advance-every-3-ticks behaviour.
 function advanceE2E() {
   if (!world.e2e.subject) seedE2ESubject();
-  if (world.tick - world.e2e.subjectTick >= E2E_TICKS_PER_STEP) {
-    world.e2e.step++;
-    world.e2e.subjectTick = world.tick;
-    if (world.e2e.step >= E2E_TOTAL_STEPS) seedE2ESubject();
-    else bus.emit('e2e:step', world.e2e);
-  }
+  // no automatic step advancement — steps only move on explicit user action
+}
+function e2eNext() {
+  if (!world.e2e.subject) seedE2ESubject();
+  world.e2e.step = Math.min(E2E_TOTAL_STEPS - 1, world.e2e.step + 1);
+  bus.emit('e2e:step', world.e2e);
+}
+function e2ePrev() {
+  if (!world.e2e.subject) seedE2ESubject();
+  world.e2e.step = Math.max(0, world.e2e.step - 1);
+  bus.emit('e2e:step', world.e2e);
+}
+function e2eReseed() {
+  seedE2ESubject();
+  bus.emit('e2e:step', world.e2e);
 }
 
 // Render E2E story ribbon into a given root element
@@ -1269,7 +1280,7 @@ function pushPulse(payload) {
 bus.on('imports:new', (e) => pushPulse({ kind: 'producer', ts: e.ts, who: uiLang === 'ar' ? e.producer.name_ar : e.producer.name_en, action: uiLang === 'ar' ? `أقرّ ${e.units} × ${e.device.name_en}` : `declared ${e.units} × ${e.device.name_en}`, value: fmtEgp(e.fee_egp) + ' EGP' }));
 bus.on('orders:new', (e) => pushPulse({ kind: 'board', ts: e.ts, who: uiLang === 'ar' ? 'مجلس التحالف' : 'Consortium Board', action: uiLang === 'ar' ? `أصدر أمر عمل إلى ${e.refiner.name_en}` : `issued a work order to ${e.refiner.name_en}`, value: fmtKg(e.kg) + ' kg' }));
 bus.on('handoffs:new', (e) => pushPulse({ kind: 'collector', ts: e.ts, who: uiLang === 'ar' ? 'الجامع' : 'Collector', action: uiLang === 'ar' ? `سلّم إلى ${e.refiner.name_en}` : `handed to ${e.refiner.name_en}`, value: fmtKg(e.kg) + ' kg' }));
-bus.on('proofs:new', (e) => pushPulse({ kind: 'refiner', ts: e.ts, who: uiLang === 'ar' ? 'المكرِّر' : 'Refiner', action: uiLang === 'ar' ? `رفع إثبات المعالجة` : `uploaded proof of treatment`, value: fmtKg(e.kg) + ' kg' }));
+bus.on('proofs:new', (e) => pushPulse({ kind: 'refiner', ts: e.ts, who: uiLang === 'ar' ? 'المستخلِص' : 'Refiner', action: uiLang === 'ar' ? `رفع إثبات المعالجة` : `uploaded proof of treatment`, value: fmtKg(e.kg) + ' kg' }));
 bus.on('verify:done', (e) => pushPulse({ kind: 'wmra', ts: e.ts, who: 'WMRA', action: uiLang === 'ar' ? `اعتمد الإثبات ← تحرير الضمان` : `approved · escrow released`, value: fmtEgp(e.kg * 55) + ' EGP' }));
 bus.on('certs:issued', () => pushPulse({ kind: 'producer', ts: world.simMinutes, who: uiLang === 'ar' ? 'المنتِج' : 'Producer', action: uiLang === 'ar' ? `استلم شهادة إبراء + كربون` : `received discharge + carbon cert`, value: '✓' }));
 bus.on('citizen:return', (e) => pushPulse({ kind: 'citizen', ts: world.simMinutes, who: uiLang === 'ar' ? 'المواطن' : 'Citizen', action: uiLang === 'ar' ? `أعاد جهازاً · نقاط استرداد` : `returned a device · earned points`, value: '+' + fmt(e.points) + ' pts' }));
@@ -1492,6 +1503,17 @@ function closeDossier() {
 }
 
 // ═══════════ CONTROLS WIRING ═══════════
+function wireE2EControls() {
+  document.querySelectorAll('[data-e2e-ctrl]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const dir = btn.dataset.e2eCtrl;
+      if (dir === 'prev') e2ePrev();
+      else if (dir === 'next') e2eNext();
+      else if (dir === 'reseed') e2eReseed();
+      if (navigator.vibrate) navigator.vibrate(6);
+    });
+  });
+}
 function wireControls() {
   document.querySelectorAll('.sim-speed-btn').forEach(b => {
     b.addEventListener('click', () => {
@@ -1629,7 +1651,7 @@ function populateEscrowSheet() {
   const isAr = uiLang === 'ar';
   const total = world.escrowReleased;
   const splitLbl = isAr
-    ? { wmra: 'WMRA · 5%', ecofei: 'التحالف · 5%', ops: 'ميزان تشغيل · 30%', collectors: 'الجامعون · 30%', refiners: 'المكرّرون · 30%' }
+    ? { wmra: 'WMRA · 5%', ecofei: 'التحالف · 5%', ops: 'ميزان تشغيل · 30%', collectors: 'الجامعون · 30%', refiners: 'المستخلِصون · 30%' }
     : { wmra: 'WMRA · 5%', ecofei: 'Consortium · 5%', ops: 'Mizan Ops · 30%', collectors: 'Collectors · 30%', refiners: 'Refiners · 30%' };
   body.innerHTML = `
     <div class="sim-escrow-sheet-hero">
@@ -1778,6 +1800,7 @@ function init() {
   wireMobileNav();
   wireSwipeTabs();
   wireTapTooltips();
+  wireE2EControls();
   const p = paramsIn();
   startEngine();
   // Pre-warm a few ticks so first render has data

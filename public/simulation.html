@@ -72,13 +72,18 @@
     <div class="sim-persona-grid" id="personaGrid"></div>
   </div>
 
-  <!-- End-to-end story · single transaction · always visible so the whole flow reads at a glance -->
+  <!-- End-to-end story · single transaction · manual step-through controls -->
   <div class="sim-story-e2e" aria-label="End-to-end transaction story">
     <div class="sim-story-e2e-head">
       <span class="sim-story-e2e-eyebrow" data-i18n-html="sim.landing.storyEyebrow"></span>
       <span class="sim-story-e2e-following" id="storyFollowing"></span>
     </div>
     <div class="sim-story-e2e-track" id="storyE2ETrack"></div>
+    <div class="sim-e2e-controls">
+      <button class="sim-e2e-ctrl-btn" data-e2e-ctrl="prev" data-i18n="sim.e2eCtrl.prev"></button>
+      <button class="sim-e2e-ctrl-btn" data-e2e-ctrl="reseed" data-i18n="sim.e2eCtrl.new"></button>
+      <button class="sim-e2e-ctrl-btn primary" data-e2e-ctrl="next" data-i18n="sim.e2eCtrl.next"></button>
+    </div>
   </div>
 </section>
 
@@ -117,13 +122,18 @@
     </div>
   </div>
 
-  <!-- Story ribbon · single active transaction with progress bar -->
+  <!-- Story ribbon · single active transaction with manual step-through controls -->
   <div class="sim-story-ribbon" id="storyRibbon">
     <div class="sim-story-ribbon-head">
       <span class="sim-story-ribbon-eyebrow" data-i18n-html="sim.narrative.eyebrow"></span>
       <span class="sim-story-ribbon-what" id="storyRibbonWhat"></span>
     </div>
     <div class="sim-story-ribbon-track" id="storyRibbonTrack"></div>
+    <div class="sim-e2e-controls sim-e2e-controls-compact">
+      <button class="sim-e2e-ctrl-btn" data-e2e-ctrl="prev" data-i18n="sim.e2eCtrl.prev"></button>
+      <button class="sim-e2e-ctrl-btn" data-e2e-ctrl="reseed" data-i18n="sim.e2eCtrl.new"></button>
+      <button class="sim-e2e-ctrl-btn primary" data-e2e-ctrl="next" data-i18n="sim.e2eCtrl.next"></button>
+    </div>
   </div>
 
   <div class="sim-dash-body">
