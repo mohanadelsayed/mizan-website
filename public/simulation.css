@@ -1,0 +1,883 @@
+/* ═══════════════════════════════════════════════════════════
+   MIZAN LIVE · Simulation styles
+   Reuses tokens from /style.css. RTL-first. Bloomberg-terminal
+   aesthetic — monospace for numeric labels, no bounces.
+   ═══════════════════════════════════════════════════════════ */
+
+.sim-body {
+  background: #05121F;
+  color: rgba(255,255,255,0.9);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ═══════ WATERMARK — visible everywhere ═══════ */
+.sim-watermark {
+  position: fixed;
+  top: 12px;
+  inset-inline-end: 14px;
+  z-index: 200;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  background: rgba(200,169,81,0.14);
+  border: 1px solid rgba(200,169,81,0.4);
+  border-radius: 30px;
+  color: var(--gold-light);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.sim-watermark-glyph { color: var(--gold); font-size: 12px; }
+
+/* ═══════ TOP BAR ═══════ */
+.sim-topbar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding: 12px 24px;
+  background: rgba(10,31,56,0.85);
+  border-bottom: 1px solid rgba(200,169,81,0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.sim-brand {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+.sim-brand-mark {
+  font-family: var(--font-display-en);
+  font-size: 22px; font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+.sim-brand-live {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--gold-light);
+  padding: 2px 8px;
+  border: 1px solid rgba(200,169,81,0.4);
+  border-radius: 3px;
+  letter-spacing: 1.5px;
+}
+.sim-topbar-actions {
+  display: inline-flex; align-items: center; gap: 14px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.sim-clock {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+.sim-clock-label {
+  color: rgba(200,169,81,0.7);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.sim-clock-value {
+  color: var(--gold-light);
+  font-weight: 700;
+}
+.sim-speed {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 8px 3px 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(200,169,81,0.2);
+  border-radius: 20px;
+}
+.sim-speed-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(200,169,81,0.7);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0 6px;
+}
+.sim-speed-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.sim-speed-btn:hover { color: var(--gold); }
+.sim-speed-btn.active {
+  background: var(--gold);
+  color: var(--navy);
+}
+.sim-lang {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.sim-lang:hover { background: var(--gold); color: var(--navy); }
+.sim-back {
+  color: rgba(200,169,81,0.9);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+}
+.sim-back:hover { color: var(--gold-light); }
+
+/* ═══════ ACT SWITCHING ═══════ */
+.sim-act { display: none; }
+.sim-act.active { display: block; }
+
+/* ═══════ ACT 1 · Persona Chooser ═══════ */
+.sim-act-1 {
+  padding: 60px 24px 80px;
+  min-height: calc(100vh - 66px);
+}
+.sim-hero {
+  max-width: 900px;
+  margin: 0 auto 50px;
+  text-align: center;
+}
+.sim-hero-eyebrow {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 14px;
+}
+.sim-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  color: white;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+html[dir="rtl"] .sim-hero-title { font-family: var(--font-display-ar); }
+.sim-hero-title .gold { color: var(--gold); }
+.sim-hero-lede {
+  font-size: clamp(15px, 1.6vw, 17px);
+  color: rgba(255,255,255,0.72);
+  line-height: 1.65;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.sim-tickers-hero {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 36px;
+}
+.sim-ticker-hero {
+  padding: 20px 18px;
+  background: rgba(200,169,81,0.06);
+  border: 1px solid rgba(200,169,81,0.25);
+  border-radius: 8px;
+}
+.sim-ticker-num {
+  font-family: var(--font-mono);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  color: var(--gold-light);
+  line-height: 1;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
+}
+.sim-ticker-label {
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.sim-choose { max-width: 1200px; margin: 0 auto; }
+.sim-choose-title {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 28px;
+}
+.sim-persona-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.sim-persona-card {
+  background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid rgba(200,169,81,0.25);
+  border-radius: 14px;
+  padding: 28px 24px 24px;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  color: inherit;
+  text-align: start;
+}
+.sim-persona-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(200,169,81,0.2);
+}
+.sim-persona-glyph {
+  font-size: 36px;
+  color: var(--gold);
+  filter: drop-shadow(0 0 12px rgba(200,169,81,0.4));
+  margin-bottom: 12px;
+}
+.sim-persona-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 6px;
+}
+html[dir="rtl"] .sim-persona-name { font-family: var(--font-display-ar); }
+.sim-persona-who {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.55;
+  margin-bottom: 18px;
+  min-height: 40px;
+}
+.sim-persona-kpi {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(200,169,81,0.2);
+  font-family: var(--font-mono);
+}
+.sim-persona-kpi-label {
+  font-size: 10px;
+  color: rgba(200,169,81,0.7);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.sim-persona-kpi-val {
+  font-size: 18px;
+  color: var(--gold-light);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.sim-persona-enter {
+  margin-top: 18px;
+  display: inline-block;
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ═══════ ACT 2 · Persona Dashboard ═══════ */
+.sim-act-2 { padding: 24px 20px 40px; }
+.sim-dash-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, rgba(200,169,81,0.10), rgba(200,169,81,0.03));
+  border: 1px solid rgba(200,169,81,0.3);
+  border-radius: 10px;
+}
+.sim-dash-persona { display: flex; align-items: center; gap: 14px; }
+.sim-dash-glyph {
+  font-size: 34px;
+  color: var(--gold);
+  filter: drop-shadow(0 0 10px rgba(200,169,81,0.5));
+}
+.sim-dash-idbox { display: flex; flex-direction: column; gap: 4px; }
+.sim-dash-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold-light);
+  line-height: 1.15;
+}
+html[dir="rtl"] .sim-dash-name { font-family: var(--font-display-ar); }
+.sim-dash-who {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+.sim-dash-goto-national {
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s;
+}
+.sim-dash-goto-national:hover { background: var(--gold-light); }
+
+.sim-dash-body {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) 260px;
+  gap: 18px;
+  align-items: start;
+}
+.sim-dash-tabs {
+  display: flex; flex-direction: column;
+  gap: 6px;
+  padding: 12px 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,169,81,0.15);
+  border-radius: 8px;
+  position: sticky;
+  top: 78px;
+}
+.sim-dash-tab {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.75);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: start;
+  transition: background 0.15s, color 0.15s;
+}
+.sim-dash-tab:hover { background: rgba(200,169,81,0.08); color: var(--gold-light); }
+.sim-dash-tab.active {
+  background: rgba(200,169,81,0.15);
+  color: var(--gold);
+  font-weight: 700;
+}
+.sim-dash-tab-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--gold);
+  min-width: 20px;
+  text-align: center;
+}
+
+.sim-dash-content {
+  min-height: 500px;
+  padding: 22px 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,169,81,0.15);
+  border-radius: 8px;
+}
+.sim-tab-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold-light);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(200,169,81,0.2);
+}
+html[dir="rtl"] .sim-tab-title { font-family: var(--font-display-ar); }
+
+.sim-tab-hint {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  font-style: italic;
+  margin-bottom: 18px;
+}
+
+.sim-metric-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.sim-metric {
+  padding: 14px 16px;
+  background: rgba(200,169,81,0.06);
+  border: 1px solid rgba(200,169,81,0.2);
+  border-radius: 6px;
+}
+.sim-metric-label {
+  font-size: 10px;
+  color: rgba(200,169,81,0.75);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.sim-metric-value {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  color: var(--gold-light);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.sim-metric-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px;
+}
+.sim-metric.big .sim-metric-value { font-size: 30px; }
+
+/* Feed list — used in obligation, incoming manifests, verify queue */
+.sim-feed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.sim-feed-item {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px dashed rgba(200,169,81,0.14);
+  align-items: center;
+  animation: feedIn 0.4s ease-out;
+}
+.sim-feed-item:last-child { border-bottom: none; }
+@keyframes feedIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sim-feed-time {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(200,169,81,0.7);
+  letter-spacing: 0.5px;
+}
+.sim-feed-main {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.4;
+}
+.sim-feed-main b { color: var(--gold-light); font-weight: 700; }
+.sim-feed-right {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Progress bar */
+.sim-progress {
+  height: 6px;
+  background: rgba(200,169,81,0.14);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 6px 0 14px;
+}
+.sim-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transition: width 0.5s ease-out;
+}
+
+/* Buttons inside dashboards */
+.sim-btn {
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+.sim-btn:hover { background: var(--gold-light); }
+.sim-btn-ghost {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+.sim-btn-ghost:hover { background: rgba(200,169,81,0.1); }
+
+/* System Pulse (right rail) */
+.sim-dash-pulse {
+  position: sticky;
+  top: 78px;
+  padding: 16px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,169,81,0.15);
+  border-radius: 8px;
+}
+.sim-pulse-title {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.sim-pulse-svg { width: 100%; height: auto; }
+.sim-pulse-tickers {
+  display: flex; flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(200,169,81,0.15);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+}
+.sim-pulse-tickers div { display: flex; justify-content: space-between; }
+.sim-pulse-tickers b { color: var(--gold-light); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Story track (bottom) */
+.sim-story-track {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 22px;
+  padding: 14px 18px;
+  background: rgba(200,169,81,0.05);
+  border: 1px solid rgba(200,169,81,0.2);
+  border-radius: 8px;
+}
+.sim-story-step {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  min-height: 40px;
+  line-height: 1.35;
+}
+.sim-story-step .sim-story-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--gold);
+  min-width: 22px;
+  text-align: center;
+  padding: 3px 6px;
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+}
+.sim-story-step.done { color: var(--gold-light); }
+.sim-story-step.done .sim-story-num { background: var(--gold); color: var(--navy); }
+.sim-story-step.current { background: rgba(200,169,81,0.12); color: var(--gold-light); }
+.sim-story-step.current .sim-story-num {
+  background: var(--gold-light); color: var(--navy);
+  animation: storyPulse 1.6s ease-in-out infinite;
+}
+@keyframes storyPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(200,169,81,0.6); }
+  50% { box-shadow: 0 0 0 6px rgba(200,169,81,0); }
+}
+
+/* ═══════ ACT 3 · National view ═══════ */
+.sim-act-3 { padding: 30px 24px 60px; }
+.sim-nat-header { max-width: 1100px; margin: 0 auto 24px; text-align: center; }
+.sim-nat-eyebrow {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+.sim-nat-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  color: white;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+html[dir="rtl"] .sim-nat-title { font-family: var(--font-display-ar); }
+.sim-nat-lede {
+  color: rgba(255,255,255,0.7);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.sim-nat-canvas {
+  max-width: 1300px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.98);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  position: relative;
+}
+.sim-nat-svg {
+  width: 100%;
+  height: auto;
+  max-height: 62vh;
+  display: block;
+}
+.sim-nat-follow {
+  display: flex; align-items: center; gap: 14px;
+  justify-content: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.sim-follow-btn {
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+.sim-follow-btn.active { background: #ff9800; color: white; }
+.sim-follow-hint { font-size: 12px; color: rgba(15,44,77,0.7); font-style: italic; }
+
+.sim-nat-tickers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 24px auto;
+  max-width: 1300px;
+}
+.sim-nat-ticker {
+  padding: 14px 16px;
+  background: rgba(200,169,81,0.05);
+  border: 1px solid rgba(200,169,81,0.2);
+  border-radius: 6px;
+  text-align: center;
+}
+.sim-nat-ticker-num {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--gold-light);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.sim-nat-ticker-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.sim-nat-actions { text-align: center; margin-top: 22px; }
+.sim-dossier-btn {
+  background: transparent;
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  padding: 12px 26px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s, color 0.15s;
+}
+.sim-dossier-btn:hover { background: var(--gold); color: var(--navy); }
+
+/* National-view SVG animations */
+.nat-node {
+  transition: filter 0.35s, transform 0.35s;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.nat-node.pulse { filter: drop-shadow(0 0 14px rgba(200,169,81,0.75)); transform: scale(1.05); }
+.nat-arc {
+  stroke-dasharray: 8 8;
+  animation: arcFlow 3s linear infinite;
+}
+.nat-arc.material { stroke: #1F6DC1; }
+.nat-arc.money { stroke: var(--gold); }
+@keyframes arcFlow {
+  from { stroke-dashoffset: 32; }
+  to { stroke-dashoffset: 0; }
+}
+.nat-follow-tag {
+  transition: opacity 0.3s;
+}
+
+/* ═══════ Dossier overlay ═══════ */
+.sim-dossier-overlay {
+  position: fixed; inset: 0;
+  background: rgba(5,18,31,0.85);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 300;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+.sim-dossier-overlay.open { display: flex; }
+.sim-dossier-card {
+  width: min(680px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  color: var(--navy);
+  border-radius: 10px;
+  padding: 30px;
+  border: 2px solid var(--gold);
+  position: relative;
+}
+.sim-dossier-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+.sim-dossier-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--navy);
+}
+html[dir="rtl"] .sim-dossier-title { font-family: var(--font-display-ar); }
+.sim-dossier-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 6px;
+}
+.sim-dossier-sub {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 22px;
+}
+.sim-dossier-body {
+  padding: 18px;
+  background: var(--gold-pale);
+  border: 1px solid rgba(200,169,81,0.3);
+  border-radius: 6px;
+  min-height: 200px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--navy);
+  line-height: 1.6;
+}
+.sim-dossier-body h4 { font-family: var(--font-display); font-size: 15px; margin-bottom: 10px; color: var(--navy); }
+.sim-dossier-actions {
+  display: flex; gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.sim-dossier-save, .sim-dossier-copy {
+  background: var(--navy);
+  color: var(--gold);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+.sim-dossier-save:hover, .sim-dossier-copy:hover { background: var(--navy-mid); }
+.sim-dossier-hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* ═══════ Signature "device journey complete" shimmer ═══════ */
+.sim-shimmer-overlay {
+  position: fixed; inset: 0;
+  background: radial-gradient(circle at center, rgba(200,169,81,0.35), rgba(5,18,31,0.9) 60%);
+  z-index: 250;
+  display: flex;
+  align-items: center; justify-content: center;
+  animation: shimmerFade 1.5s ease-out forwards;
+  pointer-events: none;
+}
+.sim-shimmer-content {
+  background: rgba(10,31,56,0.95);
+  padding: 30px 40px;
+  border-radius: 10px;
+  border: 2px solid var(--gold);
+  text-align: center;
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  min-width: 320px;
+  animation: shimmerRise 1.5s ease-out forwards;
+}
+.sim-shimmer-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.sim-shimmer-body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  font-family: var(--font-mono);
+}
+@keyframes shimmerFade {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes shimmerRise {
+  0% { transform: translateY(20px); opacity: 0; }
+  20% { transform: translateY(0); opacity: 1; }
+  85% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-20px); opacity: 0; }
+}
+
+/* ═══════ Responsive ═══════ */
+@media (max-width: 960px) {
+  .sim-dash-body { grid-template-columns: 1fr; }
+  .sim-dash-tabs {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 8px;
+  }
+  .sim-dash-tab { flex: 0 0 auto; }
+  .sim-dash-pulse { position: static; }
+  .sim-persona-grid { grid-template-columns: repeat(2, 1fr); }
+  .sim-tickers-hero { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .sim-story-track { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .sim-topbar { flex-direction: column; align-items: stretch; padding: 10px 14px; }
+  .sim-topbar-actions { justify-content: space-between; gap: 8px; }
+  .sim-clock { display: none; }
+  .sim-speed { padding: 2px 4px; }
+  .sim-speed-label { display: none; }
+  .sim-back { padding: 4px 8px; font-size: 11px; }
+
+  .sim-act-1 { padding: 30px 16px 60px; }
+  .sim-hero-title { font-size: 28px; }
+  .sim-hero-lede { font-size: 14px; }
+  .sim-tickers-hero { grid-template-columns: 1fr; }
+  .sim-persona-grid { grid-template-columns: 1fr; }
+
+  .sim-dash-header { flex-direction: column; align-items: flex-start; padding: 14px 16px; }
+  .sim-dash-name { font-size: 18px; }
+  .sim-dash-glyph { font-size: 26px; }
+  .sim-dash-content { padding: 16px 14px; }
+  .sim-tab-title { font-size: 18px; }
+  .sim-metric-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .sim-nat-canvas { padding: 8px; }
+  .sim-watermark { top: 6px; inset-inline-end: 8px; font-size: 9px; padding: 4px 8px; }
+}

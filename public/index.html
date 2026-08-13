@@ -89,7 +89,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/style.css?v=7">
+<link rel="stylesheet" href="/style.css?v=8">
 </head>
 <body>
 
@@ -111,6 +111,7 @@
     <a href="#stores" data-i18n="nav.stores"></a>
     <a href="#reality-check" data-i18n="nav.reality"></a>
     <a href="#launch" data-i18n="nav.launch"></a>
+    <a href="/simulation" data-i18n="nav.sim" class="nav-sim"></a>
     <a href="#contact" data-i18n="nav.contact"></a>
   </div>
 
@@ -139,6 +140,7 @@
     <div class="hero-ctas">
       <a href="#architecture" class="btn-primary" data-i18n="hero.cta1"></a>
       <a href="#reality-check" class="btn-ghost" data-i18n="hero.cta2"></a>
+      <a href="/simulation" class="btn-primary btn-hero-sim" data-i18n="hero.simCta"></a>
     </div>
   </div>
 </header>
@@ -535,6 +537,26 @@
   </div>
 </section>
 
+<!-- ═══════════ SIMULATION TEASER ═══════════ -->
+<section id="sim-teaser" class="section section-navy">
+  <div class="section-inner">
+    <div class="section-eyebrow gold" data-i18n="simTeaser.eyebrow"></div>
+    <h2 class="section-title white" data-i18n-html="simTeaser.title"></h2>
+    <p class="section-lede white-70" data-i18n="simTeaser.lede"></p>
+    <div class="sim-teaser-cta-row">
+      <a href="/simulation" class="btn-primary btn-large" data-i18n="simTeaser.cta"></a>
+    </div>
+    <div class="sim-teaser-personas">
+      <div class="sim-teaser-glyph">◈</div>
+      <div class="sim-teaser-glyph">◉</div>
+      <div class="sim-teaser-glyph">◆</div>
+      <div class="sim-teaser-glyph">⬢</div>
+      <div class="sim-teaser-glyph">⚖</div>
+      <div class="sim-teaser-glyph">◇</div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════ THE LAUNCH · CEBC EVENT ═══════════ -->
 <section id="launch" class="section section-black">
   <div class="section-inner section-inner-wide">
@@ -851,7 +873,7 @@
   </div>
 </footer>
 
-<script src="/translations.js?v=7"></script>
-<script src="/app.js?v=7"></script>
+<script src="/translations.js?v=8"></script>
+<script src="/app.js?v=8"></script>
 </body>
 </html>

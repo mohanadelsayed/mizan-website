@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A1F38">
+<title data-i18n="meta.title">ميزان المباشر · محاكاة المنظومة</title>
+<meta name="description" data-i18n-attr="content:meta.description" content="محاكاة حيّة لمنظومة ميزان بعد إصدار مرسوم المادة 17 · Q1 2027. اختر شخصيّتك في المنظومة وشاهد ما ستراه أنت.">
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css?v=8">
+<link rel="stylesheet" href="/simulation.css?v=1">
+</head>
+<body class="sim-body">
+
+<!-- ═══════════ WATERMARK — always visible ═══════════ -->
+<div class="sim-watermark" aria-hidden="true">
+  <span class="sim-watermark-glyph">◆</span>
+  <span data-i18n="sim.watermark"></span>
+</div>
+
+<!-- ═══════════ TOP BAR ═══════════ -->
+<header class="sim-topbar">
+  <a href="/" class="sim-brand">
+    <span class="sim-brand-mark">MIZAN</span>
+    <span class="sim-brand-live" data-i18n="sim.brand"></span>
+  </a>
+  <nav class="sim-topbar-actions">
+    <div class="sim-clock" id="simClock" aria-live="polite">
+      <span class="sim-clock-label" data-i18n="sim.simTime"></span>
+      <span class="sim-clock-value" id="simClockValue">Q1 · Day 01 · 06:00</span>
+    </div>
+    <div class="sim-speed" role="group" aria-label="Simulation speed">
+      <span class="sim-speed-label" data-i18n="sim.speed"></span>
+      <button class="sim-speed-btn" data-speed="0.25">¼×</button>
+      <button class="sim-speed-btn active" data-speed="1">1×</button>
+      <button class="sim-speed-btn" data-speed="4">4×</button>
+      <button class="sim-speed-btn" data-speed="16">16×</button>
+    </div>
+    <button class="sim-lang" id="simLang" aria-label="Switch language" title="Switch language">
+      <span id="simLangCur">EN</span>
+    </button>
+    <a href="/" class="sim-back" data-i18n="sim.backToMain"></a>
+  </nav>
+</header>
+
+<!-- ═══════════ ACT 1 · PERSONA CHOOSER ═══════════ -->
+<section class="sim-act sim-act-1 active" id="act1" data-act="1">
+  <div class="sim-hero">
+    <div class="sim-hero-eyebrow" data-i18n="sim.landing.eyebrow"></div>
+    <h1 class="sim-hero-title" data-i18n-html="sim.landing.title"></h1>
+    <p class="sim-hero-lede" data-i18n="sim.landing.lede"></p>
+
+    <div class="sim-tickers-hero" role="status">
+      <div class="sim-ticker sim-ticker-hero">
+        <div class="sim-ticker-num" id="heroTonnes">0</div>
+        <div class="sim-ticker-label" data-i18n="sim.landing.tickerTonnes"></div>
+      </div>
+      <div class="sim-ticker sim-ticker-hero">
+        <div class="sim-ticker-num" id="heroEscrow">0</div>
+        <div class="sim-ticker-label" data-i18n="sim.landing.tickerEscrow"></div>
+      </div>
+      <div class="sim-ticker sim-ticker-hero">
+        <div class="sim-ticker-num" id="heroCerts">0</div>
+        <div class="sim-ticker-label" data-i18n="sim.landing.tickerCerts"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sim-choose">
+    <div class="sim-choose-title" data-i18n="sim.landing.pickPersona"></div>
+    <div class="sim-persona-grid" id="personaGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════════ ACT 2 · PERSONA DASHBOARD ═══════════ -->
+<section class="sim-act sim-act-2" id="act2" data-act="2">
+  <div class="sim-dash-header">
+    <div class="sim-dash-persona">
+      <span class="sim-dash-glyph" id="dashGlyph">◈</span>
+      <div class="sim-dash-idbox">
+        <div class="sim-dash-name" id="dashName"></div>
+        <div class="sim-dash-who" id="dashWho"></div>
+      </div>
+    </div>
+    <div class="sim-dash-actions">
+      <button class="sim-dash-goto-national" id="gotoNational" data-i18n="sim.national.watchIt"></button>
+    </div>
+  </div>
+
+  <div class="sim-dash-body">
+    <!-- Left tabs -->
+    <aside class="sim-dash-tabs" id="dashTabs" role="tablist"></aside>
+
+    <!-- Center content -->
+    <main class="sim-dash-content" id="dashContent"></main>
+
+    <!-- Right system-pulse -->
+    <aside class="sim-dash-pulse">
+      <div class="sim-pulse-title" data-i18n="sim.landing.eyebrow"></div>
+      <svg class="sim-pulse-svg" id="pulseSvg" viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="System pulse mini-view"></svg>
+      <div class="sim-pulse-tickers">
+        <div><span data-i18n="sim.national.tickers.tonnes"></span> <b id="pulseTonnes">0</b></div>
+        <div><span data-i18n="sim.national.tickers.escrow"></span> <b id="pulseEscrow">0</b></div>
+        <div><span data-i18n="sim.national.tickers.certs"></span> <b id="pulseCerts">0</b></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Bottom story track -->
+  <div class="sim-story-track" id="storyTrack" role="progressbar" aria-label="Persona story steps"></div>
+</section>
+
+<!-- ═══════════ ACT 3 · NATIONAL VIEW + DOSSIER ═══════════ -->
+<section class="sim-act sim-act-3" id="act3" data-act="3">
+  <div class="sim-nat-header">
+    <div class="sim-nat-eyebrow" data-i18n="sim.national.eyebrow"></div>
+    <h1 class="sim-nat-title" data-i18n="sim.national.title"></h1>
+    <p class="sim-nat-lede" data-i18n="sim.national.lede"></p>
+  </div>
+
+  <div class="sim-nat-canvas">
+    <svg class="sim-nat-svg" id="natSvg" viewBox="0 0 1300 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="National operating system view"></svg>
+
+    <div class="sim-nat-follow" id="natFollow">
+      <button class="sim-follow-btn" id="followBtn" data-i18n="sim.national.follow"></button>
+      <span class="sim-follow-hint" data-i18n="sim.national.followHint"></span>
+    </div>
+  </div>
+
+  <div class="sim-nat-tickers" id="natTickers"></div>
+
+  <div class="sim-nat-actions">
+    <button class="sim-dossier-btn" id="dossierBtn" data-i18n="sim.national.dossier"></button>
+  </div>
+</section>
+
+<!-- ═══════════ DOSSIER OVERLAY ═══════════ -->
+<div class="sim-dossier-overlay" id="dossierOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="sim-dossier-card">
+    <div class="sim-dossier-head">
+      <div class="sim-dossier-title" data-i18n="sim.dossier.title"></div>
+      <button class="sim-dossier-close" id="dossierClose" aria-label="Close">×</button>
+    </div>
+    <div class="sim-dossier-sub" data-i18n="sim.dossier.subtitle"></div>
+    <div class="sim-dossier-body" id="dossierBody"></div>
+    <div class="sim-dossier-actions">
+      <button class="sim-dossier-save" id="dossierSave" data-i18n="sim.dossier.save"></button>
+      <button class="sim-dossier-copy" id="dossierCopy" data-i18n="sim.dossier.copy"></button>
+    </div>
+    <div class="sim-dossier-hint" data-i18n="sim.dossier.includeSeed"></div>
+  </div>
+</div>
+
+<script src="/translations.js?v=8"></script>
+<script src="/sim-data.js?v=1"></script>
+<script src="/simulation.js?v=1"></script>
+</body>
+</html>
