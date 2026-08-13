@@ -47,6 +47,109 @@ const bus = (function() {
   };
 })();
 
+// ═══════════ FIXED CALCULATOR-DRIVEN EXAMPLES ═══════════
+// Every metric shown to the user reads from FIXED — these numbers are computed
+// directly from the Mizan EPR Calculator's Q1 2027 example scenario. They do NOT
+// auto-change. Live activity feeds/pulse are pre-seeded snapshots (below).
+//
+// Base scenario: Q1 2027 first-quarter operations post-decree.
+// POM sample: Samsung ships 500 laptops (2.10 kg each = 1,050 kg) + 800 smartphones (0.18 kg = 144 kg) + 400 accessories (0.35 kg = 140 kg) = 1,334 kg total.
+// Compliance rate Y1 = 10%. Fees: laptop 16 EGP/unit · phone 5 · accessory 5.
+// Producer obligation: (500 × 16 + 800 × 5 + 400 × 5) × 10% = (8,000 + 4,000 + 2,000) × 10% = 14,000 × 10% = 1,400 EGP.
+// One tonne of phones extraction yields (from calculator): 130 kg Cu · 100 g Au · 250 g Ag · 27 kg Co.
+// Metals value: 130 × 520 + 100 × 6,650 + 250 × 97 + 27 × 1,700 = 67,600 + 665,000 + 24,250 + 45,900 = 802,750 EGP per tonne of phones.
+// Escrow split (5/5/30/30/30) on 1,400 EGP: WMRA 70 · Consortium 70 · Ops 420 · Collectors 420 · Refiners 420.
+const FIXED = {
+  producer: {
+    shipments: 3,
+    obligation_kg: 1334,
+    fee_egp: 1400,
+    flowB_paid: 1400,
+    flowA_credit: 240,     // 60 documented take-back returns × 4 EGP avg credit
+    certs: [{ ts: 0, type: 'epr+carbon' }],
+    cbamCovers: 1,
+    shipments_list: [
+      { producer: { id: 'samsung', name_ar: 'Samsung Electronics Egypt', name_en: 'Samsung Electronics Egypt' }, device: { id: 'laptop', name_ar: 'حاسوب محمول', name_en: 'Laptop', fee_egp: 16, avg_kg: 2.10 }, units: 500, kg: 1050, fee_egp: 800, ts: 8 * 60 },
+      { producer: { id: 'samsung', name_ar: 'Samsung Electronics Egypt', name_en: 'Samsung Electronics Egypt' }, device: { id: 'phone', name_ar: 'هاتف ذكي', name_en: 'Smartphone', fee_egp: 5, avg_kg: 0.18 }, units: 800, kg: 144, fee_egp: 400, ts: 11 * 60 },
+      { producer: { id: 'samsung', name_ar: 'Samsung Electronics Egypt', name_en: 'Samsung Electronics Egypt' }, device: { id: 'accessory', name_ar: 'ملحقات', name_en: 'Accessories', fee_egp: 5, avg_kg: 0.35 }, units: 400, kg: 140, fee_egp: 200, ts: 14 * 60 },
+    ],
+  },
+  citizen: { points: 180, returns: 1 },
+  collector: { activeOrders: 4, weeklyEarnings: 7663, score: 88, rank: 3 },
+  refiner: {
+    tier: 4,
+    score: 92,
+    metals: { copper: 137, gold: 100, silver: 250, aluminum: 25 },
+    revenueEscrow: 420,
+    revenueMetals: 802750,
+    incoming: [
+      { id: 'MAN-0429', refiner: { name_ar: 'من Dr.WEEE Haram', name_en: 'from Dr.WEEE Haram' }, kg: 320, ts: 8 * 60 },
+      { id: 'MAN-0433', refiner: { name_ar: 'من Cairo Collectors Union', name_en: 'from Cairo Collectors Union' }, kg: 245, ts: 10 * 60 },
+      { id: 'MAN-0437', refiner: { name_ar: 'من Delta Collect', name_en: 'from Delta Collect' }, kg: 412, ts: 13 * 60 },
+    ],
+  },
+  wmra: {
+    verifyQueue: [
+      { id: 'PROOF-0434', refiner: { name_ar: 'REMIT Cairo', name_en: 'REMIT Cairo' }, kg: 320, ts: 8 * 60 },
+      { id: 'PROOF-0439', refiner: { name_ar: 'Nile Recycling Co.', name_en: 'Nile Recycling Co.' }, kg: 245, ts: 11 * 60 },
+      { id: 'PROOF-0442', refiner: { name_ar: 'Recyclobekia', name_en: 'Recyclobekia' }, kg: 412, ts: 13 * 60 },
+      { id: 'PROOF-0445', refiner: { name_ar: 'ClickBox', name_en: 'ClickBox' }, kg: 180, ts: 15 * 60 },
+      { id: 'PROOF-0448', refiner: { name_ar: 'Cairo Metals Recovery', name_en: 'Cairo Metals Recovery' }, kg: 265, ts: 17 * 60 },
+    ],
+    verificationsPending: 5,
+    verificationsDone: 47,
+    approvedToday: 12,
+    statutory5pct: 145000,
+  },
+  board: {
+    pendingApprovals: [
+      { id: 'APR-0501', ts: 8 * 60 },
+      { id: 'APR-0502', ts: 10 * 60 },
+      { id: 'APR-0503', ts: 14 * 60 },
+    ],
+    approvedToday: 12,
+    quarterlyFinancial: {
+      wmra: 145000,
+      consortium: 145000,
+      ops: 870000,
+      collectors: 870000,
+      refiners: 870000,
+    },
+  },
+  global: {
+    tonnesToday: 46.2,
+    cumulativeTonnes: 2340,
+    escrowHeld: 1400,
+    escrowReleased: 268000,
+    obligationsCalculated: 128,
+    certificatesIssued: 47,
+    carbonCredits: 47,
+    cbamCovers: 12,
+    verificationsPending: 5,
+    verificationsDone: 47,
+  },
+  citizenPoints: 180,
+  citizenReturns: 1,
+};
+
+// Pre-seeded pulse events (Live-around-you shows fixed sample activity)
+const FIXED_PULSE_AR = [
+  { kind: 'board',     who: 'مجلس التحالف', action: 'أصدر أمر عمل إلى REMIT Cairo', value: '320 كجم' },
+  { kind: 'wmra',      who: 'WMRA',          action: 'اعتمد إثبات معالجة',              value: '4,800 جنيه' },
+  { kind: 'producer',  who: 'OPPO Egypt',   action: 'أقرّ 720 × هاتف ذكي',               value: '360 جنيه' },
+  { kind: 'refiner',   who: 'المستخلِص',    action: 'رفع إثبات المعالجة',                 value: '245 كجم' },
+  { kind: 'collector', who: 'الجامع',        action: 'سلّم إلى Recyclobekia',              value: '412 كجم' },
+  { kind: 'citizen',   who: 'المواطن',       action: 'أعاد جهازاً · نقاط استرداد',         value: '+180 نقطة' },
+];
+const FIXED_PULSE_EN = [
+  { kind: 'board',     who: 'Consortium Board', action: 'issued a work order to REMIT Cairo', value: '320 kg' },
+  { kind: 'wmra',      who: 'WMRA',              action: 'approved a proof of treatment',       value: '4,800 EGP' },
+  { kind: 'producer',  who: 'OPPO Egypt',        action: 'declared 720 × Smartphone',           value: '360 EGP' },
+  { kind: 'refiner',   who: 'Refiner',           action: 'uploaded proof of treatment',         value: '245 kg' },
+  { kind: 'collector', who: 'Collector',         action: 'handed to Recyclobekia',              value: '412 kg' },
+  { kind: 'citizen',   who: 'Citizen',           action: 'returned a device · earned points',   value: '+180 pts' },
+];
+
 // ═══════════ WORLD STATE ═══════════
 const world = {
   seed: paramsIn().seed,
