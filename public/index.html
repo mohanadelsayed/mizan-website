@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0A1F38">
 
+<!-- Always land at the top: disable browser scroll restoration + reset on load.
+     Kept inline in <head> so it runs before layout/paint and beats any bfcache restore. -->
+<script>
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
+  window.addEventListener('pageshow', (e) => { if (e.persisted) window.scrollTo(0, 0); });
+</script>
+
 <!-- ═══════ PRIMARY META (Arabic default) ═══════ -->
 <title data-i18n="meta.title">ميزان · منصّة مصر الرقمية المُقترَحة للمسؤولية الممتدة للمنتِج</title>
 <meta name="description" data-i18n-attr="content:meta.description" content="ميزان — منصّة رقمية مُقترَحة لتحويل قانون 202/2020 المادة 17 من نصّ إلى نظام يعمل. ما يعمل اليوم: شبكة Dr.WEEE للاسترداد المرخّصة من WMRA، وتحالف موقّع مع REMIT للاستخلاص.">
@@ -89,7 +97,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/style.css?v=11">
+<link rel="stylesheet" href="/style.css?v=13">
 </head>
 <body>
 
@@ -575,11 +583,9 @@
 
     <div class="video-wrap">
       <div class="video-frame">
-        <!-- Start at 47:11 (2831s) — Mohanad's Mizan keynote begins there.
-             `start` sets playback; explicit thumbnail comes from a poster wrapper below. -->
         <iframe
-          src="https://www.youtube.com/embed/kPgCm3E4Um4?start=2831"
-          title="Mizan Keynote · Mohanad Elsayed · CEBC Roundtable"
+          src="https://www.youtube.com/embed/KNC25gtABLM"
+          title="Mizan Keynote · Mohanad Elsayed"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin"
@@ -589,7 +595,7 @@
       </div>
       <div class="video-caption">
         <span data-i18n="launch.videoCaption"></span>
-        <a href="https://www.youtube.com/live/kPgCm3E4Um4?t=2831" target="_blank" rel="noopener" data-i18n="launch.openYT"></a>
+        <a href="https://www.youtube.com/watch?v=KNC25gtABLM" target="_blank" rel="noopener" data-i18n="launch.openYT"></a>
       </div>
     </div>
 
@@ -878,7 +884,7 @@
   </div>
 </footer>
 
-<script src="/translations.js?v=11"></script>
-<script src="/app.js?v=11"></script>
+<script src="/translations.js?v=13"></script>
+<script src="/app.js?v=13"></script>
 </body>
 </html>
